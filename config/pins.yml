@@ -1,0 +1,7 @@
+18:
+    mode: OUT
+    initial: LOW
+
+23:
+    mode: OUT
+    initial: LOW
