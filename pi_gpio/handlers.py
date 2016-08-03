@@ -16,9 +16,7 @@ class Pin(BasicResource):
             "mode": fields.String,
             "value": fields.Integer,
             "resistor": fields.String,
-            "initial": fields.String,
-            "event": fields.String,
-            "bounce": fields.Integer
+            "initial": fields.String
         }
 
     def pin_not_found(self):

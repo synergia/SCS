@@ -27,13 +27,6 @@ class PinManager(BaseGPIO):
         initial = config.get('initial', None)
         if initial:
             output['initial'] = initial
-        event = config.get('event', None)
-        if event:
-            output['event'] = event
-        bounce = config.get('bounce', None)
-        if bounce:
-            output['bounce'] = bounce
-        return output
 
     def read_all(self):
         results = []
