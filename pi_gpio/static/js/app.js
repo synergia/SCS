@@ -12,26 +12,42 @@
     });
     socket.on('pin:list', function(pinlist) {
         let ul = document.getElementById('pinlist');
-        pinlist.map(function(pin) {
-            let li = document.createElement("li");
-            li.innerHTML = pin.num;
-            ul.appendChild(li);
-        });
+        if (pinlist) {
+            pinlist.map(function(pin) {
+                let li = document.createElement("li");
+                li.innerHTML = pin.num;
+                ul.appendChild(li);
+            });
+        }
         console.log(pinlist);
     });
+
+    let getDutycycle = function() {
+        return {
+            'dutycycle1': document.getElementById('dutycycle1').value,
+            'dutycycle2': document.getElementById('dutycycle2').value,
+        };
+    };
+
+    let getDirs = function() {
+        return {
+            'dir1': document.getElementById('dir1').checked,
+            'dir2': document.getElementById('dir2').checked,
+        };
+    };
 
     $(document).ready(function() {
         $('#getPins').click(function() {
             socket.emit('pin:list');
         });
-        $('#runPWM18').click(function() {
-            console.log("Start PWM18");
-            socket.emit('pin:PWM18');
+        $('#runPWM').click(function() {
+            console.log("Start PWM", getDutycycle());
+            socket.emit('pin:PWM', {
+                'dutycycles': getDutycycle(),
+                'dirs': getDirs()
+            });
         });
-        $('#runPWM23').click(function() {
-            console.log("Start PWM23");
-            socket.emit('pin:PWM23');
-        });
+
     });
 
 

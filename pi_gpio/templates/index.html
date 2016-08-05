@@ -1,20 +1,26 @@
 <html>
+
 <head>
     <title>SCS</title>
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
     <script type="text/javascript" src="/static/bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/socket.io.min.js"></script>
 </head>
+
 <body>
 
     <script type="text/javascript" src="/static/js/app.js"></script>
 
     <div id="main" class="container">
         <button id="getPins">Get pins</button>
-        <button id="runPWM18">Run PWM18</button>
-        <button id="runPWM23">Run PWM23</button>
+        <button id="runPWM">Run PWM</button>
+        <input id="dutycycle1" value="0" type="range" min="0" max="255" step="10" />
+        <input id="dutycycle2" value="0" type="range" min="0" max="255" step="10" />
+        <input id="dir1" type="checkbox" >
+        <input id="dir2" type="checkbox" >
     </div>
     <ul id="pinlist">
     </ul>
 </body>
+
 </html>

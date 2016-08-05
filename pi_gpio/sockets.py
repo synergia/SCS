@@ -1,4 +1,4 @@
-from flask.ext.socketio import emit
+from flask_socketio import emit
 from pi_gpio import socketio
 from config.pins import PinManager
 
@@ -33,13 +33,12 @@ def pin_write(data):
         emit('pin:write', response)
 
 
-@socketio.on('pin:PWM18')
-def testPWM18():
-    print 'Starting PWM18'
-    PIN_MANAGER.runPWM18()
-
-
-@socketio.on('pin:PWM23')
-def testPWM23():
-    print 'Starting PWM23'
-    PIN_MANAGER.runPWM23()
+@socketio.on('pin:PWM')
+def setPWM(data):
+    print 'Recieved PWM data:', data
+    result = PIN_MANAGER.setPWM(data['dutycycles'], data['dirs'])
+    if not result:
+        emit('pin:PWM', {'message': 'Pin not found'})
+    # else:
+    #     response = PIN_MANAGER.read_one(data.num)
+    #     emit('pin:write', response)

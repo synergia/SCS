@@ -1,7 +1,13 @@
 18:
-    mode: OUT
+    mode: OUTPUT
     initial: LOW
 
 23:
-    mode: OUT
+    mode: OUTPUT
+    initial: LOW
+17:
+    mode: OUTPUT
+    initial: LOW
+27:
+    mode: OUTPUT
     initial: LOW
