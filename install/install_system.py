@@ -9,9 +9,13 @@ def main():
     subprocess.call(["apt-get", "-y", "upgrade"])
     subprocess.call(["apt-get", "-y", "install", "python-dev"])
     subprocess.call(["apt-get", "-y", "install", "python-pip"])
-    subprocess.call(["apt-get", "-y", "install", "avahi-daemon"])
+    #subprocess.call(["apt-get", "-y", "install", "avahi-daemon"])
+    subproces.call(["apt-get", "-y", "install", "pigpio"])
+    subproces.call(["apt-get", "-y", "install", "python-pigpio"])
+    subproces.call(["apt-get", "-y", "install", "python3-pigpio"])
 
-    subprocess.call("echo Yes, do as I say! | sudo apt-get -y --force-yes install upstart", shell=True)
+    subprocess.call(
+        "echo Yes, do as I say! | sudo apt-get -y --force-yes install upstart", shell=True)
 
     # Copy Upstart script
     subprocess.call(["cp", "./install/gpio-server.conf", "/etc/init"])
