@@ -48,7 +48,7 @@
         $('#runPWM').click(function() {
             console.log("Start PWM", getDutycycle());
             socket.emit('pin:dutycycle', {
-                'num': 18,
+                'num': '18',
                 'dutycycle': getDutycycle()
             });
         });

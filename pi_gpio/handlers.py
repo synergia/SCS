@@ -34,12 +34,14 @@ class PinList(Pin):
 class PinDetail(Pin):
 
     def get(self, pin_num):
+        pin_num = int(pin_num)
         result = HTTP_MANAGER.read_one(pin_num)
         if not result:
             return self.pin_not_found()
         return self.response(result, 200)
 
     def patch(self, pin_num):
+        pin_num = int(pin_num)
         self.parser.add_argument('value', type=int)
         args = self.parser.parse_args()
         result = HTTP_MANAGER.update_value(pin_num, args['value'])

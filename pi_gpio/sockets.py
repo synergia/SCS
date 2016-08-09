@@ -38,7 +38,9 @@ def pin_dutycycle(data):
     print 'Recieved PWM data:', data
     result = PIN_MANAGER.update_dutycycle(data['num'], data['dutycycle'])
     if not result:
+        print 'UPD DC - FAIL'
         emit('pin:dutycycle', {'message': 'Pin not found'})
     else:
+        print 'UPD DC - OK'
         response = PIN_MANAGER.read_one(data['num'])
         emit('pin:dutycycle', response)

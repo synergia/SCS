@@ -1,0 +1,28 @@
+{
+    "18": {
+        "mode": "OUTPUT",
+        "initial": 0,
+        "dutycycle": 10
+    },
+    "23": {
+        "mode": "OUTPUT",
+        "initial": 0,
+        "dutycycle": 10
+    },
+    "17": {
+        "mode": "OUTPUT",
+        "initial": 0
+    },
+    "27": {
+        "mode": "OUTPUT",
+        "initial": 0
+    },
+    "22": {
+        "mode": "OUTPUT",
+        "initial": 0
+    },
+    "24": {
+        "mode": "OUTPUT",
+        "initial": 0
+    }
+}
