@@ -99,7 +99,8 @@ class PinHttpManager(PinManager):
             initial = pin_config.get('initial', 'LOW')
             resistor = pin_config.get('resistor', None)
             dutycycle = pin_config.get('dutycycle', None)
-            self.setup_pin(pin_num, pin_config['mode'], initial, resistor, dutycycle)
+            self.setup_pin(pin_num, pin_config[
+                           'mode'], initial, resistor, dutycycle)
 
     def setup_pin(self, num, mode, initial, resistor, dutycycle):
         mode = pigpio.__getattribute__(mode)
@@ -112,6 +113,13 @@ class PinHttpManager(PinManager):
         self.gpio.write(num, initial)
         if(dutycycle is not None):
             self.gpio.set_PWM_dutycycle(num, dutycycle)
-            print 'STP PWM', num, self.gpio.get_mode(num), self.gpio.read(num), self.gpio.get_PWM_dutycycle(num)
 
-        print 'Setup:', num, mode, initial, dutycycle
+        self.log('STP PIN', num)
+
+    def log(self, msg, num):
+        try:
+            dutycycle = self.gpio.get_PWM_dutycycle(num)
+        except Exception as e:
+            dutycycle = e
+
+        print msg, num, self.gpio.get_mode(num), self.gpio.read(num), dutycycle
