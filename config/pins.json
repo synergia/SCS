@@ -2,12 +2,12 @@
     "18": {
         "mode": "OUTPUT",
         "initial": 0,
-        "dutycycle": 10
+        "dutycycle": 0
     },
     "23": {
         "mode": "OUTPUT",
         "initial": 0,
-        "dutycycle": 10
+        "dutycycle": 0
     },
     "17": {
         "mode": "OUTPUT",

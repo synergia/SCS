@@ -63,7 +63,7 @@ class PinManager(object):
         # try:
         # print self.pins
         pin_config = self.pins[num]
-        return self.pin_response(int(num), pin_config)
+        return self.pin_response(num, pin_config)
         # except KeyError:
         #     return None
 
@@ -83,7 +83,6 @@ class PinManager(object):
             return None
 
     def update_dutycycle(self, num, dutycycle):
-        # num = int(num)
         try:
             print 'Trying to set PWM dutycycle', num, dutycycle
 
