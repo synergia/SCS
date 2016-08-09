@@ -33,12 +33,12 @@ def pin_write(data):
         emit('pin:write', response)
 
 
-@socketio.on('pin:PWM')
-def setPWM(data):
+@socketio.on('pin:dutycycle')
+def pin_dutycycle(data):
     print 'Recieved PWM data:', data
-    result = PIN_MANAGER.setPWM(data['dutycycles'], data['dirs'])
+    result = PIN_MANAGER.update_dutycycle(data['num'], data['dutycycle'])
     if not result:
-        emit('pin:PWM', {'message': 'Pin not found'})
-    # else:
-    #     response = PIN_MANAGER.read_one(data.num)
-    #     emit('pin:write', response)
+        emit('pin:dutycycle', {'message': 'Pin not found'})
+    else:
+        response = PIN_MANAGER.read_one(data['num'])
+        emit('pin:dutycycle', response)

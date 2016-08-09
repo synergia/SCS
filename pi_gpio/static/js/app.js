@@ -22,19 +22,24 @@
         console.log(pinlist);
     });
 
+    socket.on('pin:dutycycle', function (data) {
+        console.log(data);
+    });
+
     let getDutycycle = function() {
-        return {
-            'dutycycle1': document.getElementById('dutycycle1').value,
-            'dutycycle2': document.getElementById('dutycycle2').value,
-        };
+        return  document.getElementById('dutycycle1').value;
     };
 
     let getDirs = function() {
         return {
             'dir1': document.getElementById('dir1').checked,
             'dir2': document.getElementById('dir2').checked,
+            'dir3': document.getElementById('dir3').checked,
+            'dir4': document.getElementById('dir4').checked,
         };
     };
+
+
 
     $(document).ready(function() {
         $('#getPins').click(function() {
@@ -42,9 +47,9 @@
         });
         $('#runPWM').click(function() {
             console.log("Start PWM", getDutycycle());
-            socket.emit('pin:PWM', {
-                'dutycycles': getDutycycle(),
-                'dirs': getDirs()
+            socket.emit('pin:dutycycle', {
+                'num': 18,
+                'dutycycle': getDutycycle()
             });
         });
 

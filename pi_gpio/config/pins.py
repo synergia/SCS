@@ -22,15 +22,22 @@ class PinManager(object):
             'num': num,
             'name': config.get('name', ''),
             'mode': config['mode'],
-            'value': self.gpio.read(num)
+            'value': self.gpio.read(num),
         }
         resistor = config.get('resistor', None)
         if resistor:
             output['resistor'] = resistor
+
         initial = config.get('initial', None)
         if initial:
             output['initial'] = initial
+
+        dutycycle = config.get('dutycycle', None)
+        if dutycycle:
+            output['dutycycle'] = dutycycle
+
         return output
+
         print('Response output:', output)
 
     def read_all(self):
@@ -64,13 +71,21 @@ class PinManager(object):
         except KeyError:
             return None
 
-    def setPWM(self, dutycycles, dirs):
-        print 'Trying to set PWM', dutycycles, dirs
-        self.gpio.set_PWM_dutycycle(18, dutycycles['dutycycle1'])
-        self.gpio.set_PWM_dutycycle(23, dutycycles['dutycycle2'])
+    def update_dutycycle(self, num, dutycycle):
+        print 'Trying to set PWM dutycycle', num, dutycycle
+        pin_num = int(num)
+        try:
+            self.pins[pin_num]
+            self.gpio.set_mode(pin_num, pigpio.OUTPUT)
+            self.gpio.set_PWM_dutycycle(pin_num, dutycycle)
 
-        self.update_value(17, dirs['dir1'])
-        self.update_value(27, dirs['dir2'])
+            print 'UPD dc', num, self.gpio.get_mode(num), self.gpio.read(num), self.gpio.get_PWM_dutycycle(num)
+
+            # Updating value in object
+            self.pins[pin_num]['dutycycle'] = int(dutycycle)
+            return True
+        except KeyError:
+            return None
 
 
 class PinHttpManager(PinManager):
@@ -83,15 +98,20 @@ class PinHttpManager(PinManager):
         for pin_num, pin_config in self.pins.items():
             initial = pin_config.get('initial', 'LOW')
             resistor = pin_config.get('resistor', None)
-            self.setup_pin(pin_num, pin_config['mode'], initial, resistor)
+            dutycycle = pin_config.get('dutycycle', None)
+            self.setup_pin(pin_num, pin_config['mode'], initial, resistor, dutycycle)
 
-    def setup_pin(self, num, mode, initial, resistor):
-        # mode = self.gpio.__getattribute__(mode)
+    def setup_pin(self, num, mode, initial, resistor, dutycycle):
+        mode = pigpio.__getattribute__(mode)
         # initial = self.gpio.__getattribute__(initial)
         # if resistor:
         #     resistor = self.gpio.__getattribute__(resistor)
         #     self.gpio.setup(num, mode, initial=initial, pull_up_down=resistor)
         # else:
-        self.gpio.set_mode(num, pigpio.OUTPUT)
-        print 'Setup:', num, mode, initial
-        self.gpio.write(num, 0)
+        self.gpio.set_mode(num, mode)
+        self.gpio.write(num, initial)
+        if(dutycycle is not None):
+            self.gpio.set_PWM_dutycycle(num, dutycycle)
+            print 'STP PWM', num, self.gpio.get_mode(num), self.gpio.read(num), self.gpio.get_PWM_dutycycle(num)
+
+        print 'Setup:', num, mode, initial, dutycycle
