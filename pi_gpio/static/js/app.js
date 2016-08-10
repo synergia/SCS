@@ -28,6 +28,7 @@
 
     let getDutycycle = function() {
         return  document.getElementById('dutycycle1').value;
+        document.getElementById('dutycycle2').value;
     };
 
     let getDirs = function() {
@@ -47,9 +48,9 @@
         });
         $('#runPWM').click(function() {
             console.log("Start PWM", getDutycycle());
-            socket.emit('pin:dutycycle', {
-                'num': '18',
-                'dutycycle': getDutycycle()
+            socket.emit('pin:dutycycles', {
+                '18': 50,
+                '23': 50
             });
         });
 

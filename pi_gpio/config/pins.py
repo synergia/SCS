@@ -60,12 +60,12 @@ class PinManager(object):
         return results
 
     def read_one(self, num):
-        # try:
-        # print self.pins
-        pin_config = self.pins[num]
-        return self.pin_response(num, pin_config)
-        # except KeyError:
-        #     return None
+        try:
+            # print self.pins
+            pin_config = self.pins[num]
+            return self.pin_response(num, pin_config)
+        except KeyError:
+            return None
 
     def update_value(self, num, value):
         if(value is False):
@@ -82,17 +82,18 @@ class PinManager(object):
         except KeyError:
             return None
 
-    def update_dutycycle(self, num, dutycycle):
+    def update_dutycycles(self, data):
         try:
-            print 'Trying to set PWM dutycycle', num, dutycycle
+            for pin_num, dutycycle in data.items():
+                print 'Trying to set PWM dutycycle', pin_num, dutycycle
 
-            self.gpio.set_mode(int(num), pigpio.OUTPUT)
-            self.gpio.set_PWM_dutycycle(int(num), dutycycle)
+                self.gpio.set_mode(int(pin_num), pigpio.OUTPUT)
+                self.gpio.set_PWM_dutycycle(int(pin_num), dutycycle)
 
-            self.log('UPD DC', int(num))
+                self.log('UPD DC', int(pin_num))
 
-            # Updating value in object
-            self.pins[num]['dutycycle'] = int(dutycycle)
+                # Updating value in object
+                self.pins[pin_num]['dutycycle'] = int(dutycycle)
             return True
         except KeyError:
             return None
@@ -109,7 +110,8 @@ class PinHttpManager(PinManager):
             initial = pin_config.get('initial', 'LOW')
             resistor = pin_config.get('resistor', None)
             dutycycle = pin_config.get('dutycycle', None)
-            self.setup_pin(pin_num, pin_config['mode'], initial, resistor, dutycycle)
+            self.setup_pin(pin_num, pin_config[
+                           'mode'], initial, resistor, dutycycle)
 
     def setup_pin(self, num, mode, initial, resistor, dutycycle):
         num = int(num)
