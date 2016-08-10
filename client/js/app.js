@@ -28,7 +28,6 @@
 
     let getDutycycle = function() {
         return  document.getElementById('dutycycle1').value;
-        document.getElementById('dutycycle2').value;
     };
 
     let getDirs = function() {
