@@ -9,9 +9,6 @@ api.add_resource(PinDetail, '/api/v1/pin/<string:pin_num>')
 
 
 @app.route('/', defaults={'path': ''})
-# def index(path):
-#     return render_template('index.html')
-
 @app.route('/<path:path>')
 def index(path):
     return render_template('index.html')

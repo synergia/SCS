@@ -13,7 +13,7 @@ def main():
     subprocess.call(["apt-get", "-y", "install", "pigpio"])
     subprocess.call(["apt-get", "-y", "install", "python-pigpio"])
     subprocess.call(["apt-get", "-y", "install", "python3-pigpio"])
-
+    # sudo apt-get install nodejs npm node-semver
     subprocess.call(
         "echo Yes, do as I say! | sudo apt-get -y --force-yes install upstart", shell=True)
 

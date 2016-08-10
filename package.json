@@ -1,0 +1,21 @@
+{
+  "name": "SCS",
+  "version": "0.0.0",
+  "description": "Synergia Control System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/synergia/SCS.git"
+  },
+  "author": "stsdc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/synergia/SCS/issues"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1"
+  }
+}
