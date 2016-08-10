@@ -1,6 +1,6 @@
 from flask_socketio import emit
-from pi_gpio import socketio
-from config.pins import PinManager
+from server import socketio
+from pins import PinManager
 
 
 PIN_MANAGER = PinManager()

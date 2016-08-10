@@ -1,4 +1,4 @@
-from pi_gpio import app, socketio
+from server import app, socketio
 
 
 if __name__ == '__main__':

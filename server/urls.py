@@ -1,7 +1,8 @@
-from pi_gpio import app
+from server import app
 from flask.ext import restful
 from flask import render_template
 from handlers import PinList, PinDetail
+import os
 
 
 api = restful.Api(app)
