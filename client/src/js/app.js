@@ -1,6 +1,8 @@
 (function() {
     'use strict';
 
+    require("../styles/main.css");
+
     let socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on('connect', function() {
@@ -49,7 +51,7 @@
             console.log("Start PWM", getDutycycle());
             socket.emit('pin:dutycycles', {
                 '18': 50,
-                '23': 50
+                '23': 60
             });
         });
 
