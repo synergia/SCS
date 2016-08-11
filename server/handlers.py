@@ -1,4 +1,4 @@
-from flask.ext.restful import fields
+from flask_restful import fields
 from meta import BasicResource
 from pins import PinHttpManager
 

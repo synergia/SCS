@@ -1,11 +1,11 @@
 import os
 from flask import Flask
-from flask.ext.socketio import SocketIO
+from flask_socketio import SocketIO
 
 from gevent import monkey
 monkey.patch_all()
 
-client_path = os.path.abspath('client')
+client_path = os.path.abspath('client/dist')
 
 app = Flask(__name__, template_folder=client_path, static_folder=client_path)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', "TEST")

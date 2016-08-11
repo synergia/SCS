@@ -1,8 +1,7 @@
 (function() {
-    'use strict';
+    const io = require('socket.io-client');
 
     require("../styles/main.css");
-
     let socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on('connect', function() {
@@ -24,12 +23,12 @@
         console.log(pinlist);
     });
 
-    socket.on('pin:dutycycle', function (data) {
+    socket.on('pin:dutycycle', function(data) {
         console.log(data);
     });
 
     let getDutycycle = function() {
-        return  document.getElementById('dutycycle1').value;
+        return document.getElementById('dutycycle1').value;
     };
 
     let getDirs = function() {

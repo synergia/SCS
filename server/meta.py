@@ -1,4 +1,4 @@
-from flask.ext.restful import Resource, marshal, reqparse
+from flask_restful import Resource, marshal, reqparse
 
 
 class BasicResource(Resource):
