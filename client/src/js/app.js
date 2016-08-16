@@ -1,7 +1,8 @@
 (function() {
     const io = require('socket.io-client');
     const Vue = require('vue');
-    require('./pinlist');
+    require('./pin');
+
     require("../styles/main.css");
     let socket = io.connect('http://' + document.domain + ':' + location.port);
 
@@ -74,6 +75,5 @@
         });
 
     });
-
 
 })();

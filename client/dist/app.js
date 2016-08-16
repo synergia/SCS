@@ -9,8 +9,9 @@ webpackJsonp_name_([0],{
 	(function () {
 	    var io = __webpack_require__(1);
 	    var Vue = __webpack_require__(49);
-	    __webpack_require__(55);
 	    __webpack_require__(51);
+	
+	    __webpack_require__(52);
 	    var socket = io.connect('http://' + document.domain + ':' + location.port);
 	
 	    var SCS = new Vue({
@@ -82,28 +83,26 @@ webpackJsonp_name_([0],{
 /***/ },
 
 /***/ 51:
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-
-/***/ 55:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Vue = __webpack_require__(49);
 	
-	Vue.component('pinlist', {
-	    props: [],
+	Vue.component('pin', {
+	    props: ['pin', 'index', 'num', 'val', 'mode', 'dc'],
 	    data: function data() {
-	        return {
-	            numOfPins: 40
-	        };
+	        return {};
 	    },
-	    template: '<div v-for="pin in numOfPins">{{$index+1}}</div>'
+	    template: '<div>{{num}} val:{{val}} mode:{{mode}} dc:{{dc}}</div>'
 	});
+
+/***/ },
+
+/***/ 52:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 
