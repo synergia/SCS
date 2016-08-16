@@ -1,27 +1,46 @@
 (function() {
     const io = require('socket.io-client');
-
+    const Vue = require('vue');
+    require('./pinlist');
     require("../styles/main.css");
     let socket = io.connect('http://' + document.domain + ':' + location.port);
 
-    socket.on('connect', function() {
-        socket.emit('connection');
-        console.log("Connected");
+    let SCS = new Vue({
+        el: '#app',
+        data: {
+            pinlist: {}
+        },
+        methods: {
+        },
+        ready: function() {
+            socket.on('connect', function() {
+                socket.emit('connection');
+                console.log("Connected");
+            });
+            socket.emit('pin:list');
+        },
     });
+
+    socket.on('pin:list', function(pinlist) {
+        SCS.pinlist = pinlist;
+        console.log(pinlist);
+    });
+
+
     socket.on('disconnect', function() {
         console.log('Disconnected');
     });
-    socket.on('pin:list', function(pinlist) {
-        let ul = document.getElementById('pinlist');
-        if (pinlist) {
-            pinlist.map(function(pin) {
-                let li = document.createElement("li");
-                li.innerHTML = pin.num;
-                ul.appendChild(li);
-            });
-        }
-        console.log(pinlist);
-    });
+    // socket.on('pin:list', function(pinlist) {
+    //     let ul = document.getElementById('pinlist');
+    //     if (pinlist) {
+    //         pinlist.map(function(pin) {
+    //             let li = document.createElement("li");
+    //             li.innerHTML = pin.num;
+    //             ul.appendChild(li);
+    //         });
+    //     }
+    //     console.log(pinlist);
+    // });
 
     socket.on('pin:dutycycle', function(data) {
         console.log(data);
@@ -49,8 +68,8 @@
         $('#runPWM').click(function() {
             console.log("Start PWM", getDutycycle());
             socket.emit('pin:dutycycles', {
-                '18': 50,
-                '23': 60
+                '18': 150,
+                '23': 100
             });
         });
 

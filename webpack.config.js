@@ -6,7 +6,8 @@ module.exports = {
     context: __dirname + '/client/src',
     entry: {
         app: './js/app.js',
-        // styles: './styles/main.css'
+        // styles: './styles/main.css',
+        vendor: ["socket.io-client", "vue"]
     },
     output: {
         path: __dirname + '/client/dist',
@@ -60,7 +61,14 @@ module.exports = {
     },
     devtool: '#source-map',
     plugins: [
-    new ExtractTextPlugin("app.css")
+    new ExtractTextPlugin("app.css"),
+    function() {
+            this.plugin('watch-run', function(watching, callback) {
+                console.log(new Date() + '\n');
+                callback();
+            });
+        },
+    new webpack.optimize.CommonsChunkPlugin( /* chunkName= */ "vendor", /* filename= */ "vendor.js")
  ]
 };
 

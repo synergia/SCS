@@ -4,26 +4,30 @@
     <title>SCS</title>
     <link rel="stylesheet" type="text/css" href="./client/dist/app.css">
 </head>
+{% raw %}
+<body id="app">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.slim.min.js"></script>
 
-<body>
+    <!-- <ul id="pinlist">
+        <li v-for="pin in pinlist">
+            {{ pin.num }}
+        </li>
+    </ul> -->
+    <pinlist></pinlist>
 
-    <script type="text/javascript" src="./client/dist/app.js"></script>
 
     <div id="main" class="container">
         <button id="getPins">Get pins</button>
         <button id="runPWM">Run PWM</button>
         <input id="dutycycle1" value="0" type="range" min="0" max="255" step="10" />
         <input id="dutycycle2" value="0" type="range" min="0" max="255" step="10" />
-        <input id="dir1" type="checkbox" >
-        <input id="dir2" type="checkbox" >
-        <input id="dir3" type="checkbox" >
-        <input id="dir4" type="checkbox" >
+        <input id="dir1" type="checkbox">
+        <input id="dir2" type="checkbox">
+        <input id="dir3" type="checkbox">
+        <input id="dir4" type="checkbox">
     </div>
-    <ul id="pinlist">
-    </ul>
-
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.slim.min.js"></script>
+    <script type="text/javascript" src="./client/dist/vendor.js"></script>
+    <script type="text/javascript" src="./client/dist/app.js"></script>
 </body>
-
+{% endraw %}
 </html>
