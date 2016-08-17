@@ -2,9 +2,11 @@
     const io = require('socket.io-client');
     const Vue = require('vue');
     require('./pin');
+    let socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    const k = require('./keysControl')(socket);
 
     require("../styles/main.css");
-    let socket = io.connect('http://' + document.domain + ':' + location.port);
 
     let SCS = new Vue({
         el: '#app',
@@ -31,17 +33,6 @@
     socket.on('disconnect', function() {
         console.log('Disconnected');
     });
-    // socket.on('pin:list', function(pinlist) {
-    //     let ul = document.getElementById('pinlist');
-    //     if (pinlist) {
-    //         pinlist.map(function(pin) {
-    //             let li = document.createElement("li");
-    //             li.innerHTML = pin.num;
-    //             ul.appendChild(li);
-    //         });
-    //     }
-    //     console.log(pinlist);
-    // });
 
     socket.on('pin:dutycycle', function(data) {
         console.log(data);

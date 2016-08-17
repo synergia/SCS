@@ -10,9 +10,11 @@ webpackJsonp_name_([0],{
 	    var io = __webpack_require__(1);
 	    var Vue = __webpack_require__(49);
 	    __webpack_require__(51);
-	
-	    __webpack_require__(52);
 	    var socket = io.connect('http://' + document.domain + ':' + location.port);
+	
+	    var k = __webpack_require__(52)(socket);
+	
+	    __webpack_require__(58);
 	
 	    var SCS = new Vue({
 	        el: '#app',
@@ -37,17 +39,6 @@ webpackJsonp_name_([0],{
 	    socket.on('disconnect', function () {
 	        console.log('Disconnected');
 	    });
-	    // socket.on('pin:list', function(pinlist) {
-	    //     let ul = document.getElementById('pinlist');
-	    //     if (pinlist) {
-	    //         pinlist.map(function(pin) {
-	    //             let li = document.createElement("li");
-	    //             li.innerHTML = pin.num;
-	    //             ul.appendChild(li);
-	    //         });
-	    //     }
-	    //     console.log(pinlist);
-	    // });
 	
 	    socket.on('pin:dutycycle', function (data) {
 	        console.log(data);
@@ -100,6 +91,21 @@ webpackJsonp_name_([0],{
 /***/ },
 
 /***/ 52:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var keyboard = __webpack_require__(53);
+	exports = module.exports = function (socket) {
+	    keyboard.bind('a', function (e) {
+	        console.log('a is pressed');
+	        socket.emit('pin:list');
+	    });
+	};
+
+/***/ },
+
+/***/ 58:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

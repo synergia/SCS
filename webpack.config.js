@@ -7,7 +7,7 @@ module.exports = {
     entry: {
         app: './js/app.js',
         // styles: './styles/main.css',
-        vendor: ["socket.io-client", "vue"]
+        vendor: ["socket.io-client", "vue", "keyboardjs"]
     },
     output: {
         path: __dirname + '/client/dist',
@@ -35,7 +35,11 @@ module.exports = {
 },
             {
                 test: /\.js$/,
-                loader: 'babel?presets[]=es2015',
+                loader: 'babel',
+                query: {
+                    "presets": ["es2015"],
+                    "plugins": ["add-module-exports"]
+                }
       },
             {
                 test: /\.json$/,
@@ -64,11 +68,12 @@ module.exports = {
     new ExtractTextPlugin("app.css"),
     function() {
             this.plugin('watch-run', function(watching, callback) {
-                console.log(new Date() + '\n');
+                console.log('\n' + new Date() + '\n');
                 callback();
             });
         },
     new webpack.optimize.CommonsChunkPlugin( /* chunkName= */ "vendor", /* filename= */ "vendor.js")
+
  ]
 };
 
