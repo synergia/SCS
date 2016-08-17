@@ -44,7 +44,7 @@ class PinManager(object):
             output['initial'] = initial
 
         dutycycle = config.get('dutycycle', None)
-        if dutycycle:
+        if dutycycle is not None:
             output['dutycycle'] = dutycycle
 
         return output
