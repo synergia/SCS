@@ -2,16 +2,19 @@
     const io = require('socket.io-client');
     const Vue = require('vue');
     require('./pin');
+    require('./dutycycle');
     let socket = io.connect('http://' + document.domain + ':' + location.port);
-
-    const k = require('./keysControl')(socket);
 
     require("../styles/main.css");
 
     let SCS = new Vue({
         el: '#app',
         data: {
-            pinlist: {}
+            pinlist: {},
+            dutycycles: {
+                '23': 0,
+                '18': 0
+            },
         },
         methods: {
         },
@@ -23,12 +26,13 @@
             socket.emit('pin:list');
         },
     });
-
+    SCS.$watch('pinlist', function (newVal, oldVal) {
+        require('./keysControl')(socket, SCS);
+});
     socket.on('pin:list', function(pinlist) {
         SCS.pinlist = pinlist;
         console.log(pinlist);
     });
-
 
     socket.on('disconnect', function() {
         console.log('Disconnected');

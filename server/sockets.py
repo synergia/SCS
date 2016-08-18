@@ -25,11 +25,12 @@ def pin_read(data):
 
 @socketio.on('pin:write')
 def pin_write(data):
-    result = PIN_MANAGER.update_value(data.num, data.value)
+    print 'Recieved pin:write', data
+    result = PIN_MANAGER.update_value(data['num'], data['value'])
     if not result:
         emit('pin:write', {'message': 'Pin not found'})
     else:
-        response = PIN_MANAGER.read_one(data.num)
+        response = PIN_MANAGER.read_one(data['num'])
         emit('pin:write', response)
 
 

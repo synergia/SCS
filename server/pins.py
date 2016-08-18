@@ -68,18 +68,18 @@ class PinManager(object):
             return None
 
     def update_value(self, num, value):
-        if(value is False):
-            value = 0
-        elif(value is True):
-            value = 1
-        pin_num = int(num)
+
         try:
-            self.pins[pin_num]
+            print 'Trying to set value', num, value
+            # Updating value in object
+            self.pins[num]['value'] = value
+            pin_num = int(num)
             self.gpio.set_mode(pin_num, pigpio.OUTPUT)
             self.gpio.write(pin_num, value)
             print ('Updated value', pin_num, self.gpio.read(pin_num))
             return True
-        except KeyError:
+        except KeyError as e:
+            print 'Shit happened here:', e
             return None
 
     def update_dutycycles(self, data):

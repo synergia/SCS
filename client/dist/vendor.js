@@ -101,7 +101,8 @@ var vendor =
 
 	__webpack_require__(1);
 	__webpack_require__(49);
-	module.exports = __webpack_require__(53);
+	__webpack_require__(58);
+	module.exports = __webpack_require__(63);
 
 
 /***/ },
@@ -10614,18 +10615,23 @@ var vendor =
 /***/ },
 /* 51 */,
 /* 52 */,
-/* 53 */
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Keyboard = __webpack_require__(54);
-	var Locale = __webpack_require__(55);
-	var KeyCombo = __webpack_require__(56);
+	var Keyboard = __webpack_require__(59);
+	var Locale = __webpack_require__(60);
+	var KeyCombo = __webpack_require__(61);
 	
 	var keyboard = new Keyboard();
 	
-	keyboard.setLocale('us', __webpack_require__(57));
+	keyboard.setLocale('us', __webpack_require__(62));
 	
 	exports = module.exports = keyboard;
 	exports.Keyboard = Keyboard;
@@ -10633,15 +10639,15 @@ var vendor =
 	exports.KeyCombo = KeyCombo;
 
 /***/ },
-/* 54 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
-	var Locale = __webpack_require__(55);
-	var KeyCombo = __webpack_require__(56);
+	var Locale = __webpack_require__(60);
+	var KeyCombo = __webpack_require__(61);
 	
 	function Keyboard(targetWindow, targetElement, platform, userAgent) {
 	  this._locale = null;
@@ -11009,12 +11015,12 @@ var vendor =
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 55 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var KeyCombo = __webpack_require__(56);
+	var KeyCombo = __webpack_require__(61);
 	
 	function Locale(name) {
 	  this.localeName = name;
@@ -11164,7 +11170,7 @@ var vendor =
 	module.exports = Locale;
 
 /***/ },
-/* 56 */
+/* 61 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -11297,7 +11303,7 @@ var vendor =
 	module.exports = KeyCombo;
 
 /***/ },
-/* 57 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -11443,6 +11449,295 @@ var vendor =
 	  // kill keys
 	  locale.setKillKey('command');
 	};
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	(function () {
+	
+	  var root = this;
+	
+	  if (typeof module !== 'undefined' && module.exports) module.exports = factory;else root.simpleStopwatch = factory;
+	
+	  function factory(dur, fmt, res, pad) {
+	
+	    return new SimpleStopwatch(dur, fmt, res, pad);
+	  }
+	
+	  function SimpleStopwatch(dur, fmt, res, pad) {
+	
+	    /* private vars */
+	
+	    var self = this;
+	
+	    var resolution = res || 1000;
+	    var duration = dur || 0;
+	    var format = fmt || (dur ? '%dh:%dm:%ds' : '%h:%m:%s');
+	    var padding = pad || 0;
+	
+	    var milliseconds;
+	    var started;
+	    var timeout;
+	
+	    var events = {};
+	
+	    /* public methods */
+	
+	    function start() {
+	
+	      if (!running()) {
+	
+	        started = new Date().getTime();
+	
+	        if (milliseconds) tick(resolution - milliseconds % resolution);else tick();
+	      }
+	
+	      emit('start resume', [time()]);
+	
+	      return self;
+	    }
+	
+	    function stop() {
+	
+	      untick();
+	
+	      emit('stop pause', [time()]);
+	
+	      return self;
+	    }
+	
+	    function toggle() {
+	
+	      if (running()) stop();else start();
+	
+	      return self;
+	    }
+	
+	    function reset() {
+	
+	      var wasRunning = running();
+	
+	      untick();
+	
+	      started = undefined;
+	      milliseconds = 0;
+	
+	      if (wasRunning) start();
+	
+	      emit('reset', [time(0)]);
+	
+	      return self;
+	    }
+	
+	    function on(event, handler) {
+	
+	      event = event.split(' ');
+	
+	      for (var i = 0; i < event.length; i++) {
+	
+	        if (event[i].length) {
+	
+	          if (!events[event[i]]) events[event[i]] = [handler];else events[event[i]].push(handler);
+	        }
+	      }
+	
+	      return self;
+	    }
+	
+	    function off(event, handler) {
+	
+	      event = event.split(' ');
+	
+	      for (var i = 0; i < event.length; i++) {
+	
+	        if (events[event[i]]) {
+	
+	          for (var j = 0; j < events[event[i]].length; j++) {
+	
+	            if (events[event[i]][j] == handler) events[event[i]].splice(j, 1), j--;
+	          }
+	        }
+	      }
+	
+	      return self;
+	    }
+	
+	    function current() {
+	
+	      if (running()) {
+	
+	        return new Date().getTime() - started + (milliseconds || 0);
+	      } else {
+	
+	        return milliseconds || 0;
+	      }
+	    }
+	
+	    function running() {
+	
+	      return typeof timeout != 'undefined';
+	    }
+	
+	    function time(mill, dur, fmt, p) {
+	
+	      if (typeof mill == 'undefined') mill = current();
+	
+	      if (!dur) dur = duration;
+	
+	      if (!fmt) fmt = format;
+	
+	      if (typeof p == 'undefined') p = padding;
+	
+	      var milliseconds, dMilliseconds, seconds, dSeconds, minutes, dMinutes, hours, dHours;
+	
+	      milliseconds = dMilliseconds = parseInt(mill % 1000);
+	      seconds = dSeconds = parseInt(mill / 1000 % 60);
+	      minutes = dMinutes = parseInt(mill / (1000 * 60) % 60);
+	      hours = dHours = parseInt(mill / (1000 * 60 * 60) % 24);
+	
+	      if (dur) {
+	
+	        var dMill = dur - mill;
+	
+	        dMilliseconds = parseInt(dMill % 1000);
+	        dSeconds = parseInt(dMill / 1000 % 60);
+	        dMinutes = parseInt(dMill / (1000 * 60) % 60);
+	        dHours = parseInt(dMill / (1000 * 60 * 60) % 24);
+	      }
+	
+	      return fmt.replace(/%dms/g, padNumber(dMilliseconds, p)).replace(/%ds/g, padNumber(dSeconds, p)).replace(/%dm/g, padNumber(dMinutes, p)).replace(/%dh/g, padNumber(dHours, p)).replace(/%ms/g, padNumber(milliseconds, p)).replace(/%s/g, padNumber(seconds, p)).replace(/%m/g, padNumber(minutes, p)).replace(/%h/g, padNumber(hours, p));
+	    }
+	
+	    /* private methods */
+	
+	    function emit(event, args) {
+	
+	      event = event.split(' ');
+	
+	      for (var i = 0; i < event.length; i++) {
+	
+	        if (events[event[i]]) {
+	
+	          for (var j = 0; j < events[event[i]].length; j++) {
+	
+	            events[event[i]][j].apply(self, args);
+	          }
+	        }
+	      }
+	    }
+	
+	    function padNumber(n, p) {
+	
+	      for (var i = 0; i < p; i++) {
+	
+	        var max = Math.pow(10, i + 1);
+	
+	        if (parseInt(n) < max) n = '0' + n;
+	      }
+	
+	      return n;
+	    }
+	
+	    function alias(event) {
+	
+	      return function (handler) {
+	
+	        on(event, handler);
+	
+	        return self;
+	      };
+	    }
+	
+	    function tick(remaining) {
+	
+	      var c = current();
+	      var next = remaining || resolution;
+	
+	      emit('tick', [time(c)]);
+	
+	      if (!duration || c + next < duration) timeout = setTimeout(tick, next);else timeout = setTimeout(dong, duration - c);
+	    }
+	
+	    function untick() {
+	
+	      milliseconds = current();
+	
+	      if (timeout) clearTimeout(timeout), timeout = undefined;
+	    }
+	
+	    function dong() {
+	
+	      milliseconds = duration;
+	
+	      if (timeout) clearTimeout(timeout), timeout = undefined;
+	
+	      emit('dong', [time(duration)]);
+	    }
+	
+	    /* expose public methods */
+	
+	    self.start = self.resume = start;
+	    self.stop = self.pause = stop;
+	    self.toggle = toggle;
+	    self.reset = reset;
+	    self.on = on;
+	    self.off = off;
+	    self.time = time;
+	    self.current = current;
+	    self.running = running;
+	    self.padding = padding;
+	
+	    self.started = self.resumed = alias('start');
+	    self.stopped = self.paused = alias('stop');
+	    self.ticked = alias('tick');
+	    self.donged = self.ended = alias('dong');
+	
+	    self.duration = function (dur) {
+	
+	      if (typeof dur == 'undefined') {
+	        return duration;
+	      } else {
+	        duration = dur;
+	        return self;
+	      }
+	    };
+	
+	    self.format = function (fmt) {
+	
+	      if (typeof fmt == 'undefined') {
+	        return format;
+	      } else {
+	        format = fmt;
+	        return self;
+	      }
+	    };
+	
+	    self.resolution = function (res) {
+	
+	      if (typeof res == 'undefined') {
+	        return resolution;
+	      } else {
+	        resolution = res;
+	        return self;
+	      }
+	    };
+	
+	    self.padding = function (pad) {
+	
+	      if (typeof pad == 'undefined') {
+	        return padding;
+	      } else {
+	        padding = pad;
+	        return self;
+	      }
+	    };
+	
+	    return self;
+	  }
+	})();
 
 /***/ }
 /******/ ]);

@@ -1,7 +1,77 @@
 const keyboard = require('keyboardjs');
-exports = module.exports = function(socket){
+var stopwatch = require('simple-stopwatch');
+
+exports = module.exports = function(socket, SCS) {
+    let pinlist = SCS.pinlist;
+    let dutycycles = SCS.dutycycles;
+
+    let pinsWithPWM = pinlist.filter((pin) => pin.dutycycle !== undefined);
+
+    // let pin0 = pinsWithPWM[0].num;
+    // let pin1 = pinsWithPWM[1].num;
+
+    // FORWARD
+    keyboard.bind('up', function(e) {
+        socket.emit('pin:dutycycles', {
+            // '18': dutycycles['18'],
+            // '23': dutycycles['23']
+            '18': 200,
+            '23': 200
+        });
+        // Number of pins must be strings
+        socket.emit('pin:write', {
+            num: '24',
+            value: 1
+        });
+        socket.emit('pin:write', {
+            num: '27',
+            value: 1
+        });
+        console.log('Run with:', dutycycles['18'], dutycycles['23']);
+
+
+    }, function(e) {
+        socket.emit('pin:dutycycles', {
+            '18': 255,
+            '23': 255
+        });
+        // socket.emit('pin:write', {
+        //     num: '24',
+        //     value: 0
+        // });
+        // socket.emit('pin:write', {
+        //     num: '27',
+        //     value: 0
+        // });
+    });
+
+    // INCREMENT DUTYCYCLE
     keyboard.bind('a', function(e) {
-        console.log('a is pressed');
-        socket.emit('pin:list');
+        ++dutycycles['18'];
+        ++dutycycles['23'];
+        if ((dutycycles['18'] || dutycycles['18']) >= 255) {
+            dutycycles['18'] = 255;
+            dutycycles['23'] = 255;
+        } else if ((dutycycles['18'] || dutycycles['18']) <= 0) {
+            dutycycles['18'] = 0;
+            dutycycles['23'] = 0;
+        }
+
+        console.log(dutycycles['18'], dutycycles['23']);
+    });
+    // DECREMENT DUTYCYCLE
+
+    keyboard.bind('z', function(e) {
+        --dutycycles['18'];
+        --dutycycles['23'];
+        if ((dutycycles['18'] || dutycycles['18']) >= 255) {
+            dutycycles['18'] = 255;
+            dutycycles['23'] = 255;
+        } else if ((dutycycles['18'] || dutycycles['18']) <= 0) {
+            dutycycles['18'] = 0;
+            dutycycles['23'] = 0;
+        }
+
+        console.log(dutycycles['18'], dutycycles['23']);
     });
 };

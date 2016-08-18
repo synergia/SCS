@@ -12,10 +12,19 @@
     <pin v-for="pin in pinlist"
         :item="pin.num"
         :val="pin.value"
-        :dc="pin.dutycycle" 
+        :dc="pin.dutycycle"
         :mode="pin.mode"
         :num="pin.num"
         :index="$index"></pin>
+
+    <dutycycle
+        :pin="18"
+        :val="dutycycles['18']"
+        ></dutycycle>
+    <dutycycle
+        :pin="23"
+        :val="dutycycles['23']"
+        ></dutycycle>
 
     <div id="main" class="container">
         <button id="getPins">Get pins</button>

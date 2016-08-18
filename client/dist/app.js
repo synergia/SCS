@@ -10,16 +10,19 @@ webpackJsonp_name_([0],{
 	    var io = __webpack_require__(1);
 	    var Vue = __webpack_require__(49);
 	    __webpack_require__(51);
+	    __webpack_require__(52);
 	    var socket = io.connect('http://' + document.domain + ':' + location.port);
 	
-	    var k = __webpack_require__(52)(socket);
-	
-	    __webpack_require__(58);
+	    __webpack_require__(53);
 	
 	    var SCS = new Vue({
 	        el: '#app',
 	        data: {
-	            pinlist: {}
+	            pinlist: {},
+	            dutycycles: {
+	                '23': 0,
+	                '18': 0
+	            }
 	        },
 	        methods: {},
 	        ready: function ready() {
@@ -30,7 +33,9 @@ webpackJsonp_name_([0],{
 	            socket.emit('pin:list');
 	        }
 	    });
-	
+	    SCS.$watch('pinlist', function (newVal, oldVal) {
+	        __webpack_require__(57)(socket, SCS);
+	    });
 	    socket.on('pin:list', function (pinlist) {
 	        SCS.pinlist = pinlist;
 	        console.log(pinlist);
@@ -95,20 +100,107 @@ webpackJsonp_name_([0],{
 
 	'use strict';
 	
-	var keyboard = __webpack_require__(53);
-	exports = module.exports = function (socket) {
-	    keyboard.bind('a', function (e) {
-	        console.log('a is pressed');
-	        socket.emit('pin:list');
-	    });
-	};
+	var Vue = __webpack_require__(49);
+	
+	Vue.component('dutycycle', {
+	    props: ['pin', 'val'],
+	    data: function data() {
+	        return {};
+	    },
+	    template: '<div>{{pin}} val:{{val}}</div>'
+	});
 
 /***/ },
 
-/***/ 58:
+/***/ 53:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 57:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var keyboard = __webpack_require__(58);
+	var stopwatch = __webpack_require__(63);
+	
+	exports = module.exports = function (socket, SCS) {
+	    var pinlist = SCS.pinlist;
+	    var dutycycles = SCS.dutycycles;
+	
+	    var pinsWithPWM = pinlist.filter(function (pin) {
+	        return pin.dutycycle !== undefined;
+	    });
+	
+	    // let pin0 = pinsWithPWM[0].num;
+	    // let pin1 = pinsWithPWM[1].num;
+	
+	    // FORWARD
+	    keyboard.bind('up', function (e) {
+	        socket.emit('pin:dutycycles', {
+	            // '18': dutycycles['18'],
+	            // '23': dutycycles['23']
+	            '18': 200,
+	            '23': 200
+	        });
+	        // Number of pins must be strings
+	        socket.emit('pin:write', {
+	            num: '24',
+	            value: 1
+	        });
+	        socket.emit('pin:write', {
+	            num: '27',
+	            value: 1
+	        });
+	        console.log('Run with:', dutycycles['18'], dutycycles['23']);
+	    }, function (e) {
+	        socket.emit('pin:dutycycles', {
+	            '18': 255,
+	            '23': 255
+	        });
+	        // socket.emit('pin:write', {
+	        //     num: '24',
+	        //     value: 0
+	        // });
+	        // socket.emit('pin:write', {
+	        //     num: '27',
+	        //     value: 0
+	        // });
+	    });
+	
+	    // INCREMENT DUTYCYCLE
+	    keyboard.bind('a', function (e) {
+	        ++dutycycles['18'];
+	        ++dutycycles['23'];
+	        if ((dutycycles['18'] || dutycycles['18']) >= 255) {
+	            dutycycles['18'] = 255;
+	            dutycycles['23'] = 255;
+	        } else if ((dutycycles['18'] || dutycycles['18']) <= 0) {
+	            dutycycles['18'] = 0;
+	            dutycycles['23'] = 0;
+	        }
+	
+	        console.log(dutycycles['18'], dutycycles['23']);
+	    });
+	    // DECREMENT DUTYCYCLE
+	
+	    keyboard.bind('z', function (e) {
+	        --dutycycles['18'];
+	        --dutycycles['23'];
+	        if ((dutycycles['18'] || dutycycles['18']) >= 255) {
+	            dutycycles['18'] = 255;
+	            dutycycles['23'] = 255;
+	        } else if ((dutycycles['18'] || dutycycles['18']) <= 0) {
+	            dutycycles['18'] = 0;
+	            dutycycles['23'] = 0;
+	        }
+	
+	        console.log(dutycycles['18'], dutycycles['23']);
+	    });
+	};
 
 /***/ }
 
