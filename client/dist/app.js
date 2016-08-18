@@ -148,7 +148,15 @@ webpackJsonp_name_([0],{
 	    // FORWARD
 	    keyboard.bind('up', function (e) {
 	        steerage.forward(socket, dutycycles);
-	        console.log('Run with:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
+	        console.log('FORWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
+	    }, function (e) {
+	        steerage.softStop(socket);
+	    });
+	
+	    // BACKWARD
+	    keyboard.bind('down', function (e) {
+	        steerage.backward(socket, dutycycles);
+	        console.log('BACKWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
 	    }, function (e) {
 	        steerage.softStop(socket);
 	    });
@@ -201,7 +209,13 @@ webpackJsonp_name_([0],{
 	'use strict';
 	
 	var inverse = __webpack_require__(64);
-	
+	/*
+	24 27 17 22
+	1  1  1  1 STOP
+	0  0  0  0 STOP
+	1  1  0  0 FW
+	0  0  1  1 BW
+	*/
 	exports = module.exports = {
 	    accelerate: function accelerate(dutycycles) {
 	        var range = arguments.length <= 1 || arguments[1] === undefined ? 255 : arguments[1];
@@ -228,6 +242,20 @@ webpackJsonp_name_([0],{
 	            num: '27',
 	            value: 0
 	        });
+	        socket.emit('pin:write', {
+	            num: '17',
+	            value: 0
+	        });
+	        socket.emit('pin:write', {
+	            num: '22',
+	            value: 0
+	        });
+	    },
+	    softStop: function softStop(socket) {
+	        socket.emit('pin:dutycycles', {
+	            '18': inverse(0),
+	            '23': inverse(0)
+	        });
 	    },
 	    ready: function ready(socket) {
 	        socket.emit('pin:write', {
@@ -240,17 +268,58 @@ webpackJsonp_name_([0],{
 	        });
 	    },
 	    forward: function forward(socket, dutycycles) {
+	        this.changeF(socket);
+	        this.run(socket, dutycycles);
+	    },
+	    backward: function backward(socket, dutycycles) {
+	        this.changeB(socket);
+	        this.run(socket, dutycycles);
+	    },
+	    run: function run(socket, dutycycles) {
 	        socket.emit('pin:dutycycles', {
 	            '18': inverse(dutycycles[0].dutycycle),
 	            '23': inverse(dutycycles[1].dutycycle)
 	        });
 	    },
-	    softStop: function softStop(socket) {
-	        socket.emit('pin:dutycycles', {
-	            '18': inverse(0),
-	            '23': inverse(0)
+	    // Refactor this !!!
+	    // Update values of pins in pinlist !!!
+	    changeF: function changeF(socket) {
+	        socket.emit('pin:write', {
+	            num: '24',
+	            value: 1
+	        });
+	        socket.emit('pin:write', {
+	            num: '27',
+	            value: 1
+	        });
+	        socket.emit('pin:write', {
+	            num: '17',
+	            value: 0
+	        });
+	        socket.emit('pin:write', {
+	            num: '22',
+	            value: 0
+	        });
+	    },
+	    changeB: function changeB(socket) {
+	        socket.emit('pin:write', {
+	            num: '24',
+	            value: 0
+	        });
+	        socket.emit('pin:write', {
+	            num: '27',
+	            value: 0
+	        });
+	        socket.emit('pin:write', {
+	            num: '17',
+	            value: 1
+	        });
+	        socket.emit('pin:write', {
+	            num: '22',
+	            value: 1
 	        });
 	    }
+	
 	};
 
 /***/ }

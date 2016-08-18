@@ -15,7 +15,16 @@ exports = module.exports = function(socket, SCS) {
     // FORWARD
     keyboard.bind('up', function(e) {
         steerage.forward(socket, dutycycles);
-        console.log('Run with:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
+        console.log('FORWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
+
+    }, function(e) {
+        steerage.softStop(socket);
+    });
+
+    // BACKWARD
+    keyboard.bind('down', function(e) {
+        steerage.backward(socket, dutycycles);
+        console.log('BACKWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
 
     }, function(e) {
         steerage.softStop(socket);
@@ -38,7 +47,7 @@ exports = module.exports = function(socket, SCS) {
         steerage.hardStop(socket);
         console.log('STOP');
     });
-    
+
     // UNBLOCK
     keyboard.bind('enter', function (e) {
         steerage.ready(socket);
