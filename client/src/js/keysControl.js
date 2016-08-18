@@ -1,5 +1,6 @@
 const keyboard = require('keyboardjs');
-var stopwatch = require('simple-stopwatch');
+// var stopwatch = require('simple-stopwatch');
+let inverse = require('./inverse');
 
 exports = module.exports = function(socket, SCS) {
     let pinlist = SCS.pinlist;
@@ -13,10 +14,8 @@ exports = module.exports = function(socket, SCS) {
     // FORWARD
     keyboard.bind('up', function(e) {
         socket.emit('pin:dutycycles', {
-            // '18': dutycycles['18'],
-            // '23': dutycycles['23']
-            '18': 200,
-            '23': 200
+            '18': inverse(dutycycles['18']),
+            '23': inverse(dutycycles['23'])
         });
         // Number of pins must be strings
         socket.emit('pin:write', {
@@ -32,8 +31,8 @@ exports = module.exports = function(socket, SCS) {
 
     }, function(e) {
         socket.emit('pin:dutycycles', {
-            '18': 255,
-            '23': 255
+            '18': inverse(0),
+            '23': inverse(0)
         });
         // socket.emit('pin:write', {
         //     num: '24',

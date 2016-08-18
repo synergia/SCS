@@ -125,7 +125,8 @@ webpackJsonp_name_([0],{
 	'use strict';
 	
 	var keyboard = __webpack_require__(58);
-	var stopwatch = __webpack_require__(63);
+	// var stopwatch = require('simple-stopwatch');
+	var inverse = __webpack_require__(64);
 	
 	exports = module.exports = function (socket, SCS) {
 	    var pinlist = SCS.pinlist;
@@ -141,10 +142,8 @@ webpackJsonp_name_([0],{
 	    // FORWARD
 	    keyboard.bind('up', function (e) {
 	        socket.emit('pin:dutycycles', {
-	            // '18': dutycycles['18'],
-	            // '23': dutycycles['23']
-	            '18': 200,
-	            '23': 200
+	            '18': inverse(dutycycles['18']),
+	            '23': inverse(dutycycles['23'])
 	        });
 	        // Number of pins must be strings
 	        socket.emit('pin:write', {
@@ -158,8 +157,8 @@ webpackJsonp_name_([0],{
 	        console.log('Run with:', dutycycles['18'], dutycycles['23']);
 	    }, function (e) {
 	        socket.emit('pin:dutycycles', {
-	            '18': 255,
-	            '23': 255
+	            '18': inverse(0),
+	            '23': inverse(0)
 	        });
 	        // socket.emit('pin:write', {
 	        //     num: '24',
@@ -200,6 +199,21 @@ webpackJsonp_name_([0],{
 	
 	        console.log(dutycycles['18'], dutycycles['23']);
 	    });
+	};
+
+/***/ },
+
+/***/ 64:
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	// `value` is a current dutycycle value
+	// `range` is PWM range, look at http://abyz.co.uk/rpi/pigpio/python.html#set_PWM_range
+	exports = module.exports = function (value) {
+	    var range = arguments.length <= 1 || arguments[1] === undefined ? 255 : arguments[1];
+	
+	    return range - value;
 	};
 
 /***/ }
