@@ -11,13 +11,20 @@
         el: '#app',
         data: {
             pinlist: {},
-            dutycycles: {
-                '23': 0,
-                '18': 0
-            },
+            // To nie powinno być zahardkodowane,
+            // należy wyciągać z pinlisty
+            dutycycles: [
+                {
+                    num: '18',
+                    dutycycle: 0
+                },
+                {
+                    num: '23',
+                    dutycycle: 0
+                }
+            ],
         },
-        methods: {
-        },
+        methods: {},
         ready: function() {
             socket.on('connect', function() {
                 socket.emit('connection');
@@ -26,9 +33,9 @@
             socket.emit('pin:list');
         },
     });
-    SCS.$watch('pinlist', function (newVal, oldVal) {
+    SCS.$watch('pinlist', function(newVal, oldVal) {
         require('./keysControl')(socket, SCS);
-});
+    });
     socket.on('pin:list', function(pinlist) {
         SCS.pinlist = pinlist;
         console.log(pinlist);

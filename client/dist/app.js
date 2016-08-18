@@ -19,10 +19,15 @@ webpackJsonp_name_([0],{
 	        el: '#app',
 	        data: {
 	            pinlist: {},
-	            dutycycles: {
-	                '23': 0,
-	                '18': 0
-	            }
+	            // To nie powinno być zahardkodowane,
+	            // należy wyciągać z pinlisty
+	            dutycycles: [{
+	                num: '18',
+	                dutycycle: 0
+	            }, {
+	                num: '23',
+	                dutycycle: 0
+	            }]
 	        },
 	        methods: {},
 	        ready: function ready() {
@@ -127,6 +132,7 @@ webpackJsonp_name_([0],{
 	var keyboard = __webpack_require__(58);
 	// var stopwatch = require('simple-stopwatch');
 	var inverse = __webpack_require__(64);
+	var steerage = __webpack_require__(65);
 	
 	exports = module.exports = function (socket, SCS) {
 	    var pinlist = SCS.pinlist;
@@ -141,63 +147,34 @@ webpackJsonp_name_([0],{
 	
 	    // FORWARD
 	    keyboard.bind('up', function (e) {
-	        socket.emit('pin:dutycycles', {
-	            '18': inverse(dutycycles['18']),
-	            '23': inverse(dutycycles['23'])
-	        });
-	        // Number of pins must be strings
-	        socket.emit('pin:write', {
-	            num: '24',
-	            value: 1
-	        });
-	        socket.emit('pin:write', {
-	            num: '27',
-	            value: 1
-	        });
-	        console.log('Run with:', dutycycles['18'], dutycycles['23']);
+	        steerage.forward(socket, dutycycles);
+	        console.log('Run with:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
 	    }, function (e) {
-	        socket.emit('pin:dutycycles', {
-	            '18': inverse(0),
-	            '23': inverse(0)
-	        });
-	        // socket.emit('pin:write', {
-	        //     num: '24',
-	        //     value: 0
-	        // });
-	        // socket.emit('pin:write', {
-	        //     num: '27',
-	        //     value: 0
-	        // });
+	        steerage.softStop(socket);
 	    });
 	
 	    // INCREMENT DUTYCYCLE
 	    keyboard.bind('a', function (e) {
-	        ++dutycycles['18'];
-	        ++dutycycles['23'];
-	        if ((dutycycles['18'] || dutycycles['18']) >= 255) {
-	            dutycycles['18'] = 255;
-	            dutycycles['23'] = 255;
-	        } else if ((dutycycles['18'] || dutycycles['18']) <= 0) {
-	            dutycycles['18'] = 0;
-	            dutycycles['23'] = 0;
-	        }
-	
-	        console.log(dutycycles['18'], dutycycles['23']);
+	        steerage.accelerate(dutycycles);
+	        console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
 	    });
+	
 	    // DECREMENT DUTYCYCLE
-	
 	    keyboard.bind('z', function (e) {
-	        --dutycycles['18'];
-	        --dutycycles['23'];
-	        if ((dutycycles['18'] || dutycycles['18']) >= 255) {
-	            dutycycles['18'] = 255;
-	            dutycycles['23'] = 255;
-	        } else if ((dutycycles['18'] || dutycycles['18']) <= 0) {
-	            dutycycles['18'] = 0;
-	            dutycycles['23'] = 0;
-	        }
+	        steerage.decelerate(dutycycles);
+	        console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
+	    });
 	
-	        console.log(dutycycles['18'], dutycycles['23']);
+	    // EMERGENCY STOP
+	    keyboard.bind('space', function (e) {
+	        steerage.hardStop(socket);
+	        console.log('STOP');
+	    });
+	
+	    // UNBLOCK
+	    keyboard.bind('enter', function (e) {
+	        steerage.ready(socket);
+	        console.log('READY TO FUN? GO!');
 	    });
 	};
 
@@ -214,6 +191,66 @@ webpackJsonp_name_([0],{
 	    var range = arguments.length <= 1 || arguments[1] === undefined ? 255 : arguments[1];
 	
 	    return range - value;
+	};
+
+/***/ },
+
+/***/ 65:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var inverse = __webpack_require__(64);
+	
+	exports = module.exports = {
+	    accelerate: function accelerate(dutycycles) {
+	        var range = arguments.length <= 1 || arguments[1] === undefined ? 255 : arguments[1];
+	
+	        dutycycles.map(function (pin) {
+	            if (pin.dutycycle >= 0 && pin.dutycycle < range) ++pin.dutycycle;
+	        });
+	    },
+	    decelerate: function decelerate(dutycycles) {
+	        var range = arguments.length <= 1 || arguments[1] === undefined ? 255 : arguments[1];
+	
+	        dutycycles.map(function (pin) {
+	            if (pin.dutycycle > 0 && pin.dutycycle <= range) --pin.dutycycle;
+	        });
+	    },
+	    hardStop: function hardStop(socket) {
+	        // Num of pins must be strings.
+	        // You should do smth with this!!!
+	        socket.emit('pin:write', {
+	            num: '24',
+	            value: 0
+	        });
+	        socket.emit('pin:write', {
+	            num: '27',
+	            value: 0
+	        });
+	    },
+	    ready: function ready(socket) {
+	        socket.emit('pin:write', {
+	            num: '24',
+	            value: 1
+	        });
+	        socket.emit('pin:write', {
+	            num: '27',
+	            value: 1
+	        });
+	    },
+	    forward: function forward(socket, dutycycles) {
+	        socket.emit('pin:dutycycles', {
+	            '18': inverse(dutycycles[0].dutycycle),
+	            '23': inverse(dutycycles[1].dutycycle)
+	        });
+	    },
+	    softStop: function softStop(socket) {
+	        socket.emit('pin:dutycycles', {
+	            '18': inverse(0),
+	            '23': inverse(0)
+	        });
+	    }
 	};
 
 /***/ }
