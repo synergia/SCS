@@ -197,7 +197,7 @@ webpackJsonp_name_([0],{
 	
 	    // TURN RIGHT
 	    keyboard.bind('right', function (e) {
-	        steerage.left(socket, dutycycles);
+	        steerage.right(socket, dutycycles);
 	        console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
 	    }, function (e) {
 	        steerage.softStop(socket);
@@ -236,6 +236,7 @@ webpackJsonp_name_([0],{
 	*/
 	
 	// Make socket things in a new module
+	// Offset/compensation for wheels
 	exports = module.exports = {
 	    accelerate: function accelerate(dutycycles) {
 	        var range = arguments.length <= 1 || arguments[1] === undefined ? 255 : arguments[1];

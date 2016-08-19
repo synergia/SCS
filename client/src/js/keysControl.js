@@ -66,7 +66,7 @@ exports = module.exports = function(socket, SCS) {
 
     // TURN RIGHT
     keyboard.bind('right', function(e) {
-        steerage.left(socket, dutycycles);
+        steerage.right(socket, dutycycles);
         console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
     }, function(e) {
         steerage.softStop(socket);

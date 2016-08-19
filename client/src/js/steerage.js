@@ -8,6 +8,7 @@ let inverse = require('./inverse');
 */
 
 // Make socket things in a new module
+// Offset/compensation for wheels
 exports = module.exports = {
     accelerate: function(dutycycles, range = 255) {
         dutycycles.map(function(pin) {
