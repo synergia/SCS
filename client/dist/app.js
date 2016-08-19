@@ -11,9 +11,10 @@ webpackJsonp_name_([0],{
 	    var Vue = __webpack_require__(49);
 	    __webpack_require__(51);
 	    __webpack_require__(52);
+	    __webpack_require__(53);
 	    var socket = io.connect('http://' + document.domain + ':' + location.port);
 	
-	    __webpack_require__(53);
+	    __webpack_require__(54);
 	
 	    var SCS = new Vue({
 	        el: '#app',
@@ -39,7 +40,7 @@ webpackJsonp_name_([0],{
 	        }
 	    });
 	    SCS.$watch('pinlist', function (newVal, oldVal) {
-	        __webpack_require__(57)(socket, SCS);
+	        __webpack_require__(58)(socket, SCS);
 	    });
 	    socket.on('pin:list', function (pinlist) {
 	        SCS.pinlist = pinlist;
@@ -66,6 +67,22 @@ webpackJsonp_name_([0],{
 	            'dir4': document.getElementById('dir4').checked
 	        };
 	    };
+	
+	    // CAMERA & IMAGE
+	    window.setInterval(function () {
+	        console.log("CAPTURE!");
+	        socket.emit('capture');
+	    }, 7000);
+	
+	    var img = document.getElementById("cam");
+	
+	    $(function () {
+	        var intervalMS = 7100; // 5 seconds
+	        setInterval(function () {
+	            console.log('UPDATING IMG');
+	            $("#cam").prop("src", "client/foo.jpg?" + new Date().getTime());
+	        }, intervalMS);
+	    });
 	
 	    $(document).ready(function () {
 	        $('#getPins').click(function () {
@@ -120,19 +137,26 @@ webpackJsonp_name_([0],{
 /***/ 53:
 /***/ function(module, exports) {
 
+	"use strict";
+
+/***/ },
+
+/***/ 54:
+/***/ function(module, exports) {
+
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 57:
+/***/ 58:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var keyboard = __webpack_require__(58);
+	var keyboard = __webpack_require__(59);
 	// var stopwatch = require('simple-stopwatch');
-	var inverse = __webpack_require__(63);
-	var steerage = __webpack_require__(64);
+	var inverse = __webpack_require__(64);
+	var steerage = __webpack_require__(65);
 	
 	exports = module.exports = function (socket, SCS) {
 	    var pinlist = SCS.pinlist;
@@ -206,7 +230,7 @@ webpackJsonp_name_([0],{
 
 /***/ },
 
-/***/ 63:
+/***/ 64:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -221,12 +245,12 @@ webpackJsonp_name_([0],{
 
 /***/ },
 
-/***/ 64:
+/***/ 65:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var inverse = __webpack_require__(63);
+	var inverse = __webpack_require__(64);
 	/*
 	24 27 17 22
 	1  1  1  1 STOP

@@ -3,6 +3,7 @@
     const Vue = require('vue');
     require('./pin');
     require('./dutycycle');
+    require('./camera');
     let socket = io.connect('http://' + document.domain + ':' + location.port);
 
     require("../styles/main.css");
@@ -62,6 +63,21 @@
         };
     };
 
+    // CAMERA & IMAGE
+    window.setInterval(function() {
+        console.log("CAPTURE!");
+        socket.emit('capture');
+    }, 7000);
+
+    let img = document.getElementById("cam");
+
+    $(function() {
+        var intervalMS = 7100; // 5 seconds
+        setInterval(function() {
+            console.log('UPDATING IMG');
+            $("#cam").prop("src", "client/foo.jpg?" + new Date().getTime());
+        }, intervalMS);
+    });
 
 
     $(document).ready(function() {
