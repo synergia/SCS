@@ -1,7 +1,7 @@
 from flask_socketio import emit
 from server import socketio
 from pins import PinManager
-
+import camera
 
 PIN_MANAGER = PinManager()
 
@@ -45,3 +45,8 @@ def upd_dutycycle(data):
         print 'UPD DC - OK'
         # response = PIN_MANAGER.read_one(data['num'])
         # emit('pin:dutycycles', response)
+
+
+@socketio.on('capture')
+def capture():
+    camera.capture()

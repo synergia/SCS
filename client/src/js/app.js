@@ -66,7 +66,7 @@
 
     $(document).ready(function() {
         $('#getPins').click(function() {
-            socket.emit('pin:list');
+            socket.emit('capture');
         });
         $('#runPWM').click(function() {
             console.log("Start PWM", getDutycycle());

@@ -3,6 +3,7 @@ const keyboard = require('keyboardjs');
 let inverse = require('./inverse');
 let steerage = require('./steerage.js');
 
+
 exports = module.exports = function(socket, SCS) {
     let pinlist = SCS.pinlist;
     let dutycycles = SCS.dutycycles;
