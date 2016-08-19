@@ -33,24 +33,42 @@ exports = module.exports = function(socket, SCS) {
     // INCREMENT DUTYCYCLE
     keyboard.bind('a', function(e) {
         steerage.accelerate(dutycycles);
-        console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
+        // console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
     });
 
     // DECREMENT DUTYCYCLE
     keyboard.bind('z', function(e) {
         steerage.decelerate(dutycycles);
-        console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
+        // console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
     });
 
     // EMERGENCY STOP
-    keyboard.bind('space', function (e) {
+    keyboard.bind('space', function(e) {
         steerage.hardStop(socket);
         console.log('STOP');
     });
 
     // UNBLOCK
-    keyboard.bind('enter', function (e) {
+    keyboard.bind('enter', function(e) {
         steerage.ready(socket);
         console.log('READY TO FUN? GO!');
+    });
+
+    // MAKE KEY COMBO! up-right up-left etc.
+
+    // TURN LEFT
+    keyboard.bind('left', function(e) {
+        steerage.left(socket, dutycycles);
+        console.log('TURN LEFT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
+    }, function(e) {
+        steerage.softStop(socket);
+    });
+
+    // TURN RIGHT
+    keyboard.bind('right', function(e) {
+        steerage.left(socket, dutycycles);
+        console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
+    }, function(e) {
+        steerage.softStop(socket);
     });
 };

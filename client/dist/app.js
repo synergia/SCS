@@ -131,8 +131,8 @@ webpackJsonp_name_([0],{
 	
 	var keyboard = __webpack_require__(58);
 	// var stopwatch = require('simple-stopwatch');
-	var inverse = __webpack_require__(64);
-	var steerage = __webpack_require__(65);
+	var inverse = __webpack_require__(63);
+	var steerage = __webpack_require__(64);
 	
 	exports = module.exports = function (socket, SCS) {
 	    var pinlist = SCS.pinlist;
@@ -164,13 +164,13 @@ webpackJsonp_name_([0],{
 	    // INCREMENT DUTYCYCLE
 	    keyboard.bind('a', function (e) {
 	        steerage.accelerate(dutycycles);
-	        console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
+	        // console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
 	    });
 	
 	    // DECREMENT DUTYCYCLE
 	    keyboard.bind('z', function (e) {
 	        steerage.decelerate(dutycycles);
-	        console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
+	        // console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
 	    });
 	
 	    // EMERGENCY STOP
@@ -184,11 +184,29 @@ webpackJsonp_name_([0],{
 	        steerage.ready(socket);
 	        console.log('READY TO FUN? GO!');
 	    });
+	
+	    // MAKE KEY COMBO! up-right up-left etc.
+	
+	    // TURN LEFT
+	    keyboard.bind('left', function (e) {
+	        steerage.left(socket, dutycycles);
+	        console.log('TURN LEFT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
+	    }, function (e) {
+	        steerage.softStop(socket);
+	    });
+	
+	    // TURN RIGHT
+	    keyboard.bind('right', function (e) {
+	        steerage.left(socket, dutycycles);
+	        console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
+	    }, function (e) {
+	        steerage.softStop(socket);
+	    });
 	};
 
 /***/ },
 
-/***/ 64:
+/***/ 63:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -203,12 +221,12 @@ webpackJsonp_name_([0],{
 
 /***/ },
 
-/***/ 65:
+/***/ 64:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var inverse = __webpack_require__(64);
+	var inverse = __webpack_require__(63);
 	/*
 	24 27 17 22
 	1  1  1  1 STOP
@@ -216,6 +234,8 @@ webpackJsonp_name_([0],{
 	1  1  0  0 FW
 	0  0  1  1 BW
 	*/
+	
+	// Make socket things in a new module
 	exports = module.exports = {
 	    accelerate: function accelerate(dutycycles) {
 	        var range = arguments.length <= 1 || arguments[1] === undefined ? 255 : arguments[1];
@@ -317,6 +337,19 @@ webpackJsonp_name_([0],{
 	        socket.emit('pin:write', {
 	            num: '22',
 	            value: 1
+	        });
+	    },
+	    // Make 0.5 changeable or define in const
+	    left: function left(socket, dutycycles) {
+	        socket.emit('pin:dutycycles', {
+	            '18': inverse(dutycycles[0].dutycycle),
+	            '23': inverse(Math.floor(dutycycles[0].dutycycle * 0.5))
+	        });
+	    },
+	    right: function right(socket, dutycycles) {
+	        socket.emit('pin:dutycycles', {
+	            '18': inverse(dutycycles[0].dutycycle * 0.5),
+	            '23': inverse(Math.floor(dutycycles[0].dutycycle))
 	        });
 	    }
 	

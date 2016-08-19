@@ -6,6 +6,8 @@ let inverse = require('./inverse');
 1  1  0  0 FW
 0  0  1  1 BW
 */
+
+// Make socket things in a new module
 exports = module.exports = {
     accelerate: function(dutycycles, range = 255) {
         dutycycles.map(function(pin) {
@@ -13,13 +15,13 @@ exports = module.exports = {
                 ++pin.dutycycle;
         });
     },
-    decelerate: function (dutycycles, range = 255) {
+    decelerate: function(dutycycles, range = 255) {
         dutycycles.map(function(pin) {
             if (pin.dutycycle > 0 && pin.dutycycle <= range)
                 --pin.dutycycle;
         });
     },
-    hardStop: function (socket) {
+    hardStop: function(socket) {
         // Num of pins must be strings.
         // You should do smth with this!!!
         socket.emit('pin:write', {
@@ -39,13 +41,13 @@ exports = module.exports = {
             value: 0
         });
     },
-    softStop: function (socket) {
+    softStop: function(socket) {
         socket.emit('pin:dutycycles', {
             '18': inverse(0),
             '23': inverse(0)
         });
     },
-    ready: function (socket) {
+    ready: function(socket) {
         socket.emit('pin:write', {
             num: '24',
             value: 1
@@ -55,15 +57,15 @@ exports = module.exports = {
             value: 1
         });
     },
-    forward: function (socket, dutycycles) {
+    forward: function(socket, dutycycles) {
         this.changeF(socket);
         this.run(socket, dutycycles);
     },
-    backward: function (socket, dutycycles) {
+    backward: function(socket, dutycycles) {
         this.changeB(socket);
         this.run(socket, dutycycles);
     },
-    run: function (socket, dutycycles) {
+    run: function(socket, dutycycles) {
         socket.emit('pin:dutycycles', {
             '18': inverse(dutycycles[0].dutycycle),
             '23': inverse(dutycycles[1].dutycycle)
@@ -71,7 +73,7 @@ exports = module.exports = {
     },
     // Refactor this !!!
     // Update values of pins in pinlist !!!
-    changeF: function (socket) {
+    changeF: function(socket) {
         socket.emit('pin:write', {
             num: '24',
             value: 1
@@ -89,7 +91,7 @@ exports = module.exports = {
             value: 0
         });
     },
-    changeB: function (socket) {
+    changeB: function(socket) {
         socket.emit('pin:write', {
             num: '24',
             value: 0
@@ -107,5 +109,18 @@ exports = module.exports = {
             value: 1
         });
     },
+    // Make 0.5 changeable or define in const
+    left: function(socket, dutycycles) {
+        socket.emit('pin:dutycycles', {
+            '18': inverse(dutycycles[0].dutycycle),
+            '23': inverse(Math.floor(dutycycles[0].dutycycle * 0.5)),
+        });
+    },
+    right: function(socket, dutycycles) {
+        socket.emit('pin:dutycycles', {
+            '18': inverse(dutycycles[0].dutycycle * 0.5),
+            '23': inverse(Math.floor(dutycycles[0].dutycycle)),
+        });
+    }
 
 };
