@@ -1,6 +1,7 @@
 (function() {
     const io = require('socket.io-client');
     const Vue = require('vue');
+
     require('./pin');
     require('./dutycycle');
     let socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -11,20 +12,19 @@
         el: '#app',
         data: {
             pinlist: {},
-            // To nie powinno być zahardkodowane,
-            // należy wyciągać z pinlisty
-            dutycycles: [
-                {
-                    num: '18',
-                    dutycycle: 0
-                },
-                {
-                    num: '23',
-                    dutycycle: 0
-                }
-            ],
+            dutycycles: [],
+            dirs: []
         },
-        methods: {},
+        methods: {
+            dcPins : function (pinlist) {
+                // filtering all pins that have key dutycycle
+                return pinlist.filter((pin) => pin.dutycycle !== undefined);
+            },
+            dirPins: function (pinlist) {
+                // filtering all pins that have name `dir`
+                return pinlist.filter((pin) => pin.name === 'dir');
+            }
+        },
         ready: function() {
             socket.on('connect', function() {
                 socket.emit('connection');
@@ -38,7 +38,10 @@
     });
     socket.on('pin:list', function(pinlist) {
         SCS.pinlist = pinlist;
+        SCS.dutycycles = SCS.dcPins(pinlist);
+        SCS.dirs = SCS.dirPins(pinlist);
         console.log(pinlist);
+        console.log(SCS.dirs[0].num);
     });
 
     socket.on('disconnect', function() {
@@ -47,35 +50,6 @@
 
     socket.on('pin:dutycycle', function(data) {
         console.log(data);
-    });
-
-    let getDutycycle = function() {
-        return document.getElementById('dutycycle1').value;
-    };
-
-    let getDirs = function() {
-        return {
-            'dir1': document.getElementById('dir1').checked,
-            'dir2': document.getElementById('dir2').checked,
-            'dir3': document.getElementById('dir3').checked,
-            'dir4': document.getElementById('dir4').checked,
-        };
-    };
-
-
-
-    $(document).ready(function() {
-        $('#getPins').click(function() {
-            socket.emit('pin:list');
-        });
-        $('#runPWM').click(function() {
-            console.log("Start PWM", getDutycycle());
-            socket.emit('pin:dutycycles', {
-                '18': 150,
-                '23': 100
-            });
-        });
-
     });
 
 })();

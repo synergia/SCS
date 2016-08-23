@@ -17,13 +17,16 @@
         :num="pin.num"
         :index="$index"></pin>
 
+    <!-- SHOULD USE ASYNC, NOT V-IF -->
     <dutycycle
-        :pin="18"
-        :val="dutycycles[0].dutycycle"
+        v-if="dutycycles[0]"
+        :pin="dutycycles[0].num"
+        :dutycycle="dutycycles[0].dutycycle"
         ></dutycycle>
     <dutycycle
-        :pin="23"
-        :val="dutycycles[1].dutycycle"
+        v-if="dutycycles[1]"
+        :pin="dutycycles[1].num"
+        :dutycycle="dutycycles[1].dutycycle"
         ></dutycycle>
 
     <div id="main" class="container">

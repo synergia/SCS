@@ -102,7 +102,7 @@ var vendor =
 	__webpack_require__(1);
 	__webpack_require__(49);
 	__webpack_require__(58);
-	module.exports = __webpack_require__(65);
+	module.exports = __webpack_require__(66);
 
 
 /***/ },
@@ -11453,7 +11453,8 @@ var vendor =
 /***/ },
 /* 63 */,
 /* 64 */,
-/* 65 */
+/* 65 */,
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';

@@ -6,8 +6,7 @@ let steerage = require('./steerage.js');
 exports = module.exports = function(socket, SCS) {
     let pinlist = SCS.pinlist;
     let dutycycles = SCS.dutycycles;
-
-    let pinsWithPWM = pinlist.filter((pin) => pin.dutycycle !== undefined);
+    let dirs = SCS.dirs;
 
     // let pin0 = pinsWithPWM[0].num;
     // let pin1 = pinsWithPWM[1].num;
@@ -46,15 +45,13 @@ exports = module.exports = function(socket, SCS) {
 
     // EMERGENCY STOP
     keyboard.bind('space', function(e) {
-        e.preventRepeat();
-        steerage.hardStop(socket);
+        steerage.hardStop(socket, dirs);
         console.log('STOP');
     });
 
     // UNBLOCK
     keyboard.bind('enter', function(e) {
-        e.preventRepeat();
-        steerage.ready(socket);
+        steerage.ready(socket, dirs);
         console.log('READY TO FUN? GO!');
     });
 

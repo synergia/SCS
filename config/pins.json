@@ -10,18 +10,22 @@
         "dutycycle": 0
     },
     "17": {
+        "name": "dir",
         "mode": "OUTPUT",
         "initial": 0
     },
     "27": {
+        "name": "dir",
         "mode": "OUTPUT",
         "initial": 0
     },
     "22": {
+        "name": "dir",
         "mode": "OUTPUT",
         "initial": 0
     },
     "24": {
+        "name": "dir",
         "mode": "OUTPUT",
         "initial": 0
     }

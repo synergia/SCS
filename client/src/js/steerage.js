@@ -1,4 +1,5 @@
 let inverse = require('./inverse');
+const sockets = require('./sockets');
 /*
 24 27 17 22
 1  1  1  1 STOP
@@ -22,24 +23,13 @@ exports = module.exports = {
                 --pin.dutycycle;
         });
     },
-    hardStop: function(socket) {
+    hardStop: function(socket, dirs) {
         // Num of pins must be strings.
         // You should do smth with this!!!
-        socket.emit('pin:write', {
-            num: '24',
-            value: 0
-        });
-        socket.emit('pin:write', {
-            num: '27',
-            value: 0
-        });
-        socket.emit('pin:write', {
-            num: '17',
-            value: 0
-        });
-        socket.emit('pin:write', {
-            num: '22',
-            value: 0
+        sockets.writePins(socket, function (dirs) {
+            dirs.map((dirs) => dir.value = 0);
+            console.log(dirs);
+            return dirs;
         });
     },
     softStop: function(socket) {
@@ -49,14 +39,16 @@ exports = module.exports = {
         });
     },
     ready: function(socket) {
-        socket.emit('pin:write', {
-            num: '24',
-            value: 1
-        });
-        socket.emit('pin:write', {
-            num: '27',
-            value: 1
-        });
+        sockets.writePins(socket, [
+            {
+                num: '24',
+                value: 1
+            },
+            {
+                num: '27',
+                value: 1
+            }
+        ]);
     },
     forward: function(socket, dutycycles) {
         this.changeF(socket);

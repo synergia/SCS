@@ -9,6 +9,7 @@ webpackJsonp_name_([0],{
 	(function () {
 	    var io = __webpack_require__(1);
 	    var Vue = __webpack_require__(49);
+	
 	    __webpack_require__(51);
 	    __webpack_require__(52);
 	    var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -19,17 +20,23 @@ webpackJsonp_name_([0],{
 	        el: '#app',
 	        data: {
 	            pinlist: {},
-	            // To nie powinno być zahardkodowane,
-	            // należy wyciągać z pinlisty
-	            dutycycles: [{
-	                num: '18',
-	                dutycycle: 0
-	            }, {
-	                num: '23',
-	                dutycycle: 0
-	            }]
+	            dutycycles: [],
+	            dirs: []
 	        },
-	        methods: {},
+	        methods: {
+	            dcPins: function dcPins(pinlist) {
+	                // filtering all pins that have key dutycycle
+	                return pinlist.filter(function (pin) {
+	                    return pin.dutycycle !== undefined;
+	                });
+	            },
+	            dirPins: function dirPins(pinlist) {
+	                // filtering all pins that have name `dir`
+	                return pinlist.filter(function (pin) {
+	                    return pin.name === 'dir';
+	                });
+	            }
+	        },
 	        ready: function ready() {
 	            socket.on('connect', function () {
 	                socket.emit('connection');
@@ -43,7 +50,10 @@ webpackJsonp_name_([0],{
 	    });
 	    socket.on('pin:list', function (pinlist) {
 	        SCS.pinlist = pinlist;
+	        SCS.dutycycles = SCS.dcPins(pinlist);
+	        SCS.dirs = SCS.dirPins(pinlist);
 	        console.log(pinlist);
+	        console.log(SCS.dirs[0].num);
 	    });
 	
 	    socket.on('disconnect', function () {
@@ -52,32 +62,6 @@ webpackJsonp_name_([0],{
 	
 	    socket.on('pin:dutycycle', function (data) {
 	        console.log(data);
-	    });
-	
-	    var getDutycycle = function getDutycycle() {
-	        return document.getElementById('dutycycle1').value;
-	    };
-	
-	    var getDirs = function getDirs() {
-	        return {
-	            'dir1': document.getElementById('dir1').checked,
-	            'dir2': document.getElementById('dir2').checked,
-	            'dir3': document.getElementById('dir3').checked,
-	            'dir4': document.getElementById('dir4').checked
-	        };
-	    };
-	
-	    $(document).ready(function () {
-	        $('#getPins').click(function () {
-	            socket.emit('pin:list');
-	        });
-	        $('#runPWM').click(function () {
-	            console.log("Start PWM", getDutycycle());
-	            socket.emit('pin:dutycycles', {
-	                '18': 150,
-	                '23': 100
-	            });
-	        });
 	    });
 	})();
 
@@ -106,13 +90,38 @@ webpackJsonp_name_([0],{
 	'use strict';
 	
 	var Vue = __webpack_require__(49);
+	var VueAsyncData = __webpack_require__(67);
 	
+	// use globally
+	// you can also just use `VueAsyncData.mixin` where needed
+	Vue.use(VueAsyncData);
 	Vue.component('dutycycle', {
-	    props: ['pin', 'val'],
-	    data: function data() {
-	        return {};
+	    props: {
+	        pin: {
+	            type: [String, Number],
+	            default: "Not set"
+	        },
+	        dutycycle: {
+	            type: [String, Number],
+	            default: 0
+	        }
 	    },
-	    template: '<div>{{pin}} val:{{val}}</div>'
+	    data: function data() {
+	        return {
+	            msg: 'load'
+	        };
+	    },
+	    // asyncData: function(resolve, reject) {
+	    //     // load data and call resolve(data)
+	    //     // or call reject(reason) if something goes wrong
+	    //     setTimeout(function() {
+	    //         // this will call `vm.$set('msg', 'hi')` for you
+	    //         resolve({
+	    //             msg: 'hi'
+	    //         });
+	    //     }, 1000);
+	    // },
+	    template: '<div>{{pin}} dutycycle:{{dutycycle}} </div>'
 	});
 
 /***/ },
@@ -137,10 +146,7 @@ webpackJsonp_name_([0],{
 	exports = module.exports = function (socket, SCS) {
 	    var pinlist = SCS.pinlist;
 	    var dutycycles = SCS.dutycycles;
-	
-	    var pinsWithPWM = pinlist.filter(function (pin) {
-	        return pin.dutycycle !== undefined;
-	    });
+	    var dirs = SCS.dirs;
 	
 	    // let pin0 = pinsWithPWM[0].num;
 	    // let pin1 = pinsWithPWM[1].num;
@@ -177,15 +183,13 @@ webpackJsonp_name_([0],{
 	
 	    // EMERGENCY STOP
 	    keyboard.bind('space', function (e) {
-	        e.preventRepeat();
-	        steerage.hardStop(socket);
+	        steerage.hardStop(socket, dirs);
 	        console.log('STOP');
 	    });
 	
 	    // UNBLOCK
 	    keyboard.bind('enter', function (e) {
-	        e.preventRepeat();
-	        steerage.ready(socket);
+	        steerage.ready(socket, dirs);
 	        console.log('READY TO FUN? GO!');
 	    });
 	
@@ -233,6 +237,7 @@ webpackJsonp_name_([0],{
 	'use strict';
 	
 	var inverse = __webpack_require__(63);
+	var sockets = __webpack_require__(65);
 	/*
 	24 27 17 22
 	1  1  1  1 STOP
@@ -258,24 +263,15 @@ webpackJsonp_name_([0],{
 	            if (pin.dutycycle > 0 && pin.dutycycle <= range) --pin.dutycycle;
 	        });
 	    },
-	    hardStop: function hardStop(socket) {
+	    hardStop: function hardStop(socket, dirs) {
 	        // Num of pins must be strings.
 	        // You should do smth with this!!!
-	        socket.emit('pin:write', {
-	            num: '24',
-	            value: 0
-	        });
-	        socket.emit('pin:write', {
-	            num: '27',
-	            value: 0
-	        });
-	        socket.emit('pin:write', {
-	            num: '17',
-	            value: 0
-	        });
-	        socket.emit('pin:write', {
-	            num: '22',
-	            value: 0
+	        sockets.writePins(socket, function (dirs) {
+	            dirs.map(function (dirs) {
+	                return dir.value = 0;
+	            });
+	            console.log(dirs);
+	            return dirs;
 	        });
 	    },
 	    softStop: function softStop(socket) {
@@ -285,14 +281,13 @@ webpackJsonp_name_([0],{
 	        });
 	    },
 	    ready: function ready(socket) {
-	        socket.emit('pin:write', {
+	        sockets.writePins(socket, [{
 	            num: '24',
 	            value: 1
-	        });
-	        socket.emit('pin:write', {
+	        }, {
 	            num: '27',
 	            value: 1
-	        });
+	        }]);
 	    },
 	    forward: function forward(socket, dutycycles) {
 	        this.changeF(socket);
@@ -361,6 +356,106 @@ webpackJsonp_name_([0],{
 	    }
 	
 	};
+
+/***/ },
+
+/***/ 65:
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports = module.exports = {
+	    writePins: function writePins(socket, pins) {
+	        pins.map(function (pin) {
+	            socket.emit('pin:write', pin);
+	        });
+	        console.log("pin:write");
+	    }
+	};
+
+/***/ },
+
+/***/ 67:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	(function () {
+	  var vue; // lazy bind
+	
+	  var asyncData = {
+	    created: function created() {
+	      if (!vue) {
+	        console.warn('[vue-async-data] not installed!');
+	        return;
+	      }
+	      if (this.$options.asyncData) {
+	        if (this._defineMeta) {
+	          // 0.12 compat
+	          this._defineMeta('$loadingAsyncData', true);
+	        } else {
+	          // ^1.0.0-alpha
+	          vue.util.defineReactive(this, '$loadingAsyncData', true);
+	        }
+	      }
+	    },
+	    compiled: function compiled() {
+	      this.reloadAsyncData();
+	    },
+	    methods: {
+	      reloadAsyncData: function reloadAsyncData() {
+	        var load = this.$options.asyncData;
+	        if (load) {
+	          var self = this;
+	          var resolve = function resolve(data) {
+	            if (data) {
+	              for (var key in data) {
+	                self.$set(key, data[key]);
+	              }
+	            }
+	            self.$loadingAsyncData = false;
+	            self.$emit('async-data');
+	          };
+	          var reject = function reject(reason) {
+	            var msg = '[vue] async data load failed';
+	            if (reason instanceof Error) {
+	              console.warn(msg);
+	              throw reason;
+	            } else {
+	              console.warn(msg + ': ' + reason);
+	            }
+	          };
+	          this.$loadingAsyncData = true;
+	          var res = load.call(this, resolve, reject);
+	          if (res && typeof res.then === 'function') {
+	            res.then(resolve, reject);
+	          }
+	        }
+	      }
+	    }
+	  };
+	
+	  var api = {
+	    mixin: asyncData,
+	    install: function install(Vue, options) {
+	      vue = Vue;
+	      Vue.options = Vue.util.mergeOptions(Vue.options, asyncData);
+	    }
+	  };
+	
+	  if (( false ? 'undefined' : _typeof(exports)) === 'object' && ( false ? 'undefined' : _typeof(module)) === 'object') {
+	    module.exports = api;
+	  } else if (true) {
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	      return api;
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof window !== 'undefined') {
+	    window.VueAsyncData = api;
+	  }
+	})();
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)(module)))
 
 /***/ }
 
