@@ -147,6 +147,7 @@ webpackJsonp_name_([0],{
 	
 	    // FORWARD
 	    keyboard.bind('up', function (e) {
+	        e.preventRepeat();
 	        steerage.forward(socket, dutycycles);
 	        console.log('FORWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
 	    }, function (e) {
@@ -155,6 +156,7 @@ webpackJsonp_name_([0],{
 	
 	    // BACKWARD
 	    keyboard.bind('down', function (e) {
+	        e.preventRepeat();
 	        steerage.backward(socket, dutycycles);
 	        console.log('BACKWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
 	    }, function (e) {
@@ -175,12 +177,14 @@ webpackJsonp_name_([0],{
 	
 	    // EMERGENCY STOP
 	    keyboard.bind('space', function (e) {
+	        e.preventRepeat();
 	        steerage.hardStop(socket);
 	        console.log('STOP');
 	    });
 	
 	    // UNBLOCK
 	    keyboard.bind('enter', function (e) {
+	        e.preventRepeat();
 	        steerage.ready(socket);
 	        console.log('READY TO FUN? GO!');
 	    });
@@ -189,6 +193,7 @@ webpackJsonp_name_([0],{
 	
 	    // TURN LEFT
 	    keyboard.bind('left', function (e) {
+	        e.preventRepeat();
 	        steerage.left(socket, dutycycles);
 	        console.log('TURN LEFT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
 	    }, function (e) {
@@ -197,6 +202,7 @@ webpackJsonp_name_([0],{
 	
 	    // TURN RIGHT
 	    keyboard.bind('right', function (e) {
+	        e.preventRepeat();
 	        steerage.right(socket, dutycycles);
 	        console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
 	    }, function (e) {
