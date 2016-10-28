@@ -25,6 +25,7 @@ class PinManager(object):
             with open(PINS_JSON) as file_data:
                 self.pins = json.load(file_data)
             print "Loaded JSON"
+            print self.pins
         except Exception as e:
             print e
 
@@ -46,6 +47,10 @@ class PinManager(object):
         dutycycle = config.get('dutycycle', None)
         if dutycycle is not None:
             output['dutycycle'] = dutycycle
+
+        owner = config.get('owner', None)
+        if owner is not None:
+            output['owner'] = owner
 
         return output
 

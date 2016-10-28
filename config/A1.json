@@ -11,30 +11,21 @@
     },
     "17": {
         "name": "dir",
-	"owner": "18",
         "mode": "OUTPUT",
         "initial": 0
     },
     "27": {
         "name": "dir",
-	"owner": "18",
         "mode": "OUTPUT",
         "initial": 0
     },
     "22": {
         "name": "dir",
-	"owner": "23",
         "mode": "OUTPUT",
         "initial": 0
     },
     "24": {
         "name": "dir",
-	"owner": "23",
-        "mode": "OUTPUT",
-        "initial": 0
-    },
-    "25": {
-        "name": "servo",
         "mode": "OUTPUT",
         "initial": 0
     }

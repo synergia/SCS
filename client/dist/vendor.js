@@ -101,8 +101,8 @@ var vendor =
 
 	__webpack_require__(1);
 	__webpack_require__(49);
-	__webpack_require__(58);
-	module.exports = __webpack_require__(66);
+	__webpack_require__(59);
+	module.exports = __webpack_require__(67);
 
 
 /***/ },
@@ -10620,18 +10620,19 @@ var vendor =
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Keyboard = __webpack_require__(59);
-	var Locale = __webpack_require__(60);
-	var KeyCombo = __webpack_require__(61);
+	var Keyboard = __webpack_require__(60);
+	var Locale = __webpack_require__(61);
+	var KeyCombo = __webpack_require__(62);
 	
 	var keyboard = new Keyboard();
 	
-	keyboard.setLocale('us', __webpack_require__(62));
+	keyboard.setLocale('us', __webpack_require__(63));
 	
 	exports = module.exports = keyboard;
 	exports.Keyboard = Keyboard;
@@ -10639,15 +10640,15 @@ var vendor =
 	exports.KeyCombo = KeyCombo;
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
-	var Locale = __webpack_require__(60);
-	var KeyCombo = __webpack_require__(61);
+	var Locale = __webpack_require__(61);
+	var KeyCombo = __webpack_require__(62);
 	
 	function Keyboard(targetWindow, targetElement, platform, userAgent) {
 	  this._locale = null;
@@ -11015,12 +11016,12 @@ var vendor =
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var KeyCombo = __webpack_require__(61);
+	var KeyCombo = __webpack_require__(62);
 	
 	function Locale(name) {
 	  this.localeName = name;
@@ -11170,7 +11171,7 @@ var vendor =
 	module.exports = Locale;
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -11303,7 +11304,7 @@ var vendor =
 	module.exports = KeyCombo;
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -11451,10 +11452,10 @@ var vendor =
 	};
 
 /***/ },
-/* 63 */,
 /* 64 */,
 /* 65 */,
-/* 66 */
+/* 66 */,
+/* 67 */
 /***/ function(module, exports) {
 
 	'use strict';

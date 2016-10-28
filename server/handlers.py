@@ -13,6 +13,7 @@ class Pin(BasicResource):
         self.fields = {
             "num": fields.Integer,
             "name": fields.String,
+            "owner": fields.Integer,
             "mode": fields.String,
             "value": fields.Integer,
             "resistor": fields.String,
