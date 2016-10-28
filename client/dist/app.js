@@ -241,7 +241,7 @@ webpackJsonp_name_([0],{
 	        steerage.forward(socket, dutycycles);
 	        console.log('FORWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
 	    }, function (e) {
-	        steerage.softStop(socket);
+	        steerage.softStop(socket, dutycycles);
 	    });
 	
 	    // BACKWARD
@@ -350,24 +350,24 @@ webpackJsonp_name_([0],{
 	        });
 	    },
 	    hardStop: function hardStop(socket, dirs) {
+	        // HARD STOP -- ALL DIRS ARE 0
 	        // Num of pins must be strings.
 	        // You should do smth with this!!!
-	        sockets.writePins(socket, function (dirs) {
-	            dirs.map(function (dirs) {
-	                return dir.value = 0;
-	            });
-	            console.log(dirs);
-	            return dirs;
+	        dirs.map(function (dir) {
+	            return dir.value = 0;
 	        });
+	        sockets.writeDirs(socket, dirs);
 	    },
-	    softStop: function softStop(socket) {
-	        socket.emit('pin:dutycycles', {
-	            '18': inverse(0),
-	            '23': inverse(0)
+	    softStop: function softStop(socket, dutycycles) {
+	        //SOFT STOP -- ALL PWM's ARE 0
+	        dutycycles.map(function (pin) {
+	            return pin.dutycycle = inverse(0);
 	        });
+	        sockets.writeDutycycles(socket, dutycycles);
 	    },
+	    // nie jestem pewien czy to te diry
 	    ready: function ready(socket) {
-	        sockets.writePins(socket, [{
+	        sockets.writeDirs(socket, [{
 	            num: '24',
 	            value: 1
 	        }, {
@@ -384,10 +384,10 @@ webpackJsonp_name_([0],{
 	        this.run(socket, dutycycles);
 	    },
 	    run: function run(socket, dutycycles) {
-	        socket.emit('pin:dutycycles', {
-	            '18': inverse(dutycycles[0].dutycycle),
-	            '23': inverse(dutycycles[1].dutycycle)
+	        dutycycles.map(function (pin) {
+	            return pin.dutycycle = inverse(pin.dutycycle);
 	        });
+	        sockets.writeDutycycles(socket, dutycycles);
 	    },
 	    // Refactor this !!!
 	    // Update values of pins in pinlist !!!
@@ -448,7 +448,7 @@ webpackJsonp_name_([0],{
 /***/ 66:
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	exports = module.exports = {
 	    writePins: function writePins(socket, pins) {
@@ -456,7 +456,20 @@ webpackJsonp_name_([0],{
 	            socket.emit('pin:write', pin);
 	        });
 	        console.log("pin:write");
+	    },
+	    writeDirs: function writeDirs(socket, dirs) {
+	        dirs.map(function (dir) {
+	            socket.emit('pin:write', dir);
+	        });
+	        console.log("pin:write");
+	    },
+	    writeDutycycles: function writeDutycycles(socket, dutycycles) {
+	        dutycycles.map(function (dutycycle) {
+	            socket.emit('pin:dutycycles', dutycycles);
+	        });
+	        console.log("pin:dutycycles");
 	    }
+	
 	};
 
 /***/ }

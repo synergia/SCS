@@ -87,18 +87,17 @@ class PinManager(object):
             print 'Shit happened here:', e
             return None
 
-    def update_dutycycles(self, data):
+    def update_dutycycles(self, num, dutycycle):
         try:
-            for pin_num, dutycycle in data.items():
-                print 'Trying to set PWM dutycycle', pin_num, dutycycle
+            print 'Trying to set PWM dutycycle', num, dutycycle
 
-                self.gpio.set_mode(int(pin_num), pigpio.OUTPUT)
-                self.gpio.set_PWM_dutycycle(int(pin_num), dutycycle)
+            self.gpio.set_mode(int(num), pigpio.OUTPUT)
+            self.gpio.set_PWM_dutycycle(int(num), dutycycle)
 
-                self.log('UPD DC', int(pin_num))
+            self.log('UPD DC', int(num))
 
-                # Updating value in object
-                self.pins[pin_num]['dutycycle'] = int(dutycycle)
+            # Updating value in object
+            self.pins[num]['dutycycle'] = int(dutycycle)
             return True
         except KeyError:
             return None

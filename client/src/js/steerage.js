@@ -24,22 +24,21 @@ exports = module.exports = {
         });
     },
     hardStop: function(socket, dirs) {
+        // HARD STOP -- ALL DIRS ARE 0
         // Num of pins must be strings.
         // You should do smth with this!!!
-        sockets.writePins(socket, function (dirs) {
-            dirs.map((dirs) => dir.value = 0);
-            console.log(dirs);
-            return dirs;
-        });
+        dirs.map((dir) => dir.value = 0);
+        sockets.writeDirs(socket, dirs);
     },
-    softStop: function(socket) {
-        socket.emit('pin:dutycycles', {
-            '18': inverse(0),
-            '23': inverse(0)
-        });
+    softStop: function(socket, dutycycles) {
+        //SOFT STOP -- ALL PWM's ARE 0
+        dutycycles.map((pin) => pin.dutycycle = inverse(0));
+        sockets.writeDutycycles(socket, dutycycles);
+
     },
+    // nie jestem pewien czy to te diry
     ready: function(socket) {
-        sockets.writePins(socket, [
+        sockets.writeDirs(socket, [
             {
                 num: '24',
                 value: 1
@@ -59,10 +58,8 @@ exports = module.exports = {
         this.run(socket, dutycycles);
     },
     run: function(socket, dutycycles) {
-        socket.emit('pin:dutycycles', {
-            '18': inverse(dutycycles[0].dutycycle),
-            '23': inverse(dutycycles[1].dutycycle)
-        });
+        dutycycles.map((pin) => pin.dutycycle = inverse(pin.dutycycle));
+        sockets.writeDutycycles(socket, dutycycles);
     },
     // Refactor this !!!
     // Update values of pins in pinlist !!!

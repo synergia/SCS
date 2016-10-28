@@ -18,7 +18,7 @@ exports = module.exports = function(socket, SCS) {
         console.log('FORWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
 
     }, function(e) {
-        steerage.softStop(socket);
+        steerage.softStop(socket, dutycycles);
     });
 
     // BACKWARD
