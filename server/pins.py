@@ -111,13 +111,15 @@ class PinHttpManager(PinManager):
 
     def initialize_pins(self):
         for pin_num, pin_config in self.pins.items():
+            name = pin_config.get('name', None)
             initial = pin_config.get('initial', 'LOW')
             resistor = pin_config.get('resistor', None)
             dutycycle = pin_config.get('dutycycle', None)
-            self.setup_pin(pin_num, pin_config[
-                           'mode'], initial, resistor, dutycycle)
+            mode = pin_config.get('mode', 'OUTPUT')
+            print '***',name
+            self.setup_pin(pin_num, name, mode, initial, resistor, dutycycle)
 
-    def setup_pin(self, num, mode, initial, resistor, dutycycle):
+    def setup_pin(self, num, name, mode, initial, resistor, dutycycle):
         num = int(num)
         mode = pigpio.__getattribute__(mode)
         # initial = self.gpio.__getattribute__(initial)
@@ -126,7 +128,10 @@ class PinHttpManager(PinManager):
         #     self.gpio.setup(num, mode, initial=initial, pull_up_down=resistor)
         # else:
         self.gpio.set_mode(num, mode)
-        self.gpio.write(num, initial)
+        if(name == 'servo'):
+            self.gpio.set_servo_pulsewidth(num, initial)
+        else:
+            self.gpio.write(num, initial)
         if(dutycycle is not None):
             self.gpio.set_PWM_dutycycle(num, dutycycle)
 
