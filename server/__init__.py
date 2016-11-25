@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 from flask_socketio import SocketIO
+from flask import render_template
+from handlers import PinList, PinDetail
 
 from gevent import monkey
 monkey.patch_all()
@@ -14,5 +16,7 @@ app.debug = True
 
 socketio = SocketIO(app)
 
-import urls
+def index(path):
+    return render_template('index.html')
+
 import sockets
