@@ -2,9 +2,9 @@ import os
 from flask import Flask
 from flask_socketio import SocketIO
 from flask import render_template
-from handlers import PinList, PinDetail
-
+import pins
 from gevent import monkey
+
 monkey.patch_all()
 
 client_path = os.path.abspath('client')
@@ -16,6 +16,7 @@ app.debug = True
 
 socketio = SocketIO(app)
 
+@app.route('/', defaults={'path': ''})
 def index(path):
     return render_template('index.html')
 

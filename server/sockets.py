@@ -1,10 +1,6 @@
 from flask_socketio import emit
 from server import socketio
-from pins import PinManager
-
-
-PIN_MANAGER = PinManager()
-
+from pins import PIN_MANAGER
 
 @socketio.on('connection')
 def connection():
