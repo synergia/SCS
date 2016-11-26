@@ -1,4 +1,5 @@
 import pigpio
+from server.log import logger
 
 class Setup():
 
@@ -18,4 +19,4 @@ class Setup():
         if(dutycycle is not None):
             self.gpio.set_PWM_dutycycle(num, dutycycle)
 
-        self.log('STP PIN', num)
+        logger.info('Setup pin: %s-%s initial: %s dc: %s mode: %s', num, name, initial, dutycycle, mode)

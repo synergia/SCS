@@ -5,6 +5,7 @@ from read import Read
 from update import Update
 from setup import Setup
 from initialize import Initialize
+from server.log import logger
 
 class PinManager(object, ConfigLoader, Read, Update, Setup, Initialize):
 
@@ -15,11 +16,11 @@ class PinManager(object, ConfigLoader, Read, Update, Setup, Initialize):
         self.initialize_pins()
 
 
-    def log(self, msg, num):
-        try:
-            dutycycle = self.gpio.get_PWM_dutycycle(num)
-        except Exception as e:
-            dutycycle = e
-        print msg, num, self.gpio.get_mode(num), self.gpio.read(num), dutycycle
+    # def log(self, msg, num):
+    #     try:
+    #         dutycycle = self.gpio.get_PWM_dutycycle(num)
+    #     except Exception as e:
+    #         dutycycle = e
+    #     print msg, num, self.gpio.get_mode(num), self.gpio.read(num), dutycycle
 
 PIN_MANAGER = PinManager()

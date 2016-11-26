@@ -1,3 +1,5 @@
+from server.log import logger
+
 class Read():
 
     def pin_response(self, num, config):
@@ -25,13 +27,13 @@ class Read():
 
         return output
 
-        print('Response output:', output)
+        logger.debug('Response output:', output)
 
     def read_all(self):
         results = []
         for pin_num, pin_values in self.pins.items():
             data = self.pin_response(pin_num, pin_values)
-            print 'Append:', data
+            logger.debug('Append:', data)
             results.append(data)
         return results
 

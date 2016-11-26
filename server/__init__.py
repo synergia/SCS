@@ -4,6 +4,7 @@ from flask_socketio import SocketIO
 from flask import render_template
 import pins
 from gevent import monkey
+import log
 
 monkey.patch_all()
 

@@ -12,3 +12,4 @@ PyYAML>=3.11
 Flask-SocketIO>=0.3.7
 greenlet>=0.4.7
 gevent>=1.2.0
+coloredlogs
