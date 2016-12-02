@@ -9,8 +9,8 @@ class ConfigLoader():
     def load_json(self):
         try:
             with open(PINS_JSON) as file_data:
-                self.pins = json.load(file_data)
-            logger.info('Loaded json')
-            logger.debug(self.pins)
-        except Exception as e:
-            logger.error(e)
+                self.configs = json.load(file_data)
+            logger.info('Initialization: JSON loaded')
+            logger.debug(self.configs)
+        except ValueError as e:
+            logger.error("JSON error: %s", e)

@@ -1,13 +1,29 @@
 from server.log import logger
 
+'''
+Parsing JSON, saving architecture value to variable, setups pins
+'''
+
+
 class Initialize():
 
-    logger.info('Pins initialization')
     def initialize_pins(self):
-        for pin_num, pin_config in self.pins.items():
-            name = pin_config.get('name', None)
-            initial = pin_config.get('initial', 'LOW')
-            resistor = pin_config.get('resistor', None)
-            dutycycle = pin_config.get('dutycycle', None)
-            mode = pin_config.get('mode', 'OUTPUT')
-            self.setup_pin(pin_num, name, mode, initial, resistor, dutycycle)
+        logger.info('Initialization: started')
+        self.load_json()
+        try:
+            for config_name, config_data in self.configs.items():
+                if (config_name == 'architecture'):
+                    self.architecture = config_data
+                    logger.info(
+                        'Initialization: architecture: %s', config_data)
+                if (config_name == 'pins'):
+                    for pin_num, pin_config in config_data.items():
+                        name = pin_config.get('name', None)
+                        role = pin_config.get('role', None)
+                        mode = pin_config.get('mode', 'OUTPUT')
+                        owner = pin_config.get('owner', None)
+                        value = pin_config.get('value', 'LOW')
+                        self.setup_pin(pin_num, name, role, mode, owner, value)
+            logger.info('Initialization: done')
+        except ValueError as e:
+            logger.error('Initialization: error: %s', e)

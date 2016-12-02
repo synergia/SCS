@@ -3,7 +3,7 @@ import logging
 import coloredlogs
 import os
 
-os.environ['COLOREDLOGS_LOG_FORMAT'] ='%(asctime)s %(name)s - %(message)s'
+os.environ['COLOREDLOGS_LOG_FORMAT'] ='%(asctime)s.%(msecs)03d %(name)s - %(message)s'
 
 
 logger = logging.getLogger(__name__)

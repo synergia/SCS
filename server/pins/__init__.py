@@ -12,7 +12,6 @@ class PinManager(object, ConfigLoader, Read, Update, Setup, Initialize):
     def __init__(self):
         super(PinManager, self).__init__()
         self.gpio = pigpio.pi('0.0.0.0', 3000)
-        self.load_json()
         self.initialize_pins()
 
 

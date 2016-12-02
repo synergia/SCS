@@ -1,22 +1,25 @@
 import pigpio
 from server.log import logger
+'''
+http://stackoverflow.com/a/17166144/1589989
+'''
 
 class Setup():
 
-    def setup_pin(self, num, name, mode, initial, resistor, dutycycle):
-        num = int(num)
+    def setup_pin(self, pin_num, name, role, mode, owner, value):
+        num = int(pin_num)
         mode = pigpio.__getattribute__(mode)
-        # initial = self.gpio.__getattribute__(initial)
-        # if resistor:
-        #     resistor = self.gpio.__getattribute__(resistor)
-        #     self.gpio.setup(num, mode, initial=initial, pull_up_down=resistor)
-        # else:
+        roles = {
+            'servo': self.gpio.set_servo_pulsewidth,
+            'propulsion': self.gpio.set_PWM_dutycycle
+        }
         self.gpio.set_mode(num, mode)
-        if(name == 'servo'):
-            self.gpio.set_servo_pulsewidth(num, initial)
-        else:
-            self.gpio.write(num, initial)
-        if(dutycycle is not None):
-            self.gpio.set_PWM_dutycycle(num, dutycycle)
 
-        logger.info('Setup pin: %s-%s initial: %s dc: %s mode: %s', num, name, initial, dutycycle, mode)
+        for r in roles:
+            if role in roles:
+                roles[role](num, value)
+            else:
+                self.gpio.write(num, value)
+
+
+        logger.info('Initialization: %s %s %s value: %s mode: %s', num, name, role, value, mode)
