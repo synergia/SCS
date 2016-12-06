@@ -5,7 +5,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
     context: __dirname + '/client/src',
     entry: {
-        app: './js/app.js',
+        app: './js/main.js',
         // styles: './styles/main.css',
         vendor: ["socket.io-client", "vue", "keyboardjs", "simple-stopwatch"]
     },
@@ -25,10 +25,10 @@ module.exports = {
     },
     module: {
         loaders: [
-    //         {
-    //             test: /\.vue$/,
-    //             loader: 'vue'
-    //   },
+            {
+                test: /\.vue$/,
+                loader: 'vue'
+            },
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader")
@@ -36,6 +36,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel',
+                exclude: /node_modules/,
                 query: {
                     "presets": ["es2015"],
                     "plugins": ["add-module-exports"]

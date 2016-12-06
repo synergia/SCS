@@ -6,40 +6,8 @@
 </head>
 {% raw %}
 
-<body id="app">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.slim.min.js"></script>
-
-    <pin v-for="pin in pinlist"
-        :item="pin.num"
-        :val="pin.value"
-        :dc="pin.dutycycle"
-        :mode="pin.mode"
-        :num="pin.num"
-        :owner="pin.owner"
-        :index="$index"></pin>
-
-    <!-- SHOULD USE ASYNC, NOT V-IF -->
-    <dutycycle
-        v-if="dutycycles[0]"
-        :pin="dutycycles[0].num"
-        :dutycycle="dutycycles[0].dutycycle"
-        ></dutycycle>
-    <dutycycle
-        v-if="dutycycles[1]"
-        :pin="dutycycles[1].num"
-        :dutycycle="dutycycles[1].dutycycle"
-        ></dutycycle>
-
-    <div id="main" class="container">
-        <button id="getPins">Get pins</button>
-        <button id="runPWM">Run PWM</button>
-        <input id="dutycycle1" value="0" type="range" min="0" max="255" step="10" />
-        <input id="dutycycle2" value="0" type="range" min="0" max="255" step="10" />
-        <input id="dir1" type="checkbox">
-        <input id="dir2" type="checkbox">
-        <input id="dir3" type="checkbox">
-        <input id="dir4" type="checkbox">
-    </div>
+<body>
+    <div id="app"></div>
     <script type="text/javascript" src="./client/dist/vendor.js"></script>
     <script type="text/javascript" src="./client/dist/app.js"></script>
 </body>
