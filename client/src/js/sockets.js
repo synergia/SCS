@@ -1,5 +1,12 @@
 
 exports = module.exports = {
+    connection: function(socket){
+        socket.on('connect', function() {
+            socket.emit('connection');
+            console.log("Connected");
+            socket.emit('config');
+        });
+    },
     writePins: function (socket, pins) {
         pins.map(function (pin) {
             socket.emit('pin:write', pin);

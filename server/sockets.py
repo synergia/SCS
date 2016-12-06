@@ -6,8 +6,11 @@ from server.log import logger
 
 @socketio.on('connection')
 def connection():
-    logger.info('Connected')
+    pass
 
+@socketio.on('config')
+def config():
+    pass
 
 @socketio.on('pin:list')
 def pin_list():

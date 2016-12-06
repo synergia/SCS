@@ -4,7 +4,7 @@
   "description": "Synergia Control System",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --watch --inline",
+    "dev": "webpack --watch --inline --display-error-details --progress",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "repository": {

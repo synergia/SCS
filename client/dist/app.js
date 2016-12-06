@@ -7,13 +7,20 @@ webpackJsonp_name_([0],[
 	
 	var Vue = __webpack_require__(1);
 	var App = __webpack_require__(3);
-	var store = __webpack_require__(21);
+	var store = __webpack_require__(24);
+	var io = __webpack_require__(26);
+	var sockets = __webpack_require__(88);
+	
+	var socket = io.connect('http://' + document.domain + ':' + location.port);
 	
 	new Vue({
 	  el: '#app',
 	  store: store,
 	  render: function render(h) {
 	    return h(App);
+	  },
+	  mounted: function mounted() {
+	    sockets.connection(socket);
 	  }
 	});
 
@@ -33,7 +40,7 @@ webpackJsonp_name_([0],[
 	__vue_exports__ = __webpack_require__(8)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(20)
+	var __vue_template__ = __webpack_require__(23)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -101,7 +108,7 @@ webpackJsonp_name_([0],[
 	
 	
 	// module
-	exports.push([module.id, "\nbody {\n  font-family: Helvetica, sans-serif;\n}\n", "", {"version":3,"sources":["/./js/App.vue?7de975fa"],"names":[],"mappings":";AAuBA;EACA,mCAAA;CACA","file":"App.vue","sourcesContent":["<template>\n  <div id=\"app\" class=\"container\">\n    <CompletedTodos></CompletedTodos>\n    <GetTodo></GetTodo>\n    <CurrentTodos></CurrentTodos>\n  </div>\n</template>\n\n<script>\nconst GetTodo = require('./components/GetTodo.vue');\nconst CurrentTodos = require('./components/CurrentTodos.vue');\nconst CompletedTodos = require('./components/CompletedTodos.vue');\nmodule.exports = {\n  components: {\n    GetTodo,\n    CurrentTodos,\n    CompletedTodos\n  }\n\n}\n</script>\n\n<style>\nbody {\n  font-family: Helvetica, sans-serif;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\nbody {\n    font-family: Helvetica, sans-serif;\n}\n", "", {"version":3,"sources":["/./js/App.vue?4916ca7d"],"names":[],"mappings":";AAiCA;IACA,mCAAA;CACA","file":"App.vue","sourcesContent":["<template>\n<div id=\"app\" class=\"container\">\n    <Topbar></Topbar>\n    <Sidebar></Sidebar>\n    <!-- <CompletedTodos></CompletedTodos>\n    <GetTodo></GetTodo>\n    <CurrentTodos></CurrentTodos> -->\n</div>\n</template>\n\n<script>\n\nconst Topbar = require('./components/Topbar.vue');\nconst Sidebar = require('./components/Sidebar.vue');\nconst GetTodo = require('./components/GetTodo.vue');\nconst CurrentTodos = require('./components/CurrentTodos.vue');\nconst CompletedTodos = require('./components/CompletedTodos.vue');\nmodule.exports = {\n    components: {\n        Topbar,\n        Sidebar,\n        GetTodo,\n        CurrentTodos,\n        CompletedTodos\n    },\n    computed: {\n\n    }\n\n}\n</script>\n\n<style>\nbody {\n    font-family: Helvetica, sans-serif;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -396,16 +403,24 @@ webpackJsonp_name_([0],[
 	//
 	//
 	//
+	//
+	//
 	
-	const GetTodo = __webpack_require__(9);
-	const CurrentTodos = __webpack_require__(12);
-	const CompletedTodos = __webpack_require__(17);
+	
+	const Topbar = __webpack_require__(9);
+	const Sidebar = __webpack_require__(83);
+	const GetTodo = __webpack_require__(12);
+	const CurrentTodos = __webpack_require__(15);
+	const CompletedTodos = __webpack_require__(20);
 	module.exports = {
-	  components: {
-	    GetTodo,
-	    CurrentTodos,
-	    CompletedTodos
-	  }
+	    components: {
+	        Topbar,
+	        Sidebar,
+	        GetTodo,
+	        CurrentTodos,
+	        CompletedTodos
+	    },
+	    computed: {}
 	
 	};
 
@@ -421,6 +436,106 @@ webpackJsonp_name_([0],[
 	
 	/* template */
 	var __vue_template__ = __webpack_require__(11)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.__file = "/home/stsdc/pi/SCS/client/src/js/components/Topbar.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-7440baea", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-7440baea", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] Topbar.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	//
+	//
+	//
+	//
+	//
+	//
+	
+	module.exports = {
+	    methods: {
+	        showSidebar() {
+	            this.$store.dispatch('showSidebar');
+	        },
+	
+	        getTodo(e) {
+	            this.$store.dispatch('getTodo', e.target.value);
+	        },
+	        addTodo() {
+	            this.$store.dispatch('addTodo');
+	            this.$store.dispatch('clearTodo');
+	        }
+	    },
+	    computed: {
+	        newTodo() {
+	            return this.$store.getters.newTodo;
+	        }
+	    }
+	};
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
+	  return _h('div', {
+	    staticClass: "topbar",
+	    attrs: {
+	      "id": "topbar"
+	    }
+	  }, [_h('button', {
+	    staticClass: "btn btn-primary",
+	    on: {
+	      "click": _vm.showSidebar
+	    }
+	  }, ["Settings"]), " "])
+	},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-7440baea", module.exports)
+	  }
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(13)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(14)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -454,7 +569,7 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports) {
 
 	//
@@ -485,7 +600,7 @@ webpackJsonp_name_([0],[
 	};
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -520,20 +635,20 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 	
 	/* styles */
-	__webpack_require__(13)
+	__webpack_require__(16)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(15)
+	__vue_exports__ = __webpack_require__(18)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(16)
+	var __vue_template__ = __webpack_require__(19)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -567,13 +682,13 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 13 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(14);
+	var content = __webpack_require__(17);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -593,7 +708,7 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 14 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -607,7 +722,7 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports) {
 
 	//
@@ -652,7 +767,7 @@ webpackJsonp_name_([0],[
 	};
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -715,17 +830,17 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(18)
+	__vue_exports__ = __webpack_require__(21)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(19)
+	var __vue_template__ = __webpack_require__(22)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -759,7 +874,7 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports) {
 
 	//
@@ -792,7 +907,7 @@ webpackJsonp_name_([0],[
 	};
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -828,7 +943,7 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -837,7 +952,7 @@ webpackJsonp_name_([0],[
 	    attrs: {
 	      "id": "app"
 	    }
-	  }, [_h('CompletedTodos'), " ", _h('GetTodo'), " ", _h('CurrentTodos')])
+	  }, [_h('Topbar'), " ", _h('Sidebar'), " "])
 	},staticRenderFns: []}
 	if (false) {
 	  module.hot.accept()
@@ -847,22 +962,26 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Vue = __webpack_require__(1);
-	var Vuex = __webpack_require__(22);
+	var Vuex = __webpack_require__(25);
 	
 	Vue.use(Vuex);
 	
 	module.exports = new Vuex.Store({
 	    state: {
 	        todos: [],
-	        newTodo: ''
+	        newTodo: '',
+	        showSidebar: false
 	    },
 	    mutations: {
+	        SHOW_SIDEBAR: function SHOW_SIDEBAR(state) {
+	            state.showSidebar = !state.showSidebar;
+	        },
 	        GET_TODO: function GET_TODO(state, todo) {
 	            state.newTodo = todo;
 	        },
@@ -890,38 +1009,46 @@ webpackJsonp_name_([0],[
 	        }
 	    },
 	    actions: {
-	        getTodo: function getTodo(_ref, todo) {
+	        showSidebar: function showSidebar(_ref) {
 	            var commit = _ref.commit;
+	
+	            commit('SHOW_SIDEBAR');
+	        },
+	        getTodo: function getTodo(_ref2, todo) {
+	            var commit = _ref2.commit;
 	
 	            commit('GET_TODO', todo);
 	        },
-	        addTodo: function addTodo(_ref2) {
-	            var commit = _ref2.commit;
+	        addTodo: function addTodo(_ref3) {
+	            var commit = _ref3.commit;
 	
 	            commit('ADD_TODO');
 	        },
-	        editTodo: function editTodo(_ref3, todo) {
-	            var commit = _ref3.commit;
+	        editTodo: function editTodo(_ref4, todo) {
+	            var commit = _ref4.commit;
 	
 	            commit('EDIT_TODO', todo);
 	        },
-	        removeTodo: function removeTodo(_ref4, todo) {
-	            var commit = _ref4.commit;
+	        removeTodo: function removeTodo(_ref5, todo) {
+	            var commit = _ref5.commit;
 	
 	            commit('REMOVE_TODO', todo);
 	        },
-	        completeTodo: function completeTodo(_ref5, todo) {
-	            var commit = _ref5.commit;
+	        completeTodo: function completeTodo(_ref6, todo) {
+	            var commit = _ref6.commit;
 	
 	            commit('COMPLETE_TODO', todo);
 	        },
-	        clearTodo: function clearTodo(_ref6) {
-	            var commit = _ref6.commit;
+	        clearTodo: function clearTodo(_ref7) {
+	            var commit = _ref7.commit;
 	
 	            commit('CLEAR_TODO');
 	        }
 	    },
 	    getters: {
+	        showSidebar: function showSidebar(state) {
+	            return state.showSidebar;
+	        },
 	        newTodo: function newTodo(state) {
 	            return state.newTodo;
 	        },
@@ -940,7 +1067,7 @@ webpackJsonp_name_([0],[
 	});
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1471,6 +1598,217 @@ webpackJsonp_name_([0],[
 	return index;
 	
 	})));
+
+/***/ },
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+	
+	/* styles */
+	__webpack_require__(84)
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(87)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(86)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.__file = "/home/stsdc/pi/SCS/client/src/js/components/Sidebar.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-07670a3f", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-07670a3f", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(85);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-07670a3f!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Sidebar.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-07670a3f!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Sidebar.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.sidebar--active {\n    background: red;\n}\n", "", {"version":3,"sources":["/./js/components/Sidebar.vue?4edb11b9"],"names":[],"mappings":";AASA;IACA,gBAAA;CACA","file":"Sidebar.vue","sourcesContent":["<template>\n    <div id=\"sidebar\" class=\"sidebar\" v-bind:class=\"{ 'sidebar--active': this.$store.getters.showSidebar }\">\n        ole!\n    </div>\n</template>\n<script>\n\n</script>\n<style>\n.sidebar--active {\n    background: red;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
+	  return _h('div', {
+	    staticClass: "sidebar",
+	    class: {
+	      'sidebar--active': this.$store.getters.showSidebar
+	    },
+	    attrs: {
+	      "id": "sidebar"
+	    }
+	  }, ["\n    ole!\n"])
+	},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-07670a3f", module.exports)
+	  }
+	}
+
+/***/ },
+/* 87 */
+/***/ function(module, exports) {
+
+	//
+	//
+	//
+	//
+	//
+
+/***/ },
+/* 88 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports = module.exports = {
+	    connection: function connection(socket) {
+	        socket.on('connect', function () {
+	            socket.emit('connection');
+	            console.log("Connected");
+	            socket.emit('config');
+	        });
+	    },
+	    writePins: function writePins(socket, pins) {
+	        pins.map(function (pin) {
+	            socket.emit('pin:write', pin);
+	        });
+	        console.log("pin:write");
+	    },
+	    writeDirs: function writeDirs(socket, dirs) {
+	        dirs.map(function (dir) {
+	            socket.emit('pin:write', dir);
+	        });
+	        console.log("pin:write");
+	    },
+	    writeDutycycles: function writeDutycycles(socket, dutycycles) {
+	        dutycycles.map(function (dutycycle) {
+	            socket.emit('pin:dutycycles', dutycycles);
+	        });
+	        console.log("pin:dutycycles");
+	    }
+	
+	};
 
 /***/ }
 ]);
