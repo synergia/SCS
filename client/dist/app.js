@@ -13,15 +13,16 @@ webpackJsonp_name_([0],[
 	
 	var socket = io.connect('http://' + document.domain + ':' + location.port);
 	
-	new Vue({
-	  el: '#app',
-	  store: store,
-	  render: function render(h) {
-	    return h(App);
-	  },
-	  mounted: function mounted() {
-	    sockets.connection(socket, store);
-	  }
+	var SCS = new Vue({
+	    el: '#app',
+	    store: store,
+	    render: function render(h) {
+	        return h(App);
+	    },
+	    methods: {},
+	    mounted: function mounted() {
+	        sockets.connection(socket, store);
+	    }
 	});
 
 /***/ },
@@ -1095,7 +1096,7 @@ webpackJsonp_name_([0],[
 	    state: {
 	        todos: [],
 	        newTodo: '',
-	        config: '',
+	        config: [],
 	        showSidebar: false
 	    },
 	    mutations: {
@@ -1174,6 +1175,9 @@ webpackJsonp_name_([0],[
 	        }
 	    },
 	    getters: {
+	        config: function config(state) {
+	            return state.config;
+	        },
 	        showSidebar: function showSidebar(state) {
 	            return state.showSidebar;
 	        },
@@ -1780,9 +1784,11 @@ webpackJsonp_name_([0],[
 /* 80 */,
 /* 81 */,
 /* 82 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	var configParser = __webpack_require__(89);
 	
 	exports = module.exports = {
 	    connection: function connection(socket, store) {
@@ -1792,7 +1798,7 @@ webpackJsonp_name_([0],[
 	            socket.emit('config');
 	        });
 	        socket.on('config', function (config) {
-	            store.dispatch('setConfig', config);
+	            configParser(config, store);
 	        });
 	    },
 	    writePins: function writePins(socket, pins) {
@@ -1814,6 +1820,38 @@ webpackJsonp_name_([0],[
 	        console.log("pin:dutycycles");
 	    }
 	
+	};
+
+/***/ },
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports = module.exports = function configParser(config, store) {
+	    store.dispatch('setConfig', config);
+	
+	    var pins = config.filter(function (item) {
+	        return 'pins' in item;
+	    });
+	    var arch = config.filter(function (item) {
+	        return 'architecture' in item;
+	    });
+	    console.log(pins);
+	
+	    // PARSE PROPULSION AND OTHERS!!!
+	
+	    var propulsions = pins.filter(function (pin) {
+	        return pin.role === 'propulsion';
+	    });
+	    console.log(propulsions);
+	    console.log(store.getters.config);
 	};
 
 /***/ }

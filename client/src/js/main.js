@@ -7,11 +7,14 @@ const sockets = require('./sockets');
 
 let socket = io.connect('http://' + document.domain + ':' + location.port);
 
-new Vue({
-  el: '#app',
-  store,
-  render: h => h(App),
-  mounted: function() {
-      sockets.connection(socket, store);
-  },
+let SCS = new Vue({
+    el: '#app',
+    store,
+    render: h => h(App),
+    methods: {
+
+    },
+    mounted: function() {
+        sockets.connection(socket, store);
+    },
 });

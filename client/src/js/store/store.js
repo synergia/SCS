@@ -7,7 +7,7 @@ module.exports = new Vuex.Store({
     state: {
         todos: [],
         newTodo: '',
-        config: '',
+        config: [],
         showSidebar: false,
     },
     mutations: {
@@ -72,6 +72,7 @@ module.exports = new Vuex.Store({
 
     },
     getters: {
+        config: state => state.config,
         showSidebar: state => state.showSidebar,
         newTodo: state => state.newTodo,
         todos: state => state.todos.filter((todo) => {return !todo.completed;}),

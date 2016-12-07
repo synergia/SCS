@@ -1,3 +1,5 @@
+const configParser = require('./configParser');
+
 exports = module.exports = {
     connection: function(socket, store) {
         socket.on('connect', function() {
@@ -6,7 +8,7 @@ exports = module.exports = {
             socket.emit('config');
         });
         socket.on('config', function(config) {
-            store.dispatch('setConfig', config);
+            configParser(config, store);
         });
     },
     writePins: function(socket, pins) {
