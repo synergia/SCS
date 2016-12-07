@@ -7,9 +7,9 @@ webpackJsonp_name_([0],[
 	
 	var Vue = __webpack_require__(1);
 	var App = __webpack_require__(3);
-	var store = __webpack_require__(24);
-	var io = __webpack_require__(26);
-	var sockets = __webpack_require__(88);
+	var store = __webpack_require__(29);
+	var io = __webpack_require__(31);
+	var sockets = __webpack_require__(82);
 	
 	var socket = io.connect('http://' + document.domain + ':' + location.port);
 	
@@ -40,7 +40,7 @@ webpackJsonp_name_([0],[
 	__vue_exports__ = __webpack_require__(8)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(23)
+	var __vue_template__ = __webpack_require__(28)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -408,10 +408,10 @@ webpackJsonp_name_([0],[
 	
 	
 	const Topbar = __webpack_require__(9);
-	const Sidebar = __webpack_require__(83);
-	const GetTodo = __webpack_require__(12);
-	const CurrentTodos = __webpack_require__(15);
-	const CompletedTodos = __webpack_require__(20);
+	const Sidebar = __webpack_require__(12);
+	const GetTodo = __webpack_require__(17);
+	const CurrentTodos = __webpack_require__(20);
+	const CompletedTodos = __webpack_require__(25);
 	module.exports = {
 	    components: {
 	        Topbar,
@@ -531,11 +531,130 @@ webpackJsonp_name_([0],[
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 	
+	/* styles */
+	__webpack_require__(13)
+	
 	/* script */
-	__vue_exports__ = __webpack_require__(13)
+	__vue_exports__ = __webpack_require__(15)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(14)
+	var __vue_template__ = __webpack_require__(16)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.__file = "/home/stsdc/pi/SCS/client/src/js/components/Sidebar.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-07670a3f", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-07670a3f", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(14);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-07670a3f!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Sidebar.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-07670a3f!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Sidebar.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.sidebar--active {\n    background: red;\n}\n", "", {"version":3,"sources":["/./js/components/Sidebar.vue?4edb11b9"],"names":[],"mappings":";AASA;IACA,gBAAA;CACA","file":"Sidebar.vue","sourcesContent":["<template>\n    <div id=\"sidebar\" class=\"sidebar\" v-bind:class=\"{ 'sidebar--active': this.$store.getters.showSidebar }\">\n        ole!\n    </div>\n</template>\n<script>\n\n</script>\n<style>\n.sidebar--active {\n    background: red;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	//
+	//
+	//
+	//
+	//
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
+	  return _h('div', {
+	    staticClass: "sidebar",
+	    class: {
+	      'sidebar--active': this.$store.getters.showSidebar
+	    },
+	    attrs: {
+	      "id": "sidebar"
+	    }
+	  }, ["\n    ole!\n"])
+	},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-07670a3f", module.exports)
+	  }
+	}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+	
+	/* script */
+	__vue_exports__ = __webpack_require__(18)
+	
+	/* template */
+	var __vue_template__ = __webpack_require__(19)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -569,7 +688,7 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 13 */
+/* 18 */
 /***/ function(module, exports) {
 
 	//
@@ -600,7 +719,7 @@ webpackJsonp_name_([0],[
 	};
 
 /***/ },
-/* 14 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -635,20 +754,20 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 15 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 	
 	/* styles */
-	__webpack_require__(16)
+	__webpack_require__(21)
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(18)
+	__vue_exports__ = __webpack_require__(23)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(19)
+	var __vue_template__ = __webpack_require__(24)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -682,13 +801,13 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 16 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(17);
+	var content = __webpack_require__(22);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -708,7 +827,7 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 17 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -722,7 +841,7 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 18 */
+/* 23 */
 /***/ function(module, exports) {
 
 	//
@@ -767,7 +886,7 @@ webpackJsonp_name_([0],[
 	};
 
 /***/ },
-/* 19 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -830,17 +949,17 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 20 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 	
 	/* script */
-	__vue_exports__ = __webpack_require__(21)
+	__vue_exports__ = __webpack_require__(26)
 	
 	/* template */
-	var __vue_template__ = __webpack_require__(22)
+	var __vue_template__ = __webpack_require__(27)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -874,7 +993,7 @@ webpackJsonp_name_([0],[
 
 
 /***/ },
-/* 21 */
+/* 26 */
 /***/ function(module, exports) {
 
 	//
@@ -907,7 +1026,7 @@ webpackJsonp_name_([0],[
 	};
 
 /***/ },
-/* 22 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -943,7 +1062,7 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 23 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
@@ -962,13 +1081,13 @@ webpackJsonp_name_([0],[
 	}
 
 /***/ },
-/* 24 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var Vue = __webpack_require__(1);
-	var Vuex = __webpack_require__(25);
+	var Vuex = __webpack_require__(30);
 	
 	Vue.use(Vuex);
 	
@@ -1067,7 +1186,7 @@ webpackJsonp_name_([0],[
 	});
 
 /***/ },
-/* 25 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1600,11 +1719,6 @@ webpackJsonp_name_([0],[
 	})));
 
 /***/ },
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
 /* 31 */,
 /* 32 */,
 /* 33 */,
@@ -1656,127 +1770,7 @@ webpackJsonp_name_([0],[
 /* 79 */,
 /* 80 */,
 /* 81 */,
-/* 82 */,
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-	
-	/* styles */
-	__webpack_require__(84)
-	
-	/* script */
-	__vue_exports__ = __webpack_require__(87)
-	
-	/* template */
-	var __vue_template__ = __webpack_require__(86)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/home/stsdc/pi/SCS/client/src/js/components/Sidebar.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-07670a3f", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-07670a3f", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-	
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(85);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(7)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-07670a3f!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Sidebar.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-07670a3f!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Sidebar.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(6)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "\n.sidebar--active {\n    background: red;\n}\n", "", {"version":3,"sources":["/./js/components/Sidebar.vue?4edb11b9"],"names":[],"mappings":";AASA;IACA,gBAAA;CACA","file":"Sidebar.vue","sourcesContent":["<template>\n    <div id=\"sidebar\" class=\"sidebar\" v-bind:class=\"{ 'sidebar--active': this.$store.getters.showSidebar }\">\n        ole!\n    </div>\n</template>\n<script>\n\n</script>\n<style>\n.sidebar--active {\n    background: red;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;
-	  return _h('div', {
-	    staticClass: "sidebar",
-	    class: {
-	      'sidebar--active': this.$store.getters.showSidebar
-	    },
-	    attrs: {
-	      "id": "sidebar"
-	    }
-	  }, ["\n    ole!\n"])
-	},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-07670a3f", module.exports)
-	  }
-	}
-
-/***/ },
-/* 87 */
-/***/ function(module, exports) {
-
-	//
-	//
-	//
-	//
-	//
-
-/***/ },
-/* 88 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
