@@ -7,12 +7,22 @@ module.exports = new Vuex.Store({
     state: {
         todos: [],
         newTodo: '',
-        config: [],
+        pins: {
+            propulsions: [],
+            logics:[],
+            servos: []
+        },
         showSidebar: false,
     },
     mutations: {
-        SET_CONFIG(state, config){
-            state.config = config;
+        SET_PROPULSIONS(state, propulsions){
+            state.pins.propulsions = propulsions;
+        },
+        SET_LOGICS(state, logics){
+            state.pins.logics = logics;
+        },
+        SET_SERVOS(state, servos){
+            state.pins.servos = servos;
         },
         SHOW_SIDEBAR(state){
             state.showSidebar = !state.showSidebar;
@@ -45,8 +55,14 @@ module.exports = new Vuex.Store({
         }
     },
     actions: {
-        setConfig({commit}, config){
-            commit('SET_CONFIG', config);
+        setPropulsions({commit}, propulsions){
+            commit('SET_PROPULSIONS', propulsions);
+        },
+        setLogics({commit}, logics){
+            commit('SET_LOGICS', logics);
+        },
+        setServos({commit}, servos){
+            commit('SET_SERVOS', servos);
         },
         showSidebar({commit}){
             commit('SHOW_SIDEBAR');
@@ -72,7 +88,9 @@ module.exports = new Vuex.Store({
 
     },
     getters: {
-        config: state => state.config,
+        propulsions: state => state.pins.propulsions,
+        logics: state => state.pins.logics,
+        servos: state => state.pins.servos,
         showSidebar: state => state.showSidebar,
         newTodo: state => state.newTodo,
         todos: state => state.todos.filter((todo) => {return !todo.completed;}),

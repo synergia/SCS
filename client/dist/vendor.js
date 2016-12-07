@@ -101,8 +101,8 @@ var vendor =
 
 	__webpack_require__(31);
 	__webpack_require__(1);
-	__webpack_require__(83);
-	module.exports = __webpack_require__(88);
+	__webpack_require__(84);
+	module.exports = __webpack_require__(89);
 
 
 /***/ },
@@ -14463,17 +14463,18 @@ var vendor =
 
 /***/ },
 /* 82 */,
-/* 83 */
+/* 83 */,
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var Keyboard = __webpack_require__(84);
-	var Locale   = __webpack_require__(85);
-	var KeyCombo = __webpack_require__(86);
+	var Keyboard = __webpack_require__(85);
+	var Locale   = __webpack_require__(86);
+	var KeyCombo = __webpack_require__(87);
 	
 	var keyboard = new Keyboard();
 	
-	keyboard.setLocale('us', __webpack_require__(87));
+	keyboard.setLocale('us', __webpack_require__(88));
 	
 	exports          = module.exports = keyboard;
 	exports.Keyboard = Keyboard;
@@ -14482,12 +14483,12 @@ var vendor =
 
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
-	var Locale = __webpack_require__(85);
-	var KeyCombo = __webpack_require__(86);
+	var Locale = __webpack_require__(86);
+	var KeyCombo = __webpack_require__(87);
 	
 	
 	function Keyboard(targetWindow, targetElement, platform, userAgent) {
@@ -14854,11 +14855,11 @@ var vendor =
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var KeyCombo = __webpack_require__(86);
+	var KeyCombo = __webpack_require__(87);
 	
 	
 	function Locale(name) {
@@ -15011,7 +15012,7 @@ var vendor =
 
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports) {
 
 	
@@ -15148,7 +15149,7 @@ var vendor =
 
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports) {
 
 	
@@ -15296,7 +15297,7 @@ var vendor =
 
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports) {
 
 	(function () {

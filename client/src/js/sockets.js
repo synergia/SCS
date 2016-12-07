@@ -8,7 +8,7 @@ exports = module.exports = {
             socket.emit('config');
         });
         socket.on('config', function(config) {
-            configParser(config, store);
+            configParser.setConfig(config, store);
         });
     },
     writePins: function(socket, pins) {

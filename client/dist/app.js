@@ -1096,12 +1096,22 @@ webpackJsonp_name_([0],[
 	    state: {
 	        todos: [],
 	        newTodo: '',
-	        config: [],
+	        pins: {
+	            propulsions: [],
+	            logics: [],
+	            servos: []
+	        },
 	        showSidebar: false
 	    },
 	    mutations: {
-	        SET_CONFIG: function SET_CONFIG(state, config) {
-	            state.config = config;
+	        SET_PROPULSIONS: function SET_PROPULSIONS(state, propulsions) {
+	            state.pins.propulsions = propulsions;
+	        },
+	        SET_LOGICS: function SET_LOGICS(state, logics) {
+	            state.pins.logics = logics;
+	        },
+	        SET_SERVOS: function SET_SERVOS(state, servos) {
+	            state.pins.servos = servos;
 	        },
 	        SHOW_SIDEBAR: function SHOW_SIDEBAR(state) {
 	            state.showSidebar = !state.showSidebar;
@@ -1133,50 +1143,66 @@ webpackJsonp_name_([0],[
 	        }
 	    },
 	    actions: {
-	        setConfig: function setConfig(_ref, config) {
+	        setPropulsions: function setPropulsions(_ref, propulsions) {
 	            var commit = _ref.commit;
 	
-	            commit('SET_CONFIG', config);
+	            commit('SET_PROPULSIONS', propulsions);
 	        },
-	        showSidebar: function showSidebar(_ref2) {
+	        setLogics: function setLogics(_ref2, logics) {
 	            var commit = _ref2.commit;
+	
+	            commit('SET_LOGICS', logics);
+	        },
+	        setServos: function setServos(_ref3, servos) {
+	            var commit = _ref3.commit;
+	
+	            commit('SET_SERVOS', servos);
+	        },
+	        showSidebar: function showSidebar(_ref4) {
+	            var commit = _ref4.commit;
 	
 	            commit('SHOW_SIDEBAR');
 	        },
-	        getTodo: function getTodo(_ref3, todo) {
-	            var commit = _ref3.commit;
+	        getTodo: function getTodo(_ref5, todo) {
+	            var commit = _ref5.commit;
 	
 	            commit('GET_TODO', todo);
 	        },
-	        addTodo: function addTodo(_ref4) {
-	            var commit = _ref4.commit;
+	        addTodo: function addTodo(_ref6) {
+	            var commit = _ref6.commit;
 	
 	            commit('ADD_TODO');
 	        },
-	        editTodo: function editTodo(_ref5, todo) {
-	            var commit = _ref5.commit;
+	        editTodo: function editTodo(_ref7, todo) {
+	            var commit = _ref7.commit;
 	
 	            commit('EDIT_TODO', todo);
 	        },
-	        removeTodo: function removeTodo(_ref6, todo) {
-	            var commit = _ref6.commit;
+	        removeTodo: function removeTodo(_ref8, todo) {
+	            var commit = _ref8.commit;
 	
 	            commit('REMOVE_TODO', todo);
 	        },
-	        completeTodo: function completeTodo(_ref7, todo) {
-	            var commit = _ref7.commit;
+	        completeTodo: function completeTodo(_ref9, todo) {
+	            var commit = _ref9.commit;
 	
 	            commit('COMPLETE_TODO', todo);
 	        },
-	        clearTodo: function clearTodo(_ref8) {
-	            var commit = _ref8.commit;
+	        clearTodo: function clearTodo(_ref10) {
+	            var commit = _ref10.commit;
 	
 	            commit('CLEAR_TODO');
 	        }
 	    },
 	    getters: {
-	        config: function config(state) {
-	            return state.config;
+	        propulsions: function propulsions(state) {
+	            return state.pins.propulsions;
+	        },
+	        logics: function logics(state) {
+	            return state.pins.logics;
+	        },
+	        servos: function servos(state) {
+	            return state.pins.servos;
 	        },
 	        showSidebar: function showSidebar(state) {
 	            return state.showSidebar;
@@ -1788,7 +1814,7 @@ webpackJsonp_name_([0],[
 
 	'use strict';
 	
-	var configParser = __webpack_require__(89);
+	var configParser = __webpack_require__(83);
 	
 	exports = module.exports = {
 	    connection: function connection(socket, store) {
@@ -1798,7 +1824,7 @@ webpackJsonp_name_([0],[
 	            socket.emit('config');
 	        });
 	        socket.on('config', function (config) {
-	            configParser(config, store);
+	            configParser.setConfig(config, store);
 	        });
 	    },
 	    writePins: function writePins(socket, pins) {
@@ -1823,35 +1849,51 @@ webpackJsonp_name_([0],[
 	};
 
 /***/ },
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */
+/* 83 */
 /***/ function(module, exports) {
 
 	'use strict';
 	
-	exports = module.exports = function configParser(config, store) {
-	    store.dispatch('setConfig', config);
+	exports = module.exports = {
+	    parsePins: function parsePins(config) {
+	        // Da f**k is this??
+	        console.log('as', config.filter(function (item) {
+	            return 'pins' in item;
+	        })[0].pins);
+	        return config.filter(function (item) {
+	            return 'pins' in item;
+	        })[0].pins;
+	    },
+	    parseArch: function parseArch(config) {
+	        return config.filter(function (item) {
+	            return 'architecture' in item;
+	        });
+	    },
+	    setPropulsions: function setPropulsions(pins, store) {
+	        var propulsions = pins.filter(function (pin) {
+	            return pin.role === 'propulsion';
+	        });
+	        store.dispatch('setPropulsions', propulsions);
+	    },
+	    setLogics: function setLogics(pins, store) {
+	        var logics = pins.filter(function (pin) {
+	            return pin.role === 'logic';
+	        });
+	        store.dispatch('setLogics', logics);
+	    },
+	    setServos: function setServos(pins, store) {
+	        var servos = pins.filter(function (pin) {
+	            return pin.role === 'servo';
+	        });
+	        store.dispatch('setServos', servos);
+	    },
+	    setConfig: function setConfig(config, store) {
+	        var pins = this.parsePins(config);
+	        this.setPropulsions(pins, store);
+	        this.setLogics(pins, store);
+	        this.setServos(pins, store);
+	    }
 	
-	    var pins = config.filter(function (item) {
-	        return 'pins' in item;
-	    });
-	    var arch = config.filter(function (item) {
-	        return 'architecture' in item;
-	    });
-	    console.log(pins);
-	
-	    // PARSE PROPULSION AND OTHERS!!!
-	
-	    var propulsions = pins.filter(function (pin) {
-	        return pin.role === 'propulsion';
-	    });
-	    console.log(propulsions);
-	    console.log(store.getters.config);
 	};
 
 /***/ }
