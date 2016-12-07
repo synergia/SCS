@@ -7,9 +7,13 @@ module.exports = new Vuex.Store({
     state: {
         todos: [],
         newTodo: '',
+        config: '',
         showSidebar: false,
     },
     mutations: {
+        SET_CONFIG(state, config){
+            state.config = config;
+        },
         SHOW_SIDEBAR(state){
             state.showSidebar = !state.showSidebar;
         },
@@ -41,6 +45,9 @@ module.exports = new Vuex.Store({
         }
     },
     actions: {
+        setConfig({commit}, config){
+            commit('SET_CONFIG', config);
+        },
         showSidebar({commit}){
             commit('SHOW_SIDEBAR');
         },

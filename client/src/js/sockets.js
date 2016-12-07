@@ -1,12 +1,12 @@
 exports = module.exports = {
-    connection: function(socket) {
+    connection: function(socket, store) {
         socket.on('connect', function() {
             socket.emit('connection');
-            console.log("Connected");
+            console.info("Connected");
             socket.emit('config');
         });
         socket.on('config', function(config) {
-            console.log(config);
+            store.dispatch('setConfig', config);
         });
     },
     writePins: function(socket, pins) {

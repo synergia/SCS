@@ -12,6 +12,6 @@ new Vue({
   store,
   render: h => h(App),
   mounted: function() {
-      sockets.connection(socket);
+      sockets.connection(socket, store);
   },
 });

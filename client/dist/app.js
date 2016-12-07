@@ -20,7 +20,7 @@ webpackJsonp_name_([0],[
 	    return h(App);
 	  },
 	  mounted: function mounted() {
-	    sockets.connection(socket);
+	    sockets.connection(socket, store);
 	  }
 	});
 
@@ -1095,9 +1095,13 @@ webpackJsonp_name_([0],[
 	    state: {
 	        todos: [],
 	        newTodo: '',
+	        config: '',
 	        showSidebar: false
 	    },
 	    mutations: {
+	        SET_CONFIG: function SET_CONFIG(state, config) {
+	            state.config = config;
+	        },
 	        SHOW_SIDEBAR: function SHOW_SIDEBAR(state) {
 	            state.showSidebar = !state.showSidebar;
 	        },
@@ -1128,38 +1132,43 @@ webpackJsonp_name_([0],[
 	        }
 	    },
 	    actions: {
-	        showSidebar: function showSidebar(_ref) {
+	        setConfig: function setConfig(_ref, config) {
 	            var commit = _ref.commit;
+	
+	            commit('SET_CONFIG', config);
+	        },
+	        showSidebar: function showSidebar(_ref2) {
+	            var commit = _ref2.commit;
 	
 	            commit('SHOW_SIDEBAR');
 	        },
-	        getTodo: function getTodo(_ref2, todo) {
-	            var commit = _ref2.commit;
+	        getTodo: function getTodo(_ref3, todo) {
+	            var commit = _ref3.commit;
 	
 	            commit('GET_TODO', todo);
 	        },
-	        addTodo: function addTodo(_ref3) {
-	            var commit = _ref3.commit;
+	        addTodo: function addTodo(_ref4) {
+	            var commit = _ref4.commit;
 	
 	            commit('ADD_TODO');
 	        },
-	        editTodo: function editTodo(_ref4, todo) {
-	            var commit = _ref4.commit;
+	        editTodo: function editTodo(_ref5, todo) {
+	            var commit = _ref5.commit;
 	
 	            commit('EDIT_TODO', todo);
 	        },
-	        removeTodo: function removeTodo(_ref5, todo) {
-	            var commit = _ref5.commit;
+	        removeTodo: function removeTodo(_ref6, todo) {
+	            var commit = _ref6.commit;
 	
 	            commit('REMOVE_TODO', todo);
 	        },
-	        completeTodo: function completeTodo(_ref6, todo) {
-	            var commit = _ref6.commit;
+	        completeTodo: function completeTodo(_ref7, todo) {
+	            var commit = _ref7.commit;
 	
 	            commit('COMPLETE_TODO', todo);
 	        },
-	        clearTodo: function clearTodo(_ref7) {
-	            var commit = _ref7.commit;
+	        clearTodo: function clearTodo(_ref8) {
+	            var commit = _ref8.commit;
 	
 	            commit('CLEAR_TODO');
 	        }
@@ -1776,14 +1785,14 @@ webpackJsonp_name_([0],[
 	'use strict';
 	
 	exports = module.exports = {
-	    connection: function connection(socket) {
+	    connection: function connection(socket, store) {
 	        socket.on('connect', function () {
 	            socket.emit('connection');
-	            console.log("Connected");
+	            console.info("Connected");
 	            socket.emit('config');
 	        });
 	        socket.on('config', function (config) {
-	            console.log(config);
+	            store.dispatch('setConfig', config);
 	        });
 	    },
 	    writePins: function writePins(socket, pins) {
