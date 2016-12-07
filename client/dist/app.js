@@ -1782,6 +1782,9 @@ webpackJsonp_name_([0],[
 	            console.log("Connected");
 	            socket.emit('config');
 	        });
+	        socket.on('config', function (config) {
+	            console.log(config);
+	        });
 	    },
 	    writePins: function writePins(socket, pins) {
 	        pins.map(function (pin) {

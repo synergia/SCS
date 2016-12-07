@@ -4,7 +4,7 @@ import coloredlogs
 import os
 
 os.environ['COLOREDLOGS_LOG_FORMAT'] ='%(asctime)s.%(msecs)03d %(name)s - %(message)s'
-
+os.environ['COLOREDLOGS_DATE_FORMAT'] ='%H:%M:%S'
 
 logger = logging.getLogger(__name__)
 logging.getLogger("engineio").setLevel(logging.WARNING)

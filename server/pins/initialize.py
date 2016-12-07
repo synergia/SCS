@@ -46,6 +46,7 @@ class Initialize():
                     logger.info(
                         'Initialization: architecture: %s', config_data)
                 if (config_name == 'pins'):
+                    self.pins = config_data
                     for pin_num, pin_config in config_data.items():
                         name = pin_config.get('name', None)
                         role = pin_config.get('role', None)

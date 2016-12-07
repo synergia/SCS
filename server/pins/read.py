@@ -2,6 +2,16 @@ from server.log import logger
 
 class Read():
 
+    def read_config(self):
+        res = {
+            'architecture': self.architecture,
+            'pins': self.pins
+        }
+        logger.info('Assembling response: config')
+        logger.debug(res)
+
+        return res
+
     def pin_response(self, num, config):
         output = {
             'num': num,

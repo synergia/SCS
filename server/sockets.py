@@ -10,7 +10,8 @@ def connection():
 
 @socketio.on('config')
 def config():
-    pass
+    response = PIN_MANAGER.read_config()
+    emit('config', response)
 
 @socketio.on('pin:list')
 def pin_list():
