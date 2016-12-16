@@ -26,11 +26,4 @@ exports = module.exports =  {
         this.setServos(pins, store);
 
     },
-
-    // console.log(pins);
-    //
-    // // PARSE PROPULSION AND OTHERS!!!
-    //
-    // console.log(propulsions);
-    // console.log(store.getters.config);
 };

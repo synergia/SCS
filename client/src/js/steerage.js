@@ -1,5 +1,10 @@
 let inverse = require('./inverse');
 const sockets = require('./sockets');
+const store = require('./store/store');
+
+let propulsions = store.getters.pins.propulsions;
+console.log(propulsions);
+
 /*
 24 27 17 22
 1  1  1  1 STOP
@@ -8,13 +13,14 @@ const sockets = require('./sockets');
 0  0  1  1 BW
 */
 
-// Make socket things in a new module
 // Offset/compensation for wheels
 exports = module.exports = {
-    accelerate: function(dutycycles, range = 255) {
-        dutycycles.map(function(pin) {
-            if (pin.dutycycle >= 0 && pin.dutycycle < range)
-                ++pin.dutycycle;
+    accelerate: function(range = 255) {
+        store.getters.pins.propulsions.map(function(propulsion) {
+            if (propulsion.value >= 0 && propulsion.value < range)
+                ++propulsion.value;
+                console.log(propulsion);
+                store.dispatch('setPin', propulsion);
         });
     },
     decelerate: function(dutycycles, range = 255) {

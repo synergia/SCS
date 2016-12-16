@@ -3,10 +3,10 @@ const keyboard = require('keyboardjs');
 let inverse = require('./inverse');
 let steerage = require('./steerage.js');
 
-exports = module.exports = function(socket, SCS) {
-    let pinlist = SCS.pinlist;
-    let dutycycles = SCS.dutycycles;
-    let dirs = SCS.dirs;
+exports = module.exports = function() {
+    // let propulsions = store.getters.pins.propulsions;
+    // let logics = store.getters.pins.logics;
+    // let servos = store.getters.pins.logics;
 
     // let pin0 = pinsWithPWM[0].num;
     // let pin1 = pinsWithPWM[1].num;
@@ -33,7 +33,7 @@ exports = module.exports = function(socket, SCS) {
 
     // INCREMENT DUTYCYCLE
     keyboard.bind('a', function(e) {
-        steerage.accelerate(dutycycles);
+        steerage.accelerate();
         // console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
     });
 

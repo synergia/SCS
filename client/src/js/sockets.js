@@ -1,7 +1,11 @@
+const io = require('socket.io-client');
+let socket = io.connect('http://' + document.domain + ':' + location.port);
+
 const configParser = require('./configParser');
+const keysControl = require('./keysControl');
 
 exports = module.exports = {
-    connection: function(socket, store) {
+    connection: function(store) {
         socket.on('connect', function() {
             socket.emit('connection');
             console.info("Connected");
@@ -9,6 +13,7 @@ exports = module.exports = {
         });
         socket.on('config', function(config) {
             configParser.setConfig(config, store);
+            keysControl(store);
         });
     },
     writePins: function(socket, pins) {

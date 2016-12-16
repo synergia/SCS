@@ -9,80 +9,112 @@ module.exports = new Vuex.Store({
         newTodo: '',
         pins: {
             propulsions: [],
-            logics:[],
+            logics: [],
             servos: []
         },
         showSidebar: false,
     },
     mutations: {
-        SET_PROPULSIONS(state, propulsions){
+        SET_PROPULSIONS(state, propulsions) {
             state.pins.propulsions = propulsions;
         },
-        SET_LOGICS(state, logics){
+        SET_LOGICS(state, logics) {
             state.pins.logics = logics;
         },
-        SET_SERVOS(state, servos){
+        SET_SERVOS(state, servos) {
             state.pins.servos = servos;
         },
-        SHOW_SIDEBAR(state){
+        SET_PIN(state, pin, place) {
+            state.pins['propulsions'].map(function(pin) {
+                // let withRole = config.filter((item) => 'propulsions' in item);
+                console.log(pin);
+            });
+        },
+        SHOW_SIDEBAR(state) {
             state.showSidebar = !state.showSidebar;
         },
-        GET_TODO(state, todo){
-            state.newTodo =  todo;
+        GET_TODO(state, todo) {
+            state.newTodo = todo;
         },
-        ADD_TODO(state){
+        ADD_TODO(state) {
             state.todos.push({
                 body: state.newTodo,
                 completed: false
             });
         },
-        EDIT_TODO(state, todo){
+        EDIT_TODO(state, todo) {
             var todos = state.todos;
             todos.splice(todos.indexOf(todo), 1);
             state.todos = todos;
             state.newTodo = todo.body;
         },
-        REMOVE_TODO(state, todo){
+        REMOVE_TODO(state, todo) {
             var todos = state.todos;
             todos.splice(todos.indexOf(todo), 1);
 
         },
-        COMPLETE_TODO(state, todo){
+        COMPLETE_TODO(state, todo) {
             todo.completed = !todo.completed;
         },
-        CLEAR_TODO(state){
+        CLEAR_TODO(state) {
             state.newTodo = '';
         }
     },
     actions: {
-        setPropulsions({commit}, propulsions){
+        setPropulsions({
+            commit
+        }, propulsions) {
             commit('SET_PROPULSIONS', propulsions);
         },
-        setLogics({commit}, logics){
+        setPin({
+            commit
+        }, pin) {
+            commit('SET_PIN', pin);
+            console.log('setpin');
+        },
+        setLogics({
+            commit
+        }, logics) {
             commit('SET_LOGICS', logics);
         },
-        setServos({commit}, servos){
+        setServos({
+            commit
+        }, servos) {
             commit('SET_SERVOS', servos);
         },
-        showSidebar({commit}){
+        showSidebar({
+            commit
+        }) {
             commit('SHOW_SIDEBAR');
         },
-        getTodo({commit}, todo){
+        getTodo({
+            commit
+        }, todo) {
             commit('GET_TODO', todo);
         },
-        addTodo({commit}){
+        addTodo({
+            commit
+        }) {
             commit('ADD_TODO');
         },
-        editTodo({commit}, todo){
+        editTodo({
+            commit
+        }, todo) {
             commit('EDIT_TODO', todo);
         },
-        removeTodo({commit}, todo){
+        removeTodo({
+            commit
+        }, todo) {
             commit('REMOVE_TODO', todo);
         },
-        completeTodo({commit}, todo){
+        completeTodo({
+            commit
+        }, todo) {
             commit('COMPLETE_TODO', todo);
         },
-        clearTodo({commit}){
+        clearTodo({
+            commit
+        }) {
             commit('CLEAR_TODO');
         }
 
@@ -94,8 +126,12 @@ module.exports = new Vuex.Store({
         servos: state => state.pins.servos,
         showSidebar: state => state.showSidebar,
         newTodo: state => state.newTodo,
-        todos: state => state.todos.filter((todo) => {return !todo.completed;}),
-        completedTodos: state => state.todos.filter((todo) => {return todo.completed;})
+        todos: state => state.todos.filter((todo) => {
+            return !todo.completed;
+        }),
+        completedTodos: state => state.todos.filter((todo) => {
+            return todo.completed;
+        })
     }
 
 });
