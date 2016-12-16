@@ -5,14 +5,14 @@
 			"name": "Propulsion",
 			"role": "propulsion",
 			"mode": "OUTPUT",
-			"value": 0
+			"value": 100
 		},
 		"17": {
 			"name": "logic0",
 			"role": "logic",
 			"owner": "18",
 			"mode": "OUTPUT",
-			"value": 0
+			"value": 1
 		},
 		"27": {
 			"name": "logic1",

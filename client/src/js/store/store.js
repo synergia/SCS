@@ -88,6 +88,7 @@ module.exports = new Vuex.Store({
 
     },
     getters: {
+        pins: state => state.pins,
         propulsions: state => state.pins.propulsions,
         logics: state => state.pins.logics,
         servos: state => state.pins.servos,

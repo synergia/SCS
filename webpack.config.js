@@ -7,7 +7,7 @@ module.exports = {
     entry: {
         app: './js/main.js',
         // styles: './styles/main.css',
-        vendor: ["socket.io-client", "vue", "keyboardjs", "simple-stopwatch"]
+        vendor: ["socket.io-client", "vue", "keyboardjs"]
     },
     output: {
         path: __dirname + '/client/dist',
