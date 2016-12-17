@@ -1,5 +1,5 @@
 <template>
-    <div id="sidebar" class="sidebar" v-bind:class="{ 'sidebar--active': this.$store.getters.showSidebar }">
+    <div id="sidebar" class="sidebar" v-bind:class="{ 'sidebar--active': this.$root.$data.showSidebar }">
         ole!
     </div>
 </template>

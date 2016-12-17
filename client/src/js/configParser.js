@@ -1,3 +1,5 @@
+const store = require('./store/store');
+
 exports = module.exports =  {
     parsePins: function (config) {
         // Da f**k is this??
@@ -7,23 +9,24 @@ exports = module.exports =  {
     parseArch: function (config) {
         return config.filter((item) => 'architecture' in item);
     },
-    setPropulsions: function (pins, store) {
+    setPropulsions: function (pins) {
         let propulsions = pins.filter((pin) => pin.role === 'propulsion');
-        store.dispatch('setPropulsions', propulsions);
+        store.pins.propulsions = propulsions;
     },
-    setLogics: function (pins, store) {
+    setLogics: function (pins) {
         let logics = pins.filter((pin) => pin.role === 'logic');
-        store.dispatch('setLogics', logics);
+        store.pins.logics = logics;
+
     },
-    setServos: function (pins, store) {
+    setServos: function (pins) {
         let servos = pins.filter((pin) => pin.role === 'servo');
-        store.dispatch('setServos', servos);
+        store.pins.servos = servos;
     },
-    setConfig: function (config, store) {
+    setConfig: function (config) {
         let pins = this.parsePins(config);
-        this.setPropulsions(pins, store);
-        this.setLogics(pins, store);
-        this.setServos(pins, store);
+        this.setPropulsions(pins);
+        this.setLogics(pins);
+        this.setServos(pins);
 
     },
 };

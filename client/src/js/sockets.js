@@ -12,8 +12,8 @@ exports = module.exports = {
             socket.emit('config');
         });
         socket.on('config', function(config) {
-            configParser.setConfig(config, store);
-            keysControl(store);
+            configParser.setConfig(config);
+            keysControl();
         });
     },
     writePins: function(socket, pins) {

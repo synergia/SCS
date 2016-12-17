@@ -8,21 +8,11 @@
 module.exports = {
     methods: {
         showSidebar(){
-            this.$store.dispatch('showSidebar');
+            this.$root.$data.showSidebar = !this.$root.$data.showSidebar;
         },
-
-        getTodo(e){
-            this.$store.dispatch('getTodo', e.target.value)
-        },
-        addTodo(){
-            this.$store.dispatch('addTodo')
-            this.$store.dispatch('clearTodo')
-        }
     },
     computed: {
-        newTodo(){
-            return this.$store.getters.newTodo
-        }
+
     }
 }
 </script>

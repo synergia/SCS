@@ -34,13 +34,11 @@ exports = module.exports = function() {
     // INCREMENT DUTYCYCLE
     keyboard.bind('a', function(e) {
         steerage.accelerate();
-        // console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
     });
 
     // DECREMENT DUTYCYCLE
     keyboard.bind('z', function(e) {
-        steerage.decelerate(dutycycles);
-        // console.log(dutycycles[0].dutycycle, dutycycles[1].dutycycle);
+        steerage.decelerate();
     });
 
     // EMERGENCY STOP
