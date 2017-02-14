@@ -1,7 +1,6 @@
 let inverse = require('./inverse');
-const sockets = require('./sockets');
+const sockets = require('./sockets.js');
 const store = require('./store/store');
-
 
 /*
 24 27 17 22
@@ -102,16 +101,33 @@ exports = module.exports = {
         });
     },
     // Make 0.5 changeable or define in const
-    left: function(socket, dutycycles) {
-        socket.emit('pin:dutycycles', {
-            '18': inverse(dutycycles[0].dutycycle),
-            '23': inverse(Math.floor(dutycycles[0].dutycycle * 0.5)),
+    // left: function(socket, dutycycles) {
+    //     socket.emit('pin:dutycycles', {
+    //         '18': inverse(dutycycles[0].dutycycle),
+    //         '23': inverse(Math.floor(dutycycles[0].dutycycle * 0.5)),
+    //     });
+    // },
+    left: function(data) {
+        let servos = store.pins.servos;
+        servos.map(function(servo) {
+            if (servo.value >= 770){
+                servo.value = servo.value - 10;
+                console.log(servo);
+                sockets.writeDutycycles(servo);
+            }
+
         });
+
     },
     right: function(socket, dutycycles) {
-        socket.emit('pin:dutycycles', {
-            '18': inverse(dutycycles[0].dutycycle * 0.5),
-            '23': inverse(Math.floor(dutycycles[0].dutycycle)),
+        // socket.emit('pin:dutycycles', {
+        //     '18': inverse(dutycycles[0].dutycycle * 0.5),
+        //     '23': inverse(Math.floor(dutycycles[0].dutycycle)),
+        // });
+        let servos = store.pins.servos;
+        servos.map(function(servo) {
+            if (servo.value < 2000)
+                ++servo.value;
         });
     }
 

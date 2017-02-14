@@ -1,9 +1,10 @@
 const keyboard = require('keyboardjs');
 // var stopwatch = require('simple-stopwatch');
 let inverse = require('./inverse');
-let steerage = require('./steerage.js');
 
 exports = module.exports = function() {
+    let steerage = require('./steerage.js');
+
     // let propulsions = store.getters.pins.propulsions;
     // let logics = store.getters.pins.logics;
     // let servos = store.getters.pins.logics;
@@ -58,18 +59,18 @@ exports = module.exports = function() {
     // TURN LEFT
     keyboard.bind('left', function(e) {
         e.preventRepeat();
-        steerage.left(socket, dutycycles);
-        console.log('TURN LEFT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
+        steerage.left();
+        console.log('TURN LEFT');
     }, function(e) {
-        steerage.softStop(socket);
+        // steerage.softStop(socket);
     });
 
     // TURN RIGHT
     keyboard.bind('right', function(e) {
         e.preventRepeat();
-        steerage.right(socket, dutycycles);
-        console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
+        steerage.right();
+        // console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
     }, function(e) {
-        steerage.softStop(socket);
+        // steerage.softStop(socket);
     });
 };

@@ -28,10 +28,10 @@ exports = module.exports = {
         });
         console.log("pin:write");
     },
-    writeDutycycles: function(socket, dutycycles) {
-        dutycycles.map(function(dutycycle) {
+    writeDutycycles: function(dutycycles) {
+        // dutycycles.map(function(dutycycle) {
             socket.emit('pin:dutycycles', dutycycles);
-        });
+        // });
         console.log("pin:dutycycles");
     },
 

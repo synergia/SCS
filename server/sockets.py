@@ -38,13 +38,18 @@ def pin_write(data):
 
 @socketio.on('pin:dutycycles')
 def dutycycles_write(datas):
-    logger.debug('Recieved PWM data:', datas)
-    for data in datas:
-        result = PIN_MANAGER.update_dutycycles(data['num'], data['dutycycle'])
+    logger.debug('Recieved PWM data')
+    print (datas)
+
+    datas_dict = []
+    datas_dict.append(datas)
+
+    for data in datas_dict:
+        result = PIN_MANAGER.update_servo(data['num'], data['value'])
     if not result:
         logger.error( 'UPD DC - FAIL')
         emit('pin:dutycycle', {'message': 'Pin not found'})
     else:
         logger.info('UPD DC - OK')
-        # response = PIN_MANAGER.read_one(data['num'])
-        # emit('pin:dutycycles', response)
+        response = PIN_MANAGER.read_one(data['num'])
+        emit('pin:dutycycles', response)

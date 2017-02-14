@@ -7,7 +7,7 @@ from setup import Setup
 from initialize import Initialize
 from server.log import logger
 
-class PinManager(object, ConfigLoader, Read, Update, Setup, Initialize):
+class PinManager(object, Initialize, Read, Update,):
 
     def __init__(self):
         super(PinManager, self).__init__()
