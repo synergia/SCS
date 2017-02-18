@@ -29,6 +29,8 @@ class Initialize():
         }
         self.gpio.set_mode(num, mode)
 
+        # If current pin role is the same role that is in `roles` object
+        # than do things
         for r in roles:
             if role in roles:
                 roles[role](num, value)
@@ -43,8 +45,7 @@ class Initialize():
             for config_name, config_data in self.configs.items():
                 if (config_name == 'architecture'):
                     self.architecture = config_data
-                    logger.info(
-                        'Initialization: architecture: %s', config_data)
+                    logger.info('Initialization: architecture: %s', config_data)
                 if (config_name == 'pins'):
                     self.pins = config_data
                     for pin_num, pin_config in config_data.items():
