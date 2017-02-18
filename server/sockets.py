@@ -38,7 +38,7 @@ def pin_write(data):
 
 @socketio.on('pin:dutycycles')
 def dutycycles_write(datas):
-    logger.debug('Recieved PWM data')
+    logger.info('Recieved PWM data')
     logger.debug(datas)
 
     datas_dict = []

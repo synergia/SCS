@@ -5,6 +5,8 @@ let inverse = require('./inverse');
 exports = module.exports = function() {
     let steerage = require('./steerage.js');
 
+    var intervalLeftRight;
+
     // let propulsions = store.getters.pins.propulsions;
     // let logics = store.getters.pins.logics;
     // let servos = store.getters.pins.logics;
@@ -59,18 +61,23 @@ exports = module.exports = function() {
     // TURN LEFT
     keyboard.bind('left', function(e) {
         e.preventRepeat();
-        steerage.left();
         console.log('TURN LEFT');
+        steerage.left();
+
     }, function(e) {
         // steerage.softStop(socket);
+        steerage.default();
     });
 
     // TURN RIGHT
     keyboard.bind('right', function(e) {
         e.preventRepeat();
+        console.log('TURN RIGHT');
         steerage.right();
-        // console.log('TURN RIGHT', inverse(Math.floor(dutycycles[0].dutycycle * 0.5)));
+
     }, function(e) {
         // steerage.softStop(socket);
+        steerage.default();
+
     });
 };
