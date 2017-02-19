@@ -16,9 +16,6 @@ const SERVO_MIN = 750;
 
 // TODO: Offset/compensation for wheels
 
-var intervalRight;
-var intervalLeft;
-
 exports = module.exports = {
     accelerate: function(range = 255) {
         store.pins.propulsions.map(function(propulsion) {
@@ -117,16 +114,11 @@ exports = module.exports = {
     // },
 
     right: function(i, interval = null) {
-        // socket.emit('pin:dutycycles', {
-        //     '18': inverse(dutycycles[0].dutycycle * 0.5),
-        //     '23': inverse(Math.floor(dutycycles[0].dutycycle)),
-        // });
         let servos = store.pins.servos;
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
             if (servo.value <= SERVO_MAX) {
-                servo.value = servo.value + 5 * i;
-                console.log(i);
+                servo.value = servo.value + 10 * i;
                 sockets.writeDutycycles(servo);
             } else {
                 clearInterval(interval);
@@ -134,16 +126,11 @@ exports = module.exports = {
         });
     },
     left: function(i, interval = null) {
-        // socket.emit('pin:dutycycles', {
-        //     '18': inverse(dutycycles[0].dutycycle * 0.5),
-        //     '23': inverse(Math.floor(dutycycles[0].dutycycle)),
-        // });
         let servos = store.pins.servos;
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
             if (servo.value >=SERVO_MIN) {
-                servo.value = servo.value - 5 * i;
-                console.log(i);
+                servo.value = servo.value - 10 * i;
                 sockets.writeDutycycles(servo);
             } else {
                 clearInterval(interval);
