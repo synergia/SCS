@@ -10,7 +10,11 @@ const store = require('./store/store');
 0  0  1  1 BW
 */
 
-// Offset/compensation for wheels
+const SERVO_DEFAULT = 1500;
+const SERVO_MAX = 2200;
+const SERVO_MIN = 750;
+
+// TODO: Offset/compensation for wheels
 
 var intervalRight;
 var intervalLeft;
@@ -118,10 +122,9 @@ exports = module.exports = {
         //     '23': inverse(Math.floor(dutycycles[0].dutycycle)),
         // });
         let servos = store.pins.servos;
-        // Investigate: Is this good to declare var every time?
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
-            if (servo.value <= 2200) {
+            if (servo.value <= SERVO_MAX) {
                 servo.value = servo.value + 5 * i;
                 console.log(i);
                 sockets.writeDutycycles(servo);
@@ -136,10 +139,9 @@ exports = module.exports = {
         //     '23': inverse(Math.floor(dutycycles[0].dutycycle)),
         // });
         let servos = store.pins.servos;
-        // Investigate: Is this good to declare var every time?
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
-            if (servo.value >=750) {
+            if (servo.value >=SERVO_MIN) {
                 servo.value = servo.value - 5 * i;
                 console.log(i);
                 sockets.writeDutycycles(servo);
@@ -152,7 +154,7 @@ exports = module.exports = {
         clearInterval(interval);
         let servos = store.pins.servos;
         servos.map((servo) => {
-            servo.value = 1500;
+            servo.value = SERVO_DEFAULT;
             sockets.writeDutycycles(servo);
         });
     }
