@@ -111,50 +111,45 @@ exports = module.exports = {
     //         '23': inverse(Math.floor(dutycycles[0].dutycycle * 0.5)),
     //     });
     // },
-    left: function() {
-        let servos = store.pins.servos;
-        // Investigate: Is this good to declare var every time?
-        var i = 1;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            intervalLeft = setInterval(function() {
-                if (servo.value > 750) {
-                    servo.value = servo.value - 5 * i;
-                    i++;
-                    console.log(i);
-                    sockets.writeDutycycles(servo);
-                } else {
-                    clearInterval(intervalLeft);
-                }
-            }, 50);
-        });
 
-    },
-    right: function() {
+    right: function(i, interval = null) {
         // socket.emit('pin:dutycycles', {
         //     '18': inverse(dutycycles[0].dutycycle * 0.5),
         //     '23': inverse(Math.floor(dutycycles[0].dutycycle)),
         // });
         let servos = store.pins.servos;
         // Investigate: Is this good to declare var every time?
-        var i = 1;
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
-            intervalRight = setInterval(function() {
-                if (servo.value <= 2000) {
-                    servo.value = servo.value + 5 * i;
-                    i++;
-                    console.log(i);
-                    sockets.writeDutycycles(servo);
-                } else {
-                    clearInterval(intervalRight);
-                }
-            }, 50);
+            if (servo.value <= 2200) {
+                servo.value = servo.value + 5 * i;
+                console.log(i);
+                sockets.writeDutycycles(servo);
+            } else {
+                clearInterval(interval);
+            }
         });
     },
-    default: function() {
-        clearInterval(intervalRight);
-        clearInterval(intervalLeft);
+    left: function(i, interval = null) {
+        // socket.emit('pin:dutycycles', {
+        //     '18': inverse(dutycycles[0].dutycycle * 0.5),
+        //     '23': inverse(Math.floor(dutycycles[0].dutycycle)),
+        // });
+        let servos = store.pins.servos;
+        // Investigate: Is this good to declare var every time?
+        // Is map so necessary since there is only one turning servo?
+        servos.map(function(servo) {
+            if (servo.value >=750) {
+                servo.value = servo.value - 5 * i;
+                console.log(i);
+                sockets.writeDutycycles(servo);
+            } else {
+                clearInterval(interval);
+            }
+        });
+    },
+    default: function(interval = null) {
+        clearInterval(interval);
         let servos = store.pins.servos;
         servos.map((servo) => {
             servo.value = 1500;
