@@ -11,8 +11,8 @@ const store = require('./store/store');
 */
 
 const SERVO_DEFAULT = 1500;
-const SERVO_MAX = 2200;
-const SERVO_MIN = 750;
+const SERVO_MAX = 1900;
+const SERVO_MIN = 800;
 
 // TODO: Offset/compensation for wheels
 
@@ -113,7 +113,7 @@ exports = module.exports = {
     //     });
     // },
 
-    right: function(i, interval = null) {
+    left: function(i, interval = null) {
         let servos = store.pins.servos;
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
@@ -125,7 +125,7 @@ exports = module.exports = {
             }
         });
     },
-    left: function(i, interval = null) {
+    right: function(i, interval = null) {
         let servos = store.pins.servos;
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
