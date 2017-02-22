@@ -1,5 +1,8 @@
 exports = module.exports = function() {
-    const SECTOR = Math.PI/4;
+    const RAD45 = Math.PI/4;
+    const RAD315 = Math.PI/4 * 7;
+    const RAD360 = Math.PI * 2;
+
     var options = {
         zone: document.getElementById('zone_joystick')
     };
@@ -12,10 +15,14 @@ exports = module.exports = function() {
         nipple.on('move', function(evt, data) {
             if(evt.target.direction !== undefined && evt.target.direction.angle === 'right'){
             // steerage.turn(data.angle.radian);
-            if(data.angle.radian >= 0 && data.angle.radian <= SECTOR) {
-                steerage.turn(SECTOR - data.angle.radian);
+            if(data.angle.radian >= 0 && data.angle.radian <= RAD45) {
+                steerage.turn(RAD45 - data.angle.radian);
             }
-            console.log(data.angle.radian);
+            if(data.angle.radian >= RAD315 && data.angle.radian <= RAD360) {
+                steerage.turn(Math.abs(RAD315 - data.angle.radian));
+                console.log(Math.abs(RAD315 - data.angle.radian));
+
+            }
         }
             });
         }).on('removed', function(evt, nipple) {

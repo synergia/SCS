@@ -125,12 +125,12 @@ exports = module.exports = {
             }
         });
     },
-    right: function(i, interval = null) {
+    right: function(t, interval = null) {
         let servos = store.pins.servos;
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
             if (servo.value >=SERVO_MIN) {
-                servo.value = servo.value - 10 * i;
+                servo.value = servo.value - 10 * t;
                 sockets.writeDutycycles(servo);
             } else {
                 clearInterval(interval);
@@ -141,10 +141,11 @@ exports = module.exports = {
         let servos = store.pins.servos;
         // Is map so necessary since there is only one turning servo?
         servos.map(function(servo) {
-            if (servo.value <=SERVO_MAX && servo.value >= SERVO_MIN)  {
+            if (angle <=0.79 && servo.value >= SERVO_MIN)  {
                 servo.value = Math.round(SERVO_DEFAULT - angle*700);
                 sockets.writeDutycycles(servo);
             }
+
         });
     },
     default: function(interval = null) {
