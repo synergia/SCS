@@ -42,5 +42,8 @@
     "vue-tables-2": "^0.2.65",
     "vuex": "^2.0.0",
     "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "nipplejs": "^0.6.7"
   }
 }

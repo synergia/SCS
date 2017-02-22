@@ -3,6 +3,7 @@
     <Topbar></Topbar>
     <Sidebar></Sidebar>
     <States></States>
+    <Joystick></Joystick>
 
 </div>
 </template>
@@ -11,12 +12,14 @@
 const Topbar = require('./components/Topbar.vue');
 const Sidebar = require('./components/Sidebar.vue');
 const States = require('./components/States.vue');
+const Joystick = require('./components/Joystick.vue');
 
 module.exports = {
     components: {
         Topbar,
         Sidebar,
         States,
+        Joystick
     },
     computed: {
 

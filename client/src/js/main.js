@@ -12,5 +12,7 @@ let SCS = new Vue({
     },
     mounted: function() {
         sockets.connection(store);
+        require('./touchControl.js')();
+
     },
 });

@@ -137,6 +137,16 @@ exports = module.exports = {
             }
         });
     },
+    turn: function(angle){
+        let servos = store.pins.servos;
+        // Is map so necessary since there is only one turning servo?
+        servos.map(function(servo) {
+            if (servo.value <=SERVO_MAX && servo.value >= SERVO_MIN)  {
+                servo.value = Math.round(SERVO_DEFAULT - angle*700);
+                sockets.writeDutycycles(servo);
+            }
+        });
+    },
     default: function(interval = null) {
         clearInterval(interval);
         let servos = store.pins.servos;
