@@ -5,7 +5,7 @@
 			"name": "Propulsion",
 			"role": "propulsion",
 			"mode": "OUTPUT",
-			"value": 100
+			"value": 255
 		},
 		"17": {
 			"name": "logic0",

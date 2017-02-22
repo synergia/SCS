@@ -7,6 +7,7 @@ exports = module.exports = function() {
 
     var intervalRight;
     var intervalLeft;
+    var intervalForward;
 
     // let propulsions = store.getters.pins.propulsions;
     // let logics = store.getters.pins.logics;
@@ -17,12 +18,17 @@ exports = module.exports = function() {
 
     // FORWARD
     keyboard.bind('up', function(e) {
+        var t = 1;
         e.preventRepeat();
-        steerage.forward(socket, dutycycles);
-        console.log('FORWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
+        console.log('KEY UP');
+        intervalForward = setInterval(function() {
+            steerage.forward(t, intervalForward);
+            console.log("intervalForward", t);
+            t++;
+        }, 50);
 
     }, function(e) {
-        steerage.softStop(socket, dutycycles);
+        steerage.softStop(intervalForward);
     });
 
     // BACKWARD
