@@ -10,6 +10,8 @@ const store = require('./store/store');
 0  0  1  1 BW
 */
 
+// move all consts to store?
+
 const SERVO_DEFAULT = 1500;
 const SERVO_MAX = 2000;
 const SERVO_MIN = 800;
@@ -18,6 +20,16 @@ const RANGE = 255;
 // TODO: Offset/compensation for wheels
 
 exports = module.exports = {
+    vehicleState: function () {
+        let logics = store.pins.logics;
+        if(logics[0] === 0 && logics[1] === 1){
+            return 'fw';
+        }else if (logics[0] === 1 && logics[1] === 0) {
+            return 'bw';
+        }else if (logics[0] === 0 && logics[1] === 0) {
+            return 'stop';
+        }
+    },
     accelerate: function(range = RANGE) {
         store.pins.propulsions.map(function(propulsion) {
             if (propulsion.value >= 0 && propulsion.value < range)
@@ -30,12 +42,17 @@ exports = module.exports = {
                 --propulsion.value;
         });
     },
-    hardStop: function(socket, dirs) {
+    hardStop: function(interval) {
         // HARD STOP -- ALL DIRS ARE 0
         // Num of pins must be strings.
         // You should do smth with this!!!
-        dirs.map((dir) => dir.value = 0);
-        sockets.writeDirs(socket, dirs);
+        clearInterval(interval);
+        let logics = store.pins.logics;
+        logics.map((logic) => {
+            logic.value = 0;
+            console.log("HARD STOP", logic.value);
+            sockets.writeDutycycles(logic);
+        });
     },
     softStop: function(interval) {
         //SOFT STOP -- ALL PWM's ARE 0
@@ -64,6 +81,12 @@ exports = module.exports = {
     forward: function(t, interval = null) {
         // this.changeF(socket);
         // this.run(socket, dutycycles);
+        if(this.vehicleState() !== 'fw') {
+            store.pins.logics[0].value = 0;
+            sockets.writeDutycycles(store.pins.logics[0]);
+            store.pins.logics[1].value = 1;
+            sockets.writeDutycycles(store.pins.logics[1]);
+        }
         let propulsions = store.pins.propulsions;
         // Is map so necessary since there is only one turning servo?
         propulsions.map(function(propulsion) {

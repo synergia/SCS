@@ -2,6 +2,8 @@ const Vue = require('vue');
 const App = require('./App.vue');
 const store = require('./store/store');
 const sockets = require('./sockets');
+const touchControl = require('./touchControl.js');
+const keysControl = require('./keysControl');
 
 let SCS = new Vue({
     el: '#app',
@@ -12,7 +14,10 @@ let SCS = new Vue({
     },
     mounted: function() {
         sockets.connection(store);
-        require('./touchControl.js')();
+        touchControl();
+        keysControl();
+
+
 
     },
 });

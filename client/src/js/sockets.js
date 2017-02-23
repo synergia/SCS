@@ -2,7 +2,6 @@ const io = require('socket.io-client');
 let socket = io.connect('http://' + document.domain + ':' + location.port);
 
 const configParser = require('./configParser');
-const keysControl = require('./keysControl');
 
 exports = module.exports = {
     connection: function(store) {
@@ -13,7 +12,6 @@ exports = module.exports = {
         });
         socket.on('config', function(config) {
             configParser.setConfig(config);
-            keysControl();
         });
     },
     writePins: function(socket, pins) {

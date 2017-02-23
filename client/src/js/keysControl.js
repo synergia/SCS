@@ -53,8 +53,8 @@ exports = module.exports = function() {
 
     // EMERGENCY STOP
     keyboard.bind('space', function(e) {
-        steerage.hardStop(socket, dirs);
-        console.log('STOP');
+        steerage.hardStop(intervalForward);
+        console.log('KEY SPACE');
     });
 
     // UNBLOCK
