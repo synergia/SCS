@@ -37,12 +37,13 @@ def pin_write(data):
 
 @socketio.on('pin:dutycycles')
 def dutycycles_write(datas):
+    if type(datas) is not list:
+        datas_dict = []
+        datas_dict.append(datas)
+        datas = datas_dict
     logger.debug(datas)
 
-    datas_dict = []
-    datas_dict.append(datas)
-
-    for data in datas_dict:
+    for data in datas:
         result = PIN_MANAGER.update(data['num'], data['value'], data['role'])
         if not result:
             logger.error( 'UPD DC - FAIL')

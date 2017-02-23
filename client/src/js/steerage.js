@@ -272,12 +272,42 @@ exports = module.exports = class Steerage{
                 if(ownedLogics[0].num>ownedLogics[1].num) {
                     ownedLogics[0].value = 0;
                     ownedLogics[1].value = 1;
+                } else {
+                    ownedLogics[0].value = 1;
+                    ownedLogics[1].value = 0;
                 }
+                sockets.writeDutycycles(logics);
                 store.vehicle.is.forward = true;
                 store.vehicle.is.backward = false;
             }
             this.run(propulsion, interval);
+
         }, this);
+        propulsions = null;
+    }
+    backward(t, interval = null) {
+        let propulsions = store.pins.propulsions;
+        propulsions.map(function(propulsion) {
+            if (!store.vehicle.is.backward) {
+                console.log('Changing logics to go backward');
+                let logics = store.pins.logics;
+                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
+                if(ownedLogics[0].num>ownedLogics[1].num) {
+                    ownedLogics[0].value = 1;
+                    ownedLogics[1].value = 0;
+
+                }else {
+                    ownedLogics[0].value = 0;
+                    ownedLogics[1].value = 1;
+                }
+                sockets.writeDutycycles(logics);
+                store.vehicle.is.forward = false;
+                store.vehicle.is.backward = true;
+            }
+            this.run(propulsion, interval);
+            console.log('back');
+        }, this);
+        propulsions = null;
     }
 
     softStop() {

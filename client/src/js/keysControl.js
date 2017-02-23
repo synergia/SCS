@@ -34,13 +34,29 @@ exports = module.exports = function(steerage) {
 
     // BACKWARD
     keyboard.bind('down', function(e) {
+        var t = 1;
         e.preventRepeat();
-        steerage.backward(socket, dutycycles);
-        console.log('BACKWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
+        console.log('KEY DOWN');
+        intervalForward = setInterval(function() {
+            steerage.backward(t, intervalForward);
+            console.log("intervalForward", t);
+            t++;
+        }, 50);
 
     }, function(e) {
-        steerage.softStop(socket);
+        clearInterval(intervalForward);
+        steerage.softStop();
     });
+
+    // BACKWARD
+    // keyboard.bind('down', function(e) {
+    //     e.preventRepeat();
+    //     steerage.backward(socket, dutycycles);
+    //     console.log('BACKWARD:', inverse(dutycycles[0].dutycycle), inverse(dutycycles[1].dutycycle));
+    //
+    // }, function(e) {
+    //     steerage.softStop(socket);
+    // });
 
     // INCREMENT DUTYCYCLE
     keyboard.bind('a', function(e) {
