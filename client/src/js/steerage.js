@@ -19,14 +19,14 @@ const RANGE = 255;
 
 // TODO: Offset/compensation for wheels
 
-exports = module.exports = {
-    vehicleState: function () {
+let obj = {
+    vehicleState: function() {
         let logics = store.pins.logics;
-        if(logics[0] === 0 && logics[1] === 1){
+        if (logics[0] === 0 && logics[1] === 1) {
             return 'fw';
-        }else if (logics[0] === 1 && logics[1] === 0) {
+        } else if (logics[0] === 1 && logics[1] === 0) {
             return 'bw';
-        }else if (logics[0] === 0 && logics[1] === 0) {
+        } else if (logics[0] === 0 && logics[1] === 0) {
             return 'stop';
         }
     },
@@ -81,7 +81,7 @@ exports = module.exports = {
     forward: function(t, interval = null) {
         // this.changeF(socket);
         // this.run(socket, dutycycles);
-        if(this.vehicleState() !== 'fw') {
+        if (this.vehicleState() !== 'fw') {
             store.pins.logics[0].value = 0;
             sockets.writeDutycycles(store.pins.logics[0]);
             store.pins.logics[1].value = 1;
@@ -90,7 +90,7 @@ exports = module.exports = {
         let propulsions = store.pins.propulsions;
         // Is map so necessary since there is only one turning servo?
         propulsions.map(function(propulsion) {
-            if (propulsion.value <= RANGE && propulsion.value-5 >= 0) {
+            if (propulsion.value <= RANGE && propulsion.value - 5 >= 0) {
                 propulsion.value = propulsion.value - 5;
                 console.log("FORWARD", propulsion.value);
             } else {
@@ -205,6 +205,88 @@ exports = module.exports = {
         servos.map((servo) => {
             servo.value = SERVO_DEFAULT;
             sockets.writeDutycycles(servo);
+        });
+    }
+};
+
+exports = module.exports = class Steerage{
+    constructor() {
+        console.log('Initiating Steerage');
+    }
+    default (interval = null) {
+        clearInterval(interval);
+        let servos = store.pins.servos;
+        servos.map((servo) => {
+            servo.value = SERVO_DEFAULT;
+            sockets.writeDutycycles(servo);
+        });
+    }
+    left(i, interval = null) {
+        let servos = store.pins.servos;
+        // Is map so necessary since there is only one turning servo?
+        servos.map(function(servo) {
+            if (servo.value <= SERVO_MAX) {
+                servo.value = servo.value + 10 * i;
+                sockets.writeDutycycles(servo);
+            } else {
+                clearInterval(interval);
+            }
+        });
+    }
+    right(t, interval = null) {
+        let servos = store.pins.servos;
+        // Is map so necessary since there is only one turning servo?
+        servos.map(function(servo) {
+            if (servo.value >= SERVO_MIN) {
+                servo.value = servo.value - 10 * t;
+                sockets.writeDutycycles(servo);
+            } else {
+                clearInterval(interval);
+            }
+        });
+    }
+    run(propulsion, interval = null) {
+        // let propulsions = store.pins.propulsions;
+        // Is map so necessary since there is only one turning servo?
+        // propulsions.map(function(propulsion) {
+        if (propulsion.value <= RANGE && propulsion.value - 5 >= 0) {
+            propulsion.value = propulsion.value - 5;
+            console.log("RUN", propulsion.value);
+        } else {
+            clearInterval(interval);
+        }
+        console.log("SOCKETS", inverse(propulsion).value);
+        sockets.writeDutycycles(inverse(propulsion));
+
+        // });
+    }
+    // if current state is not forward, then find logics that is owned by
+    // by propulsion. logic0 pin number should be always less than logic1
+    forward(t, interval = null) {
+        let propulsions = store.pins.propulsions;
+        propulsions.map(function(propulsion) {
+            if (!store.vehicle.is.forward) {
+                console.log('Changing logics to go forward');
+                let logics = store.pins.logics;
+                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
+                if(ownedLogics[0].num>ownedLogics[1].num) {
+                    ownedLogics[0].value = 0;
+                    ownedLogics[1].value = 1;
+                }
+                store.vehicle.is.forward = true;
+                store.vehicle.is.backward = false;
+            }
+            this.run(propulsion, interval);
+        }, this);
+    }
+
+    softStop() {
+        //SOFT STOP -- ALL PWM's ARE 0
+        let propulsions = store.pins.propulsions;
+        propulsions.map((propulsion) => {
+            propulsion.value = 255;
+            console.log("SOFT STOP", propulsion.value);
+            sockets.writeDutycycles(propulsion);
         });
     }
 };

@@ -4,5 +4,11 @@ exports = module.exports = {
         logics: [],
         servos: []
     },
+    vehicle: {
+        is: {
+            forward : false,
+            backward: false,
+        }
+    },
     showSidebar: false,
 };

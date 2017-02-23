@@ -2,8 +2,8 @@ const keyboard = require('keyboardjs');
 // var stopwatch = require('simple-stopwatch');
 let inverse = require('./inverse');
 
-exports = module.exports = function() {
-    let steerage = require('./steerage.js');
+exports = module.exports = function(steerage) {
+    // let steerage = require('./steerage.js');
 
     var intervalRight;
     var intervalLeft;
@@ -28,7 +28,8 @@ exports = module.exports = function() {
         }, 50);
 
     }, function(e) {
-        steerage.softStop(intervalForward);
+        clearInterval(intervalForward);
+        steerage.softStop();
     });
 
     // BACKWARD
