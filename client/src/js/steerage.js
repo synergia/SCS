@@ -246,9 +246,7 @@ exports = module.exports = class Steerage{
         });
     }
     run(propulsion, interval = null) {
-        // let propulsions = store.pins.propulsions;
-        // Is map so necessary since there is only one turning servo?
-        // propulsions.map(function(propulsion) {
+        // It could return true to use clearInterval in keysControl, not here
         if (propulsion.value <= RANGE && propulsion.value - 5 >= 0) {
             propulsion.value = propulsion.value - 5;
             console.log("RUN", propulsion.value);
@@ -257,8 +255,6 @@ exports = module.exports = class Steerage{
         }
         console.log("SOCKETS", inverse(propulsion).value);
         sockets.writeDutycycles(inverse(propulsion));
-
-        // });
     }
     // if current state is not forward, then find logics that is owned by
     // by propulsion. logic0 pin number should be always less than logic1
@@ -305,7 +301,6 @@ exports = module.exports = class Steerage{
                 store.vehicle.is.backward = true;
             }
             this.run(propulsion, interval);
-            console.log('back');
         }, this);
         propulsions = null;
     }
@@ -318,5 +313,14 @@ exports = module.exports = class Steerage{
             console.log("SOFT STOP", propulsion.value);
             sockets.writeDutycycles(propulsion);
         });
+    }
+    hardStop() {
+        // HARD STOP -- ALL DIRS ARE 0
+        let logics = store.pins.logics;
+        logics.map((logic) => logic.value = 0);
+        sockets.writeDutycycles(logics);
+        console.log("HARD STOP", logics.value);
+        store.vehicle.is.forward = false;
+        store.vehicle.is.backward = false;
     }
 };

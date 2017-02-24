@@ -70,7 +70,8 @@ exports = module.exports = function(steerage) {
 
     // EMERGENCY STOP
     keyboard.bind('space', function(e) {
-        steerage.hardStop(intervalForward);
+        steerage.hardStop();
+        clearInterval(intervalForward);
         console.log('KEY SPACE');
     });
 
