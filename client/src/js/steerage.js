@@ -319,7 +319,7 @@ exports = module.exports = class Steerage{
         let logics = store.pins.logics;
         logics.map((logic) => logic.value = 0);
         sockets.writeDutycycles(logics);
-        console.log("HARD STOP", logics.value);
+        console.log("HARD STOP");
         store.vehicle.is.forward = false;
         store.vehicle.is.backward = false;
     }

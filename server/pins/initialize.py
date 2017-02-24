@@ -36,6 +36,10 @@ class Initialize():
                 roles[role](num, value)
             else:
                 self.gpio.write(num, value)
+        if (role == "propulsion"):
+            # sets pwm freq to 20kHz
+            self.gpio.set_PWM_frequency(num, 800)
+            logger.info('Initialization: Current PWM freq: %s', self.gpio.get_PWM_frequency(18))
         logger.info('Initialization: %s %s %s value: %s mode: %s', num, name, role, value, mode)
 
     def initialize_pins(self):

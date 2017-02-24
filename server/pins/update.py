@@ -19,7 +19,6 @@ class Update():
                 if role in roles:
                     roles[role](num, value)
                 else:
-                    logger.info('Trying to set %s value at %s', value, num)
                     self.gpio.write(num, value)
             logger.info('Update: %s %s value: %s', num, role, value)
 
