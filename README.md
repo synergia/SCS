@@ -10,7 +10,9 @@ Sterowanie
 Klawisze **A**, **Z** odpowiadają za wypełnienie PWM. Domyślnie wartości są 0.
 Klawisze **↓** **→** **←**  **↑** za odpowiednie kierunki poruszania się.
 
-
+Backup
+---
+ssh pi@xx.xx.x.xxx sudo dd if=/dev/mmcblk0 bs=1M | pv | gzip -c > img.gz
 
 TODO
 ---
