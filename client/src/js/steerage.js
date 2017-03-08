@@ -19,197 +19,20 @@ const RANGE = 255;
 
 // TODO: Offset/compensation for wheels
 
-let obj = {
-    vehicleState: function() {
-        let logics = store.pins.logics;
-        if (logics[0] === 0 && logics[1] === 1) {
-            return 'fw';
-        } else if (logics[0] === 1 && logics[1] === 0) {
-            return 'bw';
-        } else if (logics[0] === 0 && logics[1] === 0) {
-            return 'stop';
-        }
-    },
-    accelerate: function(range = RANGE) {
-        store.pins.propulsions.map(function(propulsion) {
-            if (propulsion.value >= 0 && propulsion.value < range)
-                ++propulsion.value;
-        });
-    },
-    decelerate: function(range = 255) {
-        store.pins.propulsions.map(function(propulsion) {
-            if (propulsion.value > 0 && propulsion.value <= range)
-                --propulsion.value;
-        });
-    },
-    hardStop: function(interval) {
-        // HARD STOP -- ALL DIRS ARE 0
-        // Num of pins must be strings.
-        // You should do smth with this!!!
-        clearInterval(interval);
-        let logics = store.pins.logics;
-        logics.map((logic) => {
-            logic.value = 0;
-            console.log("HARD STOP", logic.value);
-            sockets.writeDutycycles(logic);
-        });
-    },
-    softStop: function(interval) {
-        //SOFT STOP -- ALL PWM's ARE 0
-        clearInterval(interval);
-        let propulsions = store.pins.propulsions;
-        propulsions.map((propulsion) => {
-            propulsion.value = 255;
-            console.log("SOFT STOP", propulsion.value);
-            sockets.writeDutycycles(propulsion);
-        });
-
-    },
-    // nie jestem pewien czy to te diry
-    ready: function(socket) {
-        sockets.writeDirs(socket, [
-            {
-                num: '24',
-                value: 1
-            },
-            {
-                num: '27',
-                value: 1
-            }
-        ]);
-    },
-    forward: function(t, interval = null) {
-        // this.changeF(socket);
-        // this.run(socket, dutycycles);
-        if (this.vehicleState() !== 'fw') {
-            store.pins.logics[0].value = 0;
-            sockets.writeDutycycles(store.pins.logics[0]);
-            store.pins.logics[1].value = 1;
-            sockets.writeDutycycles(store.pins.logics[1]);
-        }
-        let propulsions = store.pins.propulsions;
-        // Is map so necessary since there is only one turning servo?
-        propulsions.map(function(propulsion) {
-            if (propulsion.value <= RANGE && propulsion.value - 5 >= 0) {
-                propulsion.value = propulsion.value - 5;
-                console.log("FORWARD", propulsion.value);
-            } else {
-                clearInterval(interval);
-            }
-            console.log("SOCKETS", inverse(propulsion).value);
-            sockets.writeDutycycles(inverse(propulsion));
-
-        });
-    },
-    backward: function(socket, dutycycles) {
-        this.changeB(socket);
-        this.run(socket, dutycycles);
-    },
-    run: function(socket, dutycycles) {
-        dutycycles.map((pin) => pin.dutycycle = inverse(pin.dutycycle));
-        sockets.writeDutycycles(socket, dutycycles);
-    },
-    // Refactor this !!!
-    // Update values of pins in pinlist !!!
-    changeF: function(socket) {
-        socket.emit('pin:write', {
-            num: '24',
-            value: 1
-        });
-        socket.emit('pin:write', {
-            num: '27',
-            value: 1
-        });
-        socket.emit('pin:write', {
-            num: '17',
-            value: 0
-        });
-        socket.emit('pin:write', {
-            num: '22',
-            value: 0
-        });
-    },
-    changeB: function(socket) {
-        socket.emit('pin:write', {
-            num: '24',
-            value: 0
-        });
-        socket.emit('pin:write', {
-            num: '27',
-            value: 0
-        });
-        socket.emit('pin:write', {
-            num: '17',
-            value: 1
-        });
-        socket.emit('pin:write', {
-            num: '22',
-            value: 1
-        });
-    },
-    // Make 0.5 changeable or define in const
-    // left: function(socket, dutycycles) {
-    //     socket.emit('pin:dutycycles', {
-    //         '18': inverse(dutycycles[0].dutycycle),
-    //         '23': inverse(Math.floor(dutycycles[0].dutycycle * 0.5)),
+    // accelerate: function(range = RANGE) {
+    //     store.pins.propulsions.map(function(propulsion) {
+    //         if (propulsion.value >= 0 && propulsion.value < range)
+    //             ++propulsion.value;
+    //     });
+    // },
+    // decelerate: function(range = 255) {
+    //     store.pins.propulsions.map(function(propulsion) {
+    //         if (propulsion.value > 0 && propulsion.value <= range)
+    //             --propulsion.value;
     //     });
     // },
 
-    left: function(i, interval = null) {
-        let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (servo.value <= SERVO_MAX) {
-                servo.value = servo.value + 10 * i;
-                sockets.writeDutycycles(servo);
-            } else {
-                clearInterval(interval);
-            }
-        });
-    },
-    right: function(t, interval = null) {
-        let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (servo.value >= SERVO_MIN) {
-                servo.value = servo.value - 10 * t;
-                sockets.writeDutycycles(servo);
-            } else {
-                clearInterval(interval);
-            }
-        });
-    },
-    turnRight: function(angle) {
-        let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (angle <= 0.79 && servo.value >= SERVO_MIN) {
-                servo.value = Math.round(SERVO_DEFAULT - angle * 700);
-                sockets.writeDutycycles(servo);
-            }
-        });
-    },
-    turnLeft: function(angle) {
-        let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (angle <= 0.79 && servo.value <= SERVO_MAX) {
-                servo.value = Math.round(SERVO_DEFAULT + angle * 600);
-                sockets.writeDutycycles(servo);
-            }
-        });
-    },
-    default: function(interval = null) {
-        clearInterval(interval);
-        let servos = store.pins.servos;
-        servos.map((servo) => {
-            servo.value = SERVO_DEFAULT;
-            sockets.writeDutycycles(servo);
-        });
-    }
-};
-
-exports = module.exports = class Steerage{
+class Steerage{
     constructor() {
         console.log('Initiating Steerage');
     }
@@ -233,6 +56,7 @@ exports = module.exports = class Steerage{
             }
         });
     }
+
     right(t, interval = null) {
         let servos = store.pins.servos;
         // Is map so necessary since there is only one turning servo?
@@ -245,6 +69,7 @@ exports = module.exports = class Steerage{
             }
         });
     }
+
     run(propulsion, interval = null) {
         // It could return true to use clearInterval in keysControl, not here
         if (propulsion.value <= RANGE && propulsion.value - 5 >= 0) {
@@ -323,4 +148,82 @@ exports = module.exports = class Steerage{
         store.vehicle.is.forward = false;
         store.vehicle.is.backward = false;
     }
-};
+    touchLeft(angle) {
+        let servos = store.pins.servos;
+        // Is map so necessary since there is only one turning servo?
+        servos.map(function(servo) {
+            if (angle <= 0.79 && servo.value <= SERVO_MAX) {
+                servo.value = Math.round(SERVO_DEFAULT + angle * 600);
+                sockets.writeDutycycles(servo);
+            }
+        });
+    }
+
+    touchRight(angle) {
+        let servos = store.pins.servos;
+        // Is map so necessary since there is only one turning servo?
+        servos.map(function(servo) {
+            if (angle <= 0.79 && servo.value >= SERVO_MIN) {
+                servo.value = Math.round(SERVO_DEFAULT - angle * 700);
+                sockets.writeDutycycles(servo);
+            }
+        });
+    }
+    touchForward(distance, size) {
+        let propulsions = store.pins.propulsions;
+        propulsions.map(function(propulsion) {
+            if (!store.vehicle.is.forward) {
+                console.log('Changing logics to go forward');
+                let logics = store.pins.logics;
+                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
+                if(ownedLogics[0].num>ownedLogics[1].num) {
+                    ownedLogics[0].value = 0;
+                    ownedLogics[1].value = 1;
+                } else {
+                    ownedLogics[0].value = 1;
+                    ownedLogics[1].value = 0;
+                }
+                sockets.writeDutycycles(logics);
+                store.vehicle.is.forward = true;
+                store.vehicle.is.backward = false;
+            }
+            if (propulsion.value <= RANGE && propulsion.value >= 0) {
+                propulsion.value = Math.floor((RANGE/size)*distance);
+                console.log("RUN with", propulsion.value);
+            }
+            console.log("SOCKETS sending", inverse(propulsion).value);
+            sockets.writeDutycycles(propulsion);
+
+        }, this);
+        propulsions = null;
+    }
+}
+
+// class TouchSteerage extends Steerage {
+//     constructor() {
+//         super();
+//     }
+//     touchLeft(angle) {
+//         let servos = store.pins.servos;
+//         // Is map so necessary since there is only one turning servo?
+//         servos.map(function(servo) {
+//             if (angle <= 0.79 && servo.value <= SERVO_MAX) {
+//                 servo.value = Math.round(SERVO_DEFAULT + angle * 600);
+//                 sockets.writeDutycycles(servo);
+//             }
+//         });
+//     }
+//
+//     touchRight(angle) {
+//         let servos = store.pins.servos;
+//         // Is map so necessary since there is only one turning servo?
+//         servos.map(function(servo) {
+//             if (angle <= 0.79 && servo.value >= SERVO_MIN) {
+//                 servo.value = Math.round(SERVO_DEFAULT - angle * 700);
+//                 sockets.writeDutycycles(servo);
+//             }
+//         });
+//     }
+// }
+
+exports = module.exports = Steerage;

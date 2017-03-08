@@ -7,7 +7,6 @@ Uruchomienie
 
 Sterowanie
 ---
-Klawisze **A**, **Z** odpowiadają za wypełnienie PWM. Domyślnie wartości są 0.
 Klawisze **↓** **→** **←**  **↑** za odpowiednie kierunki poruszania się.
 
 Backup

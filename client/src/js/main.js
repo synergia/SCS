@@ -5,6 +5,7 @@ const sockets = require('./sockets');
 const touchControl = require('./touchControl.js');
 const keysControl = require('./keysControl');
 const Steerage = require('./steerage.js');
+const TouchSteerage = require('./touchSteerage.js');
 
 let SCS = new Vue({
     el: '#app',
@@ -16,7 +17,8 @@ let SCS = new Vue({
     mounted: function() {
         sockets.connection(store);
         let steerage = new Steerage();
-        touchControl();
+        let touchSteerage = new TouchSteerage();
+        touchControl(steerage);
         keysControl(steerage);
 
 
