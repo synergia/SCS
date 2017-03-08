@@ -8,7 +8,12 @@ exports = module.exports = function(steerage) {
 
     var options = {
         zone: document.getElementById('zone_joystick'),
-        size: 100
+        size: 200,
+        // mode: 'static',
+        position: {
+            left: '50%',
+            top: '50%'
+        },
     };
     var manager = require('nipplejs').create(options);
 
@@ -31,9 +36,13 @@ exports = module.exports = function(steerage) {
                 if (data.angle.radian >= RAD180 && data.angle.radian <= RAD235) {
                     steerage.touchLeft(Math.abs(RAD235 - data.angle.radian));
                 }
-                if(data.angle.radian <= RAD180 && data.angle.radian >= 0) {
+                if (data.angle.radian <= RAD180 && data.angle.radian >= 0) {
                     console.log(data.distance);
                     steerage.touchForward(data.distance, options.size);
+                }
+                if (data.angle.radian > RAD180 && data.angle.radian < RAD360) {
+                    console.log(data.distance);
+                    steerage.touchBackward(data.distance, options.size);
                 }
             } else {
                 steerage.softStop();

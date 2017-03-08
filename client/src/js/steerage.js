@@ -197,6 +197,35 @@ class Steerage{
         }, this);
         propulsions = null;
     }
+
+    touchBackward(distance, size) {
+        let propulsions = store.pins.propulsions;
+        propulsions.map(function(propulsion) {
+            if (!store.vehicle.is.backward) {
+                console.log('Changing logics to go backward');
+                let logics = store.pins.logics;
+                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
+                if(ownedLogics[0].num>ownedLogics[1].num) {
+                    ownedLogics[0].value = 1;
+                    ownedLogics[1].value = 0;
+                }else {
+                    ownedLogics[0].value = 0;
+                    ownedLogics[1].value = 1;
+                }
+                sockets.writeDutycycles(logics);
+                store.vehicle.is.forward = false;
+                store.vehicle.is.backward = true;
+            }
+            if (propulsion.value <= RANGE && propulsion.value >= 0) {
+                propulsion.value = Math.floor((RANGE/size)*distance);
+                console.log("RUN with", propulsion.value);
+            }
+            console.log("SOCKETS sending", inverse(propulsion).value);
+            sockets.writeDutycycles(propulsion);
+
+        }, this);
+        propulsions = null;
+    }
 }
 
 // class TouchSteerage extends Steerage {
