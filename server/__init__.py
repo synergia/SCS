@@ -3,12 +3,12 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask import render_template
 from flask import Response
-import pins
+from .pins import *
 from gevent import monkey
-import log
-from camera import Camera
+from .log import *
+from .camera import *
 
-monkey.patch_all()
+monkey.patch_all(thread=False)
 
 client_path = os.path.abspath('client')
 
@@ -23,17 +23,4 @@ socketio = SocketIO(app)
 def index(path):
     return render_template('index.html')
 
-import sockets
-
-camera.choose_camera_device()
-
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen(Camera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+from .sockets import *
