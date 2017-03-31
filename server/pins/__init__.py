@@ -12,6 +12,11 @@ class PinManager(object, Initialize, Read, Update,):
         self.gpio = pigpio.pi('0.0.0.0', 3000)
         self.initialize_pins()
 
+        # self.gpio.set_mode(12, pigpio.__getattribute__("OUTPUT"))
+        # self.gpio.set_PWM_dutycycle(12, 0)
+        # self.gpio.set_PWM_frequency(12, 1000)
+        # # self.gpio.write(12, 1)
+
 
     # def log(self, msg, num):
     #     try:
