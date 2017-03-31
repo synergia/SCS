@@ -1,9 +1,7 @@
 # http://abyz.co.uk/rpi/pigpio/python.html#write
 import pigpio
-from config_loader import ConfigLoader
 from read import Read
 from update import Update
-from setup import Setup
 from initialize import Initialize
 from server.log import logger
 

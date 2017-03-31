@@ -6,8 +6,7 @@ from flask import Response
 import pins
 from gevent import monkey
 import log
-from camera import Camera
-
+import camera
 monkey.patch_all()
 
 client_path = os.path.abspath('client')
@@ -24,16 +23,3 @@ def index(path):
     return render_template('index.html')
 
 import sockets
-
-camera.choose_camera_device()
-
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen(Camera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
