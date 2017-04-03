@@ -1,7 +1,23 @@
-.cool {}
-#zone_joystick {
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    background: blue;
+@import "components/stream";
+@import "components/joystick";
+
+body {
+    margin: 0;
+}
+.container {
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: nowrap;
+    border: 1px solid black;
+    justify-content: space-between;
+    &_left {
+        width: 50%;
+    }
+    &_right {
+        width: 50%;
+    }
 }

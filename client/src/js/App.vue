@@ -1,12 +1,14 @@
 <template>
 <div id="app" class="container">
+    <div class="container_left">
+        <Stream></Stream>
+    </div>
     <!-- <Topbar></Topbar> -->
     <!-- <Sidebar></Sidebar> -->
-    <Stream></Stream>
-    <States></States>
-    <div class="joystick-wrapper">
-            <Joystick></Joystick>
 
+    <!-- <States></States> -->
+    <div class="container_right">
+        <Joystick></Joystick>
     </div>
 
 </div>
@@ -35,22 +37,4 @@ module.exports = {
 </script>
 
 <style>
-body {
-    font-family: Helvetica, sans-serif;
-}
-
-.container {
-    /*width: 1280px;*/
-    height: 500px;
-    overflow: hidden;
-    display: flex;
-    flex-flow: row;
-    flex-wrap: nowrap;
-    border: 1px solid black;
-    justify-content: space-between;
-}
-.joystick-wrapper {
-    position: relative;
-    width: 400px;
-}
 </style>
