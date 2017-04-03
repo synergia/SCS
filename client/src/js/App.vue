@@ -2,6 +2,7 @@
 <div id="app" class="container">
     <!-- <Topbar></Topbar> -->
     <!-- <Sidebar></Sidebar> -->
+    <Stream></Stream>
     <States></States>
     <div class="joystick-wrapper">
             <Joystick></Joystick>
@@ -16,13 +17,15 @@ const Topbar = require('./components/Topbar.vue');
 const Sidebar = require('./components/Sidebar.vue');
 const States = require('./components/States.vue');
 const Joystick = require('./components/Joystick.vue');
+const Stream = require('./components/Stream.vue');
 
 module.exports = {
     components: {
         Topbar,
         Sidebar,
         States,
-        Joystick
+        Joystick,
+        Stream
     },
     computed: {
 

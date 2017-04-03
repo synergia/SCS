@@ -228,7 +228,7 @@ class Steerage{
     }
 }
 
-// class TouchSteerage extends Steerage {
+// class touchControl extends Steerage {
 //     constructor() {
 //         super();
 //     }

@@ -6,7 +6,7 @@ module.exports = {
     context: __dirname + '/client/src',
     entry: {
         app: './js/main.js',
-        // styles: './styles/main.css',
+        // styles: './styles/main.scss',
         vendor: ["socket.io-client", "vue", "keyboardjs", "nipplejs"]
     },
     output: {
@@ -23,6 +23,7 @@ module.exports = {
         moduleTemplates: ['*-loader', '*'],
         extensions: ['', '.js']
     },
+    // devtool: 'source-map',
     module: {
         loaders: [
             {
@@ -30,9 +31,9 @@ module.exports = {
                 loader: 'vue'
             },
             {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-},
+                test: /\.scss$/,
+                loaders: [ 'style', 'css?sourceMap', 'sass?sourceMap' ]
+            },
             {
                 test: /\.js$/,
                 loader: 'babel',

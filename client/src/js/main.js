@@ -1,3 +1,4 @@
+require('../styles/main.scss');
 const Vue = require('vue');
 const App = require('./App.vue');
 const store = require('./store/store');
@@ -5,8 +6,6 @@ const sockets = require('./sockets');
 const touchControl = require('./touchControl.js');
 const keysControl = require('./keysControl');
 const Steerage = require('./steerage.js');
-const TouchSteerage = require('./touchSteerage.js');
-
 let SCS = new Vue({
     el: '#app',
     render: h => h(App),
@@ -17,11 +16,7 @@ let SCS = new Vue({
     mounted: function() {
         sockets.connection(store);
         let steerage = new Steerage();
-        let touchSteerage = new TouchSteerage();
         touchControl(steerage);
         keysControl(steerage);
-
-
-
     },
 });
