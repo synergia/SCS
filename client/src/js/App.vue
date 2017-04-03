@@ -1,14 +1,17 @@
 <template>
 <div id="app" class="container">
-    <div class="container_left">
-        <Stream></Stream>
-    </div>
-    <!-- <Topbar></Topbar> -->
-    <!-- <Sidebar></Sidebar> -->
+    <Topbar></Topbar>
+    <div class="sidebar">
+        <div class="sidebar_left">
+            <Stream></Stream>
+            <States></States>
 
-    <!-- <States></States> -->
-    <div class="container_right">
-        <Joystick></Joystick>
+        </div>
+        <!-- <Sidebar></Sidebar> -->
+
+        <div class="sidebar_right">
+            <Joystick></Joystick>
+        </div>
     </div>
 
 </div>

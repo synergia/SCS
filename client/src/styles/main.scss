@@ -1,5 +1,6 @@
 @import "components/stream";
 @import "components/joystick";
+@import "components/topbar";
 
 body {
     margin: 0;
@@ -10,10 +11,18 @@ body {
     height: 100vh;
     overflow: hidden;
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     flex-wrap: nowrap;
     border: 1px solid black;
     justify-content: space-between;
+}
+.sidebar {
+    overflow: hidden;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
     &_left {
         width: 50%;
     }
