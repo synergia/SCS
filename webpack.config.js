@@ -7,7 +7,7 @@ module.exports = {
     entry: {
         app: './js/main.js',
         // styles: './styles/main.scss',
-        vendor: ["socket.io-client", "vue", "keyboardjs", "nipplejs"]
+        vendor: ["socket.io-client", "vue", "keyboardjs", "nipplejs", "hammerjs"]
     },
     output: {
         path: __dirname + '/client/dist',

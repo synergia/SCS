@@ -1,15 +1,15 @@
 <template>
 <div id="app" class="container">
     <Topbar></Topbar>
-    <div class="sidebar">
-        <div class="sidebar_left">
+    <div class="mainView">
+        <div id="mainView" class="mainView_left">
             <Stream></Stream>
             <States></States>
 
         </div>
         <!-- <Sidebar></Sidebar> -->
 
-        <div class="sidebar_right">
+        <div class="mainView_right">
             <Joystick></Joystick>
         </div>
     </div>

@@ -46,6 +46,7 @@
     "webpack": "^1.14.0"
   },
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "nipplejs": "^0.6.7"
   }
 }

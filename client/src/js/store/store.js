@@ -10,5 +10,7 @@ exports = module.exports = {
             backward: false,
         }
     },
-    showSidebar: false,
+    ui: {
+        fullscreen: false
+    }
 };
