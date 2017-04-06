@@ -1,6 +1,6 @@
 class Fullscreen {
     constructor() {
-        this.el = document.getElementById("mainView");
+        this.el = document.getElementById("app");
     }
     default () {    }
     go() {

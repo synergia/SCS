@@ -1,11 +1,18 @@
 @import "components/stream";
 @import "components/joystick";
 @import "components/topbar";
+@import "components/states";
+
+@import "fonts";
+@import "vars";
 
 body {
     margin: 0;
+    font-size: $font-size;
+    font-family:"Roboto";
 }
 .container {
+    background-color: black;
     box-sizing: border-box;
     width: 100vw;
     height: 100vh;

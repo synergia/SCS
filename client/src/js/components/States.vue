@@ -1,52 +1,23 @@
 
 <template>
-<div id="people">
-    <span>States</span>
-
-    <table>
-        <thead>
-            <tr>
-                <th>NAME</th>
-                <th>ROLE</th>
-                <th>NUMBER</th>
-                <th>VALUE</th>
-                <th>OWNER</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="pin in this.$root.$data.pins.propulsions">
-                <td>{{pin.name}}</td>
-                <td>{{pin.role}}</td>
-                <td>{{pin.num}}</td>
-                <td>{{pin.value}}</td>
-            </tr>
-            <tr v-for="pin in this.$root.$data.pins.logics">
-                <td>{{pin.name}}</td>
-                <td>{{pin.role}}</td>
-                <td>{{pin.num}}</td>
-                <td>{{pin.value}}</td>
-                <td>{{pin.owner}}</td>
-            </tr>
-            <tr v-for="pin in this.$root.$data.pins.servos">
-                <td>{{pin.name}}</td>
-                <td>{{pin.role}}</td>
-                <td>{{pin.num}}</td>
-                <td>{{pin.value}}</td>
-            </tr>
-        </tbody>
-
-    </table>
-</div>
+    <div class="states">
+        <div class="propulsion" v-for="pin in this.$root.$data.pins.propulsions">
+            <div class="propulsion_num">{{pin.num}}</div>
+            <div class="propulsion_name">{{pin.name}}</div>
+            <div class="propulsion_role">{{pin.role}}</div>
+            <div class="propulsion_value">{{pin.value}}</div>
+        </div>
+        <div class="servo" v-for="pin in this.$root.$data.pins.servos">
+            <div class="propulsion_num">{{pin.num}}</div>
+            <div class="propulsion_num">{{pin.name}}</div>
+            <div class="propulsion_num">{{pin.role}}</div>
+            <div class="propulsion_num">{{pin.value}}</div>
+        </div>
+        <div class="logic" v-for="pin in this.$root.$data.pins.logics">
+            <div class="propulsion_num">{{pin.num}}</div>
+            <div class="propulsion_num">{{pin.name}}</div>
+            <div class="propulsion_num">{{pin.role}}</div>
+            <div class="propulsion_num">{{pin.value}}</div>
+        </div>
+    </div>
 </template>
-<script>
-
-module.exports = {
-
-    methods: {
-
-    },
-    computed: {
-
-    }
-}
-</script>

@@ -1,0 +1,101 @@
+.states {
+    position: relative;
+    flex-flow: column nowrap;
+    display: inline-flex;
+}
+.propulsion {
+    color: white;
+    display: inline-flex;
+    border: 1px #2980b9 solid;
+    flex-flow: row nowrap;
+    height: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    &_num {
+        position: relative;
+        display: block;
+        padding: 3px;
+
+    }
+    &_name {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+    &_role {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+    &_value {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+}
+.servo {
+    color: white;
+    display: inline-flex;
+    border: 1px #2ecc71 solid;
+    flex-flow: row nowrap;
+    height: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    &_num {
+        position: relative;
+        display: block;
+        padding: 3px;
+
+    }
+    &_name {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+    &_role {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+    &_value {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+}
+.logic {
+    color: white;
+    display: inline-flex;
+    border: 1px #2ecc71 solid;
+    flex-flow: row nowrap;
+    height: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    &_num {
+        position: relative;
+        display: block;
+        padding: 3px;
+
+    }
+    &_name {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+    &_role {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+    &_value {
+        position: relative;
+        display: block;
+        padding: 3px;
+    }
+}

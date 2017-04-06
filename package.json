@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "hammerjs": "^2.0.8",
-    "nipplejs": "^0.6.7"
+    "nipplejs": "^0.6.7",
+    "vue-router": "^2.3.1"
   }
 }

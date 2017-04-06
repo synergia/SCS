@@ -4,12 +4,11 @@
     <div class="mainView">
         <div id="mainView" class="mainView_left">
             <Stream></Stream>
-            <States></States>
-
         </div>
         <!-- <Sidebar></Sidebar> -->
 
         <div class="mainView_right">
+            <States></States>
             <Joystick></Joystick>
         </div>
     </div>
