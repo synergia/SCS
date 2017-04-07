@@ -10,6 +10,9 @@ exports = module.exports = {
             backward: false,
         }
     },
+    core: {
+        
+    },
     ui: {
         fullscreen: false
     }

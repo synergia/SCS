@@ -5,11 +5,11 @@
         <div id="mainView" class="mainView_left">
             <Stream></Stream>
         </div>
-        <!-- <Sidebar></Sidebar> -->
 
         <div class="mainView_right">
-            <States></States>
-            <Joystick></Joystick>
+            <router-link to="/states">Go to Bar</router-link>
+            <router-link to="/joystick">Joystick</router-link>
+            <router-view></router-view>
         </div>
     </div>
 
