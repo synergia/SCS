@@ -7,9 +7,8 @@
         </div>
 
         <div class="mainView_right">
-            <router-link to="/states">Go to Bar</router-link>
-            <router-link to="/joystick">Joystick</router-link>
             <router-view></router-view>
+            <router-view name="joystick"></router-view>
         </div>
     </div>
 

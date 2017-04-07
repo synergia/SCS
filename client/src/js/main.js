@@ -9,7 +9,7 @@ const Steerage = require('./steerage.js');
 const ui = require('./ui/ui.js');
 
 // const router = require('./ui/router');
-const routes = require('./ui/router')(Vue);
+const routes = require('./ui/routes');
 const router = new VueRouter({
     routes // short for routes: routes
 });

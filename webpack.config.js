@@ -16,7 +16,7 @@ module.exports = {
     },
     resolve: {
         modulesDirectories: ['node_modules'],
-        extensions: ['', '.js', '.sass', '.css']
+        extensions: ['', '.js', '.sass', '.css'],
     },
     resolveLoader: {
         modulesDirectories: ['node_modules'],
