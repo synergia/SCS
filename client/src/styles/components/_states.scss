@@ -1,18 +1,20 @@
 .states {
-    position: relative;
+    position: absolute;
     flex-flow: column nowrap;
     display: inline-flex;
 }
 .propulsion {
     color: white;
     display: inline-flex;
-    border: 1px #2980b9 solid;
+    border: 1px $orange solid;
     flex-flow: row nowrap;
     height: 20px;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     font-size: 0.7rem;
     text-transform: uppercase;
+    margin: 1px;
+    overflow: hidden;
     &_num {
         position: relative;
         display: block;
@@ -32,70 +34,29 @@
     &_value {
         position: relative;
         display: block;
+        width: 25px;
         padding: 3px;
+        background-color: $orange;
+        text-align: center;
     }
 }
 .servo {
-    color: white;
-    display: inline-flex;
-    border: 1px #2ecc71 solid;
-    flex-flow: row nowrap;
-    height: 20px;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    &_num {
-        position: relative;
-        display: block;
-        padding: 3px;
-
+    @extend .propulsion;
+    border: 1px $orange solid;
+    &_value {
+        @extend .propulsion_value;
     }
     &_name {
-        position: relative;
-        display: block;
-        padding: 3px;
-    }
-    &_role {
-        position: relative;
-        display: block;
-        padding: 3px;
-    }
-    &_value {
-        position: relative;
-        display: block;
-        padding: 3px;
+        @extend .propulsion_name;
     }
 }
 .logic {
-    color: white;
-    display: inline-flex;
-    border: 1px #2ecc71 solid;
-    flex-flow: row nowrap;
-    height: 20px;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    &_num {
-        position: relative;
-        display: block;
-        padding: 3px;
-
+    @extend .propulsion;
+    border: 1px $orange solid;
+    &_value {
+        @extend .propulsion_value;
     }
     &_name {
-        position: relative;
-        display: block;
-        padding: 3px;
-    }
-    &_role {
-        position: relative;
-        display: block;
-        padding: 3px;
-    }
-    &_value {
-        position: relative;
-        display: block;
-        padding: 3px;
+        @extend .propulsion_name;
     }
 }
