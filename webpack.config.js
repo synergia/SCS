@@ -23,7 +23,6 @@ module.exports = {
         moduleTemplates: ['*-loader', '*'],
         extensions: ['', '.js']
     },
-    // devtool: 'source-map',
     module: {
         loaders: [
             {
@@ -33,6 +32,10 @@ module.exports = {
             {
                 test: /\.scss$/,
                 loaders: [ 'style', 'css?sourceMap', 'sass?sourceMap' ]
+                // loader: ExtractTextPlugin.extract(
+                //     'style', // The backup style loader
+                //     'css?sourceMap!sass?sourceMap'
+                // )
             },
             {
                 test: /\.js$/,
@@ -51,23 +54,23 @@ module.exports = {
     //             test: /\.html$/,
     //             loader: 'vue-html'
     //   },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'url',
-                query: {
-                    limit: 10000,
-                    name: '[name].[ext]?[hash]'
-                }
-      },
+    //         {
+    //             test: /\.(png|jpg|gif|svg)$/,
+    //             loader: 'url',
+    //             query: {
+    //                 limit: 10000,
+    //                 name: '[name].[ext]?[hash]'
+    //             }
+    //   },
             {
                 test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
-                loader: 'file?name=[path][name].[ext]'
+                loader: 'url'
 }
     ]
     },
     devtool: '#source-map',
     plugins: [
-    new ExtractTextPlugin("app.css"),
+    new ExtractTextPlugin("assets/styles/app.css"),
     function() {
             this.plugin('watch-run', function(watching, callback) {
                 console.log('\n' + new Date() + '\n');

@@ -1,10 +1,10 @@
+@import "fonts";
+@import "vars";
+
 @import "components/stream";
 @import "components/joystick";
 @import "components/topbar";
 @import "components/states";
-
-@import "fonts";
-@import "vars";
 
 body {
     margin: 0;

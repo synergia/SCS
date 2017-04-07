@@ -1,4 +1,4 @@
-require('../styles/main.scss');
+require('../assets/styles/main.scss');
 const Vue = require('vue');
 const VueRouter = require('vue-router');
 const App = require('./App.vue');
