@@ -5,6 +5,8 @@
 }
 .propulsion {
     color: white;
+    border: 1px $orange solid;
+    margin: 1px;
     &_num {
         position: relative;
         display: block;
@@ -25,13 +27,13 @@
         position: relative;
         display: block;
         width: 25px;
+        height: 100%;
         padding: 3px;
-        background-color: $orange;
         text-align: center;
+        line-height: 20px;
     }
     &_info {
         display: inline-flex;
-        border: 1px $orange solid;
         flex-flow: row nowrap;
         height: 20px;
         justify-content: space-between;
@@ -40,28 +42,46 @@
         text-transform: uppercase;
         margin: 1px;
         overflow: hidden;
+        width: 100%;
     }
     &_control {
         width: 100%;
+        margin-bottom: 10px
     }
 }
 .servo {
     @extend .propulsion;
-    border: 1px $orange solid;
     &_value {
         @extend .propulsion_value;
     }
+    &_num {
+        @extend .propulsion_num;
+    }
     &_name {
         @extend .propulsion_name;
+    }
+    &_control {
+        @extend .propulsion_control;
+    }
+    &_info {
+        @extend .propulsion_info;
     }
 }
 .logic {
     @extend .propulsion;
-    border: 1px $orange solid;
     &_value {
         @extend .propulsion_value;
     }
     &_name {
         @extend .propulsion_name;
+    }
+    &_num {
+        @extend .propulsion_num;
+    }
+    &_control {
+        @extend .propulsion_control;
+    }
+    &_info {
+        @extend .propulsion_info;
     }
 }

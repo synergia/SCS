@@ -1,11 +1,14 @@
 @import "fonts";
 @import "vars";
+@import "mixins";
 
 @import "components/stream";
 @import "components/joystick";
 @import "components/topbar";
 @import "components/states";
 @import "components/debug";
+
+@import "components/controls/checkbox";
 
 body {
     margin: 0;

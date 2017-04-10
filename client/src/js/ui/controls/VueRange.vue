@@ -192,10 +192,10 @@ module.exports = {
   top: 50%;
   transform: translateY(-50%);
   width: 0;
-  background-color: #14df24;
+  background-color: #e67e22;
 }
 .vue-range .vue-range-handle {
-  background-color: #fff;
+  background-color: #e67e22;
   position: absolute;
   left: 0;
   top: 0;
@@ -203,6 +203,5 @@ module.exports = {
   height: 30px;
   border-radius: 100%;
   cursor: move;
-  box-shadow: 0 1px 3px rgba(0,0,0,.4);
 }
 </style>

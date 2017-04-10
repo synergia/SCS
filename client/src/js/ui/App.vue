@@ -30,7 +30,7 @@ module.exports = {
         States,
         Joystick,
         Stream,
-    
+
     },
     computed: {
 

@@ -1,0 +1,44 @@
+.form-error {
+    .form-label {
+        @include text-label();
+        color: $color-warning-text;
+    }
+    .form-input {
+        border: 2px solid $color-warning-solid;
+    }
+}
+
+label.form-checkbox:hover {
+    cursor: pointer;
+    span {
+        border: 2px solid darken($color-border, 15);
+    }
+}
+
+.form-checkbox {
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    // @include transition (all 0.12s linear);
+    span {
+        width: 20px;
+        height: 20px;
+        display: block;
+        background: $color-white;
+        border: 2px solid $color-border;
+        // @include transition (all 0.12s linear);
+        float: left;
+        margin-right: 0.5rem;
+    }
+    input {
+        display: none;
+    }
+}
+.form-checkbox-ghost .icon-tick {
+    height: 16px;
+    width: 17px;
+    line-height: 17px;
+    text-align: center;
+    display: block;
+    font-size: 13px;
+}

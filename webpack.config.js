@@ -38,7 +38,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loaders: [ 'style', 'css?sourceMap', 'sass?sourceMap' ]
+                loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
                 // loader: ExtractTextPlugin.extract(
                 //     'style', // The backup style loader
                 //     'css?sourceMap!sass?sourceMap'
@@ -75,6 +75,8 @@ module.exports = {
 }
     ]
     },
+    // Allows to use sass in *.vue
+
     devtool: '#source-map',
     plugins: [
     new ExtractTextPlugin("assets/styles/app.css"),
