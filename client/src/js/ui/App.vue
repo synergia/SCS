@@ -22,13 +22,15 @@ const States = require('./components/States.vue');
 const Joystick = require('./components/Joystick.vue');
 const Stream = require('./components/Stream.vue');
 
+
 module.exports = {
     components: {
         Topbar,
         Sidebar,
         States,
         Joystick,
-        Stream
+        Stream,
+    
     },
     computed: {
 

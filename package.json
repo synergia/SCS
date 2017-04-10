@@ -40,6 +40,7 @@
     "vue-async-data": "^1.0.2",
     "vue-html-loader": "^1.0.0",
     "vue-loader": "^11.3.4",
+    "vue-range": "^1.1.0",
     "vue-style-loader": "^1.0.0",
     "vue-tables-2": "^0.2.65",
     "vue-template-compiler": "^2.2.6",

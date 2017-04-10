@@ -5,16 +5,6 @@
 }
 .propulsion {
     color: white;
-    display: inline-flex;
-    border: 1px $orange solid;
-    flex-flow: row nowrap;
-    height: 20px;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    margin: 1px;
-    overflow: hidden;
     &_num {
         position: relative;
         display: block;
@@ -38,6 +28,21 @@
         padding: 3px;
         background-color: $orange;
         text-align: center;
+    }
+    &_info {
+        display: inline-flex;
+        border: 1px $orange solid;
+        flex-flow: row nowrap;
+        height: 20px;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        margin: 1px;
+        overflow: hidden;
+    }
+    &_control {
+        width: 100%;
     }
 }
 .servo {
