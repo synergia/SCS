@@ -1,52 +1,35 @@
-
-
 <template>
-<div class="custom-checkbox" v-bind:class="{ inverted: inverted }">
-    <label v-bind:for="id"><input type="checkbox" v-bind:name="name" v-bind:class="className" v-bind:id="id" v-bind:value="value" v-bind:checked="checked" v-bind:required="required" v-on:change="updateInput" v-bind:true-value="1" v-bind:false-value="0">{{ label }} </label></div>
+    <label class="switch">
+        <input :class="classes" type="checkbox" :checked="checked" :name="name" :disabled="disabled" v-model="value" v-bind:true-value="1"
+  v-bind:false-value="0">
+        <span><slot></slot></span>
+    </label>
 </template>
+
 <script>
-module.exports = {
-    props: {
-        name: {
-            type: String,
-            required: false
+    module.exports = {
+        props: {
+            disabled: Boolean,
+            classes: String,
+            checked: Boolean,
+            name: String,
         },
-        className: {
-            type: String,
-            required: false
+        data() {
+            return {
+                value: null
+            }
         },
-        id: {
-            type: String,
-            required: false
+        beforeMount() {
+            // this.value = (this.checked === true) ? "1" : "0";
+            this.value = 0;
         },
-        value: {
-            type: Boolean,
-            required: false
+        mounted() {
+            this.$emit('input', this.value = !!this.checked)
         },
-        required: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        checked: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        label: {
-            type: String,
-            required: true
-        },
-        inverted: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-    },
-    methods: {
-        updateInput: function(event) {
-            this.$emit('input', event.target.checked);
+        watch: {
+            value(val) {
+                this.$emit('input', val)
+            }
         }
-    },
-}
+    }
 </script>

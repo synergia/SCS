@@ -35,7 +35,7 @@
                 <div class="logic_value">{{pin.value}}</div>
             </div>
             <div class="logic_control">
-                <checkbox name="email_subscribe" id="email-check" className="another-class" value="1" label="Newsletter Sign Up" v-bind:inverted="false" v-model="s" v-bind:checked="s" v-bind:required="true" v-bind:true-value="true" v-bind:false-value="false"></checkbox>
+                <checkbox v-model="pin.value" :checked="(pin.value ===1) ? true : false"></checkbox>
 
             </div>
 

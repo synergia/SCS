@@ -22,7 +22,19 @@
 			"value": 0
 		},
 		"25": {
-			"name": "Turning",
+			"name": "srv0",
+			"role": "servo",
+			"mode": "OUTPUT",
+			"value": 1500
+		},
+		"5": {
+			"name": "srv1",
+			"role": "servo",
+			"mode": "OUTPUT",
+			"value": 1500
+		},
+		"6": {
+			"name": "srv2",
 			"role": "servo",
 			"mode": "OUTPUT",
 			"value": 1500
