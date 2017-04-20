@@ -66,6 +66,8 @@ class Initialize():
                         mode = pin_config.get('mode', 'OUTPUT')
                         owner = pin_config.get('owner', None)
                         value = pin_config.get('value', 'LOW')
+                        # max_value = pin_config.get('max', None)
+                        # min_value = pin_config.get('min', None)
                         self.setup_pin(pin_num, name, role, mode, owner, value)
             logger.info('Initialization: done')
         except ValueError as e:

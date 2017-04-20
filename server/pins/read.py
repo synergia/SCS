@@ -32,6 +32,14 @@ class Read():
         owner = pin_values.get('owner', None)
         if owner is not None:
             output['owner'] = owner
+
+        max_value = pin_values.get('max', None)
+        if max_value is not None:
+            output['max'] = max_value
+
+        min_value = pin_values.get('min', None)
+        if min_value is not None:
+            output['min'] = min_value
         return output
 
     def read_all(self):
