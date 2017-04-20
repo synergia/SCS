@@ -8,5 +8,4 @@ exports = module.exports = function(pin, range = 255) {
         // console.log("INV", pin.value);
     }
     return pin;
-    // return value;
 };

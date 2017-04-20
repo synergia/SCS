@@ -2,7 +2,7 @@
     <div id="topbar" class="topbar">
         <button class="btn btn-primary" v-on:click="showSidebar">Settings</button>
         <!-- <button class="btn btn-primary" v-on:click="showStates">States</button> -->
-        <router-link to="/debug">Debug</router-link>
+        <router-link to="/manualControl">Manual</router-link>
         <router-link to="/">Go back</router-link>
     </div>
 </template>

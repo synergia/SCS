@@ -13,7 +13,8 @@ module.exports = {
             "vue-router",
             "keyboardjs",
             "nipplejs",
-            "hammerjs"
+            "hammerjs",
+            "vue-slider-component"
         ]
     },
     output: {

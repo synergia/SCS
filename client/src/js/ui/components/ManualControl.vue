@@ -8,9 +8,20 @@
             <div class="propulsion_value">{{pin.value}}</div>
         </div>
         <div class="propulsion_control">
-            <!-- <slider v-model="pin.value" :max="pin.max" :min="pin.min"
-            :end-func="updatePropulsion(pin)"></slider> -->
-            <slider ref="slider1" v-model="pin.value" :max="pin.max" :min="pin.min" :interval="5" :tooltip="false" @callback="updatePin(pin)"></slider>
+            <slider ref="slider1"
+                v-model="pin.value"
+                :max="pin.max"
+                :min="pin.min"
+                :interval="interval"
+                :tooltip="false"
+                :dot-size="dSize"
+                @callback="updatePin(pin)"
+                :bg-style="bgStyle"
+                :process-style="processStyle"
+                :height="height"
+                :slider-style="sliderStyle"
+                event-type="touch"
+            ></slider>
 
         </div>
     </div>
@@ -23,10 +34,23 @@
             <div class="servo_value">{{pin.value}}</div>
         </div>
         <div class="servo_control">
-            <slider ref="slider7" v-model="pin.value" :max="pin.max" :min="pin.min" :interval="5" :tooltip="false" @callback="updatePin(pin)"></slider>
+            <slider ref="slider1"
+                v-model="pin.value"
+                :max="pin.max"
+                :min="pin.min"
+                :interval="interval"
+                :tooltip="false"
+                :dot-size="dSize"
+                @callback="updatePin(pin)"
+                :bg-style="bgStyle"
+                :process-style="processStyle"
+                :height="height"
+                :slider-style="sliderStyle"
+                event-type="touch"
+            ></slider>
         </div>
     </div>
-        <!-- <div class="logic" v-for="pin in this.$root.$data.pins.logics">
+    <!-- <div class="logic" v-for="pin in this.$root.$data.pins.logics">
             <div class="logic_info">
                 <div class="logic_num">{{pin.num}}</div>
                 <div class="logic_name">{{pin.name}}</div>
@@ -42,7 +66,7 @@
 </div>
 </template>
 <script>
-const Slider = require('../controls/Slider.vue');
+const Slider = require('vue-slider-component');
 const Checkbox = require('../controls/Checkbox.vue');
 const sockets = require('../../sockets.js');
 
@@ -51,7 +75,6 @@ module.exports = {
     methods: {
         updatePin: function(pin) {
             sockets.writeDutycycles(pin);
-            console.log("Propulsion",pin.value);
         },
         // booler: (val) => {(pin.value === 1) ? true:false},
     },
@@ -59,16 +82,24 @@ module.exports = {
         Slider,
         Checkbox
     },
-    mounted: function () {
+    mounted: function() {
 
     },
     data() {
         return {
-            value: 0,
-        s: false,
-        true: 1,
-        false: 0
-    }
+            height: 2,
+            dSize: 24,
+            interval: 1,
+            bgStyle: {
+                "backgroundColor": "rgba(255,255,255,.2)",
+            },
+            sliderStyle: {
+                "backgroundColor": "#e67e22"
+            },
+            processStyle: {
+                "backgroundColor": "#e67e22"
+            }
+        }
     }
 }
 </script>

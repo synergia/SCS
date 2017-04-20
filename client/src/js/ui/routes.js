@@ -7,9 +7,9 @@ module.exports =  [
             },
       },
         {
-            path: '/debug',
+            path: '/manualControl',
             components: {
-                default: require('./components/Debug.vue')
+                default: require('./components/ManualControl.vue')
             }
         }
     ];
