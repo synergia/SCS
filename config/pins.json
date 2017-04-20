@@ -1,11 +1,13 @@
 {
 	"architecture": 33,
+	"vehiclename": "Podnośnik",
+	"inversion": 0,
 	"pins": {
 		"18": {
 			"name": "Propulsion",
 			"role": "propulsion",
 			"mode": "OUTPUT",
-			"value": 255
+			"value": 0
 		},
 		"17": {
 			"name": "logic0",

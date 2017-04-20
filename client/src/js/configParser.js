@@ -6,8 +6,17 @@ exports = module.exports =  {
         console.log('as',(config.filter((item) => 'pins' in item))[0].pins);
         return (config.filter((item) => 'pins' in item))[0].pins;
     },
+    // Definitely needs to be redone
+    // for in / for of  <- you need to look for this,
+    // or just push all config as is to store
     parseArch: function (config) {
-        return config.filter((item) => 'architecture' in item);
+        store.vehicle.arch = config.filter((item) => 'architecture' in item)[0].architecture;
+    },
+    parseName: function (config) {
+        store.vehicle.name = config.filter((item) => 'vehiclename' in item)[0].vehiclename;
+    },
+    parseInver: function (config) {
+        store.vehicle.inver = config.filter((item) => 'inversion' in item)[0].inversion;
     },
     setPropulsions: function (pins) {
         let propulsions = pins.filter((pin) => pin.role === 'propulsion');
@@ -16,7 +25,6 @@ exports = module.exports =  {
     setLogics: function (pins) {
         let logics = pins.filter((pin) => pin.role === 'logic');
         store.pins.logics = logics;
-
     },
     setServos: function (pins) {
         let servos = pins.filter((pin) => pin.role === 'servo');
@@ -27,6 +35,13 @@ exports = module.exports =  {
         this.setPropulsions(pins);
         this.setLogics(pins);
         this.setServos(pins);
+
+        // Should create function parse config, it will parse all vehicle meta data
+        // like it does now with parsePins()
+        // But it needs different config structure
+        this.parseArch(config);
+        this.parseName(config);
+        this.parseInver(config);
 
     },
 };

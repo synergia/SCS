@@ -47,9 +47,17 @@ class Initialize():
         self.load_json()
         try:
             for config_name, config_data in self.configs.items():
+                # too many  ifs
                 if (config_name == 'architecture'):
                     self.architecture = config_data
                     logger.info('Initialization: architecture: %s', config_data)
+                if (config_name == 'vehiclename'):
+                    self.vehiclename = config_data
+                    logger.info('Initialization: vehicle name: %s', config_data)
+                    # inverts PWM, so 0 is full
+                if (config_name == 'inversion'):
+                    self.inversion = config_data
+                    logger.info('Initialization: inversion: %s', config_data)
                 if (config_name == 'pins'):
                     self.pins = config_data
                     for pin_num, pin_config in config_data.items():

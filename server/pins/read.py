@@ -7,12 +7,16 @@ class Read():
         res = []
         pins = {'pins': []}
         arch = {'architecture': self.architecture}
+        vname = {'vehiclename': self.vehiclename}
+        inver = {'inversion': self.inversion}
         logger.info('Read: assembling response: config')
         for pin_num, pin_values in self.pins.items():
             data = self.pin_response(pin_num, pin_values)
             pins['pins'].append(data)
         res.append(pins)
         res.append(arch)
+        res.append(vname)
+        res.append(inver)
         logger.info('Read: assembled response: config')
         logger.debug(res)
         return res
