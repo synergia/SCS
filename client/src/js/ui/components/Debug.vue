@@ -8,8 +8,9 @@
             <div class="propulsion_value">{{pin.value}}</div>
         </div>
         <div class="propulsion_control">
-            <vue-range v-model="pin.value" :max="255"
-            :end-func="updatePin(pin)"></vue-range>
+            <!-- <slider v-model="pin.value" :max="pin.max" :min="pin.min"
+            :end-func="updatePropulsion(pin)"></slider> -->
+            <slider ref="slider1" v-model="pin.value" :max="pin.max" :min="pin.min" :interval="5" :tooltip="false" @callback="updatePin(pin)"></slider>
 
         </div>
     </div>
@@ -22,11 +23,10 @@
             <div class="servo_value">{{pin.value}}</div>
         </div>
         <div class="servo_control">
-            <vue-range v-model="pin.value" :min="800" :max="2000"
-            :end-func="updatePin(pin)"></vue-range>
+            <slider ref="slider7" v-model="pin.value" :max="pin.max" :min="pin.min" :interval="5" :tooltip="false" @callback="updatePin(pin)"></slider>
         </div>
     </div>
-        <div class="logic" v-for="pin in this.$root.$data.pins.logics">
+        <!-- <div class="logic" v-for="pin in this.$root.$data.pins.logics">
             <div class="logic_info">
                 <div class="logic_num">{{pin.num}}</div>
                 <div class="logic_name">{{pin.name}}</div>
@@ -36,28 +36,27 @@
             </div>
             <div class="logic_control">
                 <checkbox v-model="pin.value" :checked="(pin.value ===1) ? true : false"></checkbox>
-
             </div>
-
-        </div>
+        </div> -->
 
 </div>
 </template>
 <script>
-const VueRange = require('../controls/VueRange.vue');
+const Slider = require('../controls/Slider.vue');
 const Checkbox = require('../controls/Checkbox.vue');
 const sockets = require('../../sockets.js');
 
 module.exports = {
 
     methods: {
-        updatePin: function (pin) {
+        updatePin: function(pin) {
             sockets.writeDutycycles(pin);
+            console.log("Propulsion",pin.value);
         },
         // booler: (val) => {(pin.value === 1) ? true:false},
     },
     components: {
-        VueRange,
+        Slider,
         Checkbox
     },
     mounted: function () {
@@ -65,6 +64,7 @@ module.exports = {
     },
     data() {
         return {
+            value: 0,
         s: false,
         true: 1,
         false: 0
