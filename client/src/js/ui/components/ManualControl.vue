@@ -50,7 +50,7 @@
             ></slider>
         </div>
     </div>
-    <!-- <div class="logic" v-for="pin in this.$root.$data.pins.logics">
+    <div class="logic" v-for="pin in this.$root.$data.pins.logics">
             <div class="logic_info">
                 <div class="logic_num">{{pin.num}}</div>
                 <div class="logic_name">{{pin.name}}</div>
@@ -59,15 +59,19 @@
                 <div class="logic_value">{{pin.value}}</div>
             </div>
             <div class="logic_control">
-                <checkbox v-model="pin.value" :checked="(pin.value ===1) ? true : false"></checkbox>
+                <input type="checkbox"
+                    v-model="pin.value"
+                    @click="updatePin(pin)"
+                    v-bind:true-value="1"
+                    v-bind:false-value="0"/>
             </div>
-        </div> -->
+        </div>
 
 </div>
 </template>
 <script>
 const Slider = require('vue-slider-component');
-const Checkbox = require('../controls/Checkbox.vue');
+// const Checkbox = require('../controls/Checkbox.vue');
 const sockets = require('../../sockets.js');
 
 module.exports = {
@@ -80,7 +84,7 @@ module.exports = {
     },
     components: {
         Slider,
-        Checkbox
+        // Checkbox
     },
     mounted: function() {
 
