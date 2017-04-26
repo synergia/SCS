@@ -11,7 +11,7 @@ var merge = require('webpack-merge');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    devtool: '#eval-source-map',
+    devtool: '#source-map',
     devServer: {
         historyApiFallback: true,
         noInfo: true
@@ -60,7 +60,11 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 include: projectRoot,
-                exclude: /node_modules/
+                exclude: /node_modules/,
+                query: {
+                    "presets": ["es2015"],
+                    "plugins": ["add-module-exports"]
+                },
       },
             {
                 test: /\.vue$/,
@@ -103,23 +107,26 @@ module.exports = {
                 test: /\.json$/,
                 loader: 'json-loader'
       },
+    //         {
+    //             test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+    //             loader: 'url-loader',
+    //             options: {
+    //                 limit: 10000,
+    //                 name: '[name].[hash:7].[ext]'
+    //             }
+    //   },
+    //         {
+    //             test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
+    //             loader: 'url-loader',
+    //             options: {
+    //                 limit: 10000,
+    //                 name: '[name].[hash:7].[ext]'
+    //             }
             {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: 'img/[name].[hash:7].[ext]'
-                }
-      },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: 'fonts/[name].[hash:7].[ext]'
-                }
-      }
-    ]
+                test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
+                loader: 'url-loader'
+}
+          ]
     },
     plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -159,6 +166,11 @@ module.exports = {
             filename: 'index.css',
             disable: false,
             allChunks: true
+        }),
+    new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
         }),
   ],
     performance: {
