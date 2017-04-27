@@ -1,6 +1,6 @@
 require('../styles/main.scss');
-const Vue = require('vue');
-const VueRouter = require('vue-router');
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 const App = require('./ui/App.vue');
 const store = require('./store/store');
 const sockets = require('./sockets');

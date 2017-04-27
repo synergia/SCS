@@ -31,15 +31,13 @@ module.exports = {
     },
     output: {
         path: __dirname + '/client/dist',
-        publicPath: '/',
+        // publicPath: '',
         filename: '[name].js',
         library: '[name]'
     },
     resolve: {
-        extensions: ['.js', '.vue', '.scss', '.css'],
-        modules: [
-      path.join(__dirname, '../'),
-      'node_modules'
+        extensions: ['.js', '.vue', '.scss', '.css', '.json'],
+        modules: [projectRoot, 'node_modules'
     ],
         // alias: {
         //   assets: path.resolve(__dirname, '../dev/assets'),
@@ -57,25 +55,23 @@ module.exports = {
                 exclude: /node_modules/
       },
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                include: projectRoot,
+                test: /\.js?$/,
                 exclude: /node_modules/,
-                query: {
-                    "presets": ["es2015"],
-                    "plugins": ["add-module-exports"]
-                },
-      },
+                loader: 'babel-loader',
+                // query: {
+                //     presets: ['es2015']
+                // }
+},
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
                     //   postcss: cssUtils.postcss,
-                    loaders: merge({
-                            js: 'babel-loader'
-                        }
-                        // cssUtils.styleLoaders({sourceMap: true})
-                    )
+                    // loaders: merge({
+                    //         js: 'babel-loader'
+                    //     }
+                    //     // cssUtils.styleLoaders({sourceMap: true})
+                    // )
                 }
       },
             {
@@ -87,11 +83,10 @@ module.exports = {
                     use: [{
                         loader: 'css-loader',
                         options: {
-                            modules: true,
-                            localIdentName: '[name]__[local]--[hash:base64:5]',
+                            modules: false,
+                            import: true,
+                            importLoaders: 'sass-loader'
                         },
-            }, {
-                        loader: 'sass-loader',
             }],
                 })
                 // loader: ExtractTextPlugin.extract(
@@ -129,7 +124,7 @@ module.exports = {
           ]
     },
     plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     // new webpack.DefinePlugin({
     //   'process.env': {
     //     NODE_ENV: '"development"'
@@ -167,9 +162,21 @@ module.exports = {
             disable: false,
             allChunks: true
         }),
-    new webpack.optimize.UglifyJsPlugin({
+        new webpack.optimize.UglifyJsPlugin({
             compress: {
-                warnings: false
+                warnings: false,
+                screw_ie8: true,
+                conditionals: true,
+                unused: true,
+                comparisons: true,
+                sequences: true,
+                dead_code: true,
+                evaluate: true,
+                join_vars: true,
+                if_return: true
+            },
+            output: {
+                comments: false
             }
         }),
   ],
