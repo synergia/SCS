@@ -1,4 +1,5 @@
 require('../styles/main.scss');
+require('../styles/fonts.scss');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 const App = require('./ui/App.vue');

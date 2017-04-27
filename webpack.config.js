@@ -9,6 +9,7 @@ var
 // entry = './js/main.js';
 var merge = require('webpack-merge');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     devtool: '#source-map',
@@ -81,13 +82,17 @@ module.exports = {
                         loader: 'style-loader',
             }],
                     use: [{
-                        loader: 'css-loader',
-                        options: {
-                            modules: false,
-                            import: true,
-                            importLoaders: 'sass-loader'
-                        },
-            }],
+                            loader: 'css-loader',
+                            options: {
+                                modules: false,
+                                import: true,
+                                url: false
+                                // importLoaders: 'sass-loader'
+                            },
+            },
+                        {
+                            loader: 'sass-loader'
+                        }],
                 })
                 // loader: ExtractTextPlugin.extract(
                 //     'style', // The backup style loader
@@ -110,17 +115,19 @@ module.exports = {
     //                 name: '[name].[hash:7].[ext]'
     //             }
     //   },
-    //         {
-    //             test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-    //             loader: 'url-loader',
-    //             options: {
-    //                 limit: 10000,
-    //                 name: '[name].[hash:7].[ext]'
-    //             }
-            {
-                test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
-                loader: 'url-loader'
-}
+            // {
+            //     test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
+            //     loader: 'url-loader',
+                // exclude:/\img\/\.(png|jpg|svg)/,
+                // options: {
+                //     limit: 10000,
+                //     name: '[name].[ext]'
+                // }
+            // }
+//             {
+//                 test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
+//                 loader: 'file-loader'
+// }
           ]
     },
     plugins: [
@@ -179,6 +186,12 @@ module.exports = {
                 comments: false
             }
         }),
+        new CopyWebpackPlugin([
+            {
+                from: __dirname + '/client/src/fonts',
+                to: __dirname + '/client/dist/fonts'
+            },
+        ])
   ],
     performance: {
         hints: false
