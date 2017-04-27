@@ -5,8 +5,8 @@ exports = module.exports = {
         servos: []
     },
     vehicle: {
-        name: '',
-        arch: '',
+        name: "",
+        arch: "",
         inver: 0,
         is: {
             forward : false,
