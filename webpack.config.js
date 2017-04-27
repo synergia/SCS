@@ -12,7 +12,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    devtool: '#source-map',
+    devtool: 'source-map',
     devServer: {
         historyApiFallback: true,
         noInfo: true
@@ -182,6 +182,7 @@ module.exports = {
                 join_vars: true,
                 if_return: true
             },
+            sourceMap: true,
             output: {
                 comments: false
             }
