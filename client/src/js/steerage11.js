@@ -84,44 +84,123 @@ class Steerage{
     }
     // if current state is not forward, then find logics that is owned by
     // by propulsion. logic0 pin number should be always less than logic1
-    forward(t, interval = null) {
+    // forward(t, interval = null) {
+    //     let propulsions = store.pins.propulsions;
+    //     propulsions.map(function(propulsion) {
+    //         if (!store.vehicle.is.forward) {
+    //             console.log('Changing logics to go forward');
+    //             let logics = store.pins.logics;
+    //             let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
+    //             if(ownedLogics[0].num>ownedLogics[1].num) {
+    //                 ownedLogics[0].value = 0;
+    //                 ownedLogics[1].value = 1;
+    //             } else {
+    //                 ownedLogics[0].value = 1;
+    //                 ownedLogics[1].value = 0;
+    //             }
+    //             sockets.writeDutycycles(logics);
+    //             store.vehicle.is.forward = true;
+    //             store.vehicle.is.backward = false;
+    //         }
+    //         this.run(propulsion, interval);
+    //
+    //     }, this);
+    //     propulsions = null;
+    // }
+    // backward(t, interval = null) {
+    //     let propulsions = store.pins.propulsions;
+    //     propulsions.map(function(propulsion) {
+    //         if (!store.vehicle.is.backward) {
+    //             console.log('Changing logics to go backward');
+    //             let logics = store.pins.logics;
+    //             let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
+    //             if(ownedLogics[0].num>ownedLogics[1].num) {
+    //                 ownedLogics[0].value = 1;
+    //                 ownedLogics[1].value = 0;
+    //
+    //             }else {
+    //                 ownedLogics[0].value = 0;
+    //                 ownedLogics[1].value = 1;
+    //             }
+    //             sockets.writeDutycycles(logics);
+    //             store.vehicle.is.forward = false;
+    //             store.vehicle.is.backward = true;
+    //         }
+    //         this.run(propulsion, interval);
+    //     }, this);
+    //     propulsions = null;
+    // }
+
+    // This is Podnośnik specific code
+    // should be removed
+    backward(t, interval = null) {
         let propulsions = store.pins.propulsions;
         propulsions.map(function(propulsion) {
             if (!store.vehicle.is.forward) {
-                console.log('Changing logics to go forward');
+                console.log('Changing logics to go backward');
                 let logics = store.pins.logics;
                 let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
-                    ownedLogics[0].value = 0;
-                    ownedLogics[1].value = 1;
-                } else {
-                    ownedLogics[0].value = 1;
-                    ownedLogics[1].value = 0;
+                // if(ownedLogics[0].num>ownedLogics[1].num) {
+                //     ownedLogics[0].value = 1;
+                //     ownedLogics[1].value = 0;
+                //
+                // }else {
+                //     ownedLogics[0].value = 0;
+                //     ownedLogics[1].value = 1;
+                // }
+                logics.map(function (pin) {
+                if(pin.owner === "24" && pin.num === "22") {
+                    pin.value = 0;
                 }
+                if(pin.owner === "24" && pin.num === "23") {
+                    pin.value = 1;
+                }
+                if(pin.owner === "18" && pin.num === "17") {
+                    pin.value = 0;
+                }
+                if(pin.owner === "18" && pin.num === "27") {
+                    pin.value = 1;
+                }
+                });
+                console.log("[Steerage11]: backward:", ownedLogics, logics);
                 sockets.writeDutycycles(logics);
                 store.vehicle.is.forward = true;
                 store.vehicle.is.backward = false;
             }
             this.run(propulsion, interval);
-
         }, this);
         propulsions = null;
     }
-    backward(t, interval = null) {
+    forward(t, interval = null) {
         let propulsions = store.pins.propulsions;
         propulsions.map(function(propulsion) {
             if (!store.vehicle.is.backward) {
-                console.log('Changing logics to go backward');
+                console.log('Changing logics to go forward');
                 let logics = store.pins.logics;
                 let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
-                    ownedLogics[0].value = 1;
-                    ownedLogics[1].value = 0;
-
-                }else {
-                    ownedLogics[0].value = 0;
-                    ownedLogics[1].value = 1;
+                // if(ownedLogics[0].num>ownedLogics[1].num) {
+                //     ownedLogics[0].value = 1;
+                //     ownedLogics[1].value = 0;
+                //
+                // }else {
+                //     ownedLogics[0].value = 0;
+                //     ownedLogics[1].value = 1;
+                // }
+                logics.map(function (pin) {
+                if(pin.owner === "24" && pin.num === "22") {
+                    pin.value = 1;
                 }
+                if(pin.owner === "24" && pin.num === "23") {
+                    pin.value = 0;
+                }
+                if(pin.owner === "18" && pin.num === "17") {
+                    pin.value = 1;
+                }
+                if(pin.owner === "18" && pin.num === "27") {
+                    pin.value = 0;
+                }
+                });
+                console.log("[Steerage11]: forward:", ownedLogics, logics);
                 sockets.writeDutycycles(logics);
                 store.vehicle.is.forward = false;
                 store.vehicle.is.backward = true;
@@ -136,8 +215,8 @@ class Steerage{
         let propulsions = store.pins.propulsions;
         propulsions.map((propulsion) => {
             propulsion.value = 0;
-            console.log("SOFT STOP", propulsion.value);
-            sockets.writeDutycycles(propulsion);
+            console.log("SOFT STOP", inverse(propulsion.value));
+            sockets.writeDutycycles(inverse(propulsion));
         });
     }
     hardStop() {
