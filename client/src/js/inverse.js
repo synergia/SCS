@@ -3,10 +3,11 @@
 const store = require('./store/store');
 exports = module.exports = function(pin) {
     // temp disable inversion
+    console.log("Inversion:", store.vehicle.inver);
     if (store.vehicle.inver) {
         console.log("Inversion!");
         pin.value = pin.max - pin.value;
-        // console.log("INV", pin.value);
+        console.log("INV", pin.value);
     }
     return pin;
 };
