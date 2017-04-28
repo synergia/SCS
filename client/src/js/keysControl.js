@@ -93,7 +93,7 @@ exports = module.exports = function(steerage) {
             i++;
         }, 50);
     }, function(e) {
-        // steerage.softStop(socket);
+        steerage.softStop();
         // Go back to default position
         steerage.default(intervalLeft);
     });
@@ -109,7 +109,7 @@ exports = module.exports = function(steerage) {
         }, 50);
 
     }, function(e) {
-        // steerage.softStop(socket);
+        steerage.softStop();
         // Go back to default position
         steerage.default(intervalRight);
 

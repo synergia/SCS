@@ -4,7 +4,7 @@
 	"inversion": 0,
 	"pins": {
 		"18": {
-			"name": "Propulsion",
+			"name": "left",
 			"role": "propulsion",
 			"mode": "OUTPUT",
 			"value": 0,
@@ -12,7 +12,7 @@
 			"min": 0
 		},
 		"24": {
-			"name": "Propulsion",
+			"name": "right",
 			"role": "propulsion",
 			"mode": "OUTPUT",
 			"value": 0,

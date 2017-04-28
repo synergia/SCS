@@ -45,12 +45,12 @@ class Steerage{
         });
     }
     left(i, interval = null) {
-        let servos = store.pins.servos;
+        let propulsions = store.pins.propulsions;
         // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (servo.value <= SERVO_MAX) {
-                servo.value = servo.value + 10 * i;
-                sockets.writeDutycycles(servo);
+        propulsions.map(function(propulsion) {
+            if (propulsion.name === "left") {
+                propulsion.value = 125;
+                sockets.writeDutycycles(propulsion);
             } else {
                 clearInterval(interval);
             }
@@ -58,12 +58,12 @@ class Steerage{
     }
 
     right(t, interval = null) {
-        let servos = store.pins.servos;
+        let propulsions = store.pins.propulsions;
         // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (servo.value >= SERVO_MIN) {
-                servo.value = servo.value - 10 * t;
-                sockets.writeDutycycles(servo);
+        propulsions.map(function(propulsion) {
+            if (propulsion.name === "right") {
+                propulsion.value = 125;
+                sockets.writeDutycycles(propulsion);
             } else {
                 clearInterval(interval);
             }
