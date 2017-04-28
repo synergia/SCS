@@ -51,7 +51,7 @@
 			"name": "srv0",
 			"role": "servo",
 			"mode": "OUTPUT",
-			"value": 1500,
+			"value": 1530,
 			"max": 2100,
 			"min": 800
 		},
@@ -59,7 +59,7 @@
 			"name": "srv1",
 			"role": "servo",
 			"mode": "OUTPUT",
-			"value": 1500,
+			"value": 12250,
 			"max": 1600,
 			"min": 800
 		},
