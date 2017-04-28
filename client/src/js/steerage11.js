@@ -73,7 +73,7 @@ class Steerage{
     run(propulsion, interval = null) {
         // It could return true to use clearInterval in keysControl, not here
         if (propulsion.value <= propulsion.max && propulsion.value >= propulsion.min) {
-            propulsion.value = propulsion.value + 5;
+            propulsion.value = propulsion.value + 15;
             console.log("RUN", propulsion.value);
         } else {
             clearInterval(interval);

@@ -97,3 +97,4 @@ jspm_packages
 client/dist
 client/dist/*
 *.*~
+scs_env

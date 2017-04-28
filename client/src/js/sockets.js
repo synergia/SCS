@@ -1,6 +1,6 @@
 const io = require('socket.io-client');
-let socket = io.connect('http://' + document.domain + ':' + location.port);
-
+// let socket = io.connect('http://' + document.domain + ':' + location.port);
+let socket = io.connect(null, {port: location.port, rememberTransport: false, transports: ['websocket']});
 const configParser = require('./configParser');
 
 exports = module.exports = {
