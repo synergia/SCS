@@ -98,3 +98,4 @@ client/dist
 client/dist/*
 *.*~
 scs_env
+scs-env
