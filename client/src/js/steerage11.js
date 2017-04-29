@@ -38,11 +38,11 @@ class Steerage{
     }
     default (interval = null) {
         clearInterval(interval);
-        let servos = store.pins.servos;
-        servos.map((servo) => {
-            servo.value = SERVO_DEFAULT;
-            sockets.writeDutycycles(servo);
-        });
+        // let servos = store.pins.servos;
+        // servos.map((servo) => {
+        //     servo.value = SERVO_DEFAULT;
+        //     sockets.writeDutycycles(servo);
+        // });
     }
     left(i, interval = null) {
         let propulsions = store.pins.propulsions;
