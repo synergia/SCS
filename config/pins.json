@@ -1,24 +1,24 @@
 {
 	"architecture": 33,
-	"vehiclename": "Podnośnik",
+	"vehiclename": "S1",
 	"inversion": 0,
 	"pins": {
 		"18": {
-			"name": "Propulsion",
+			"name": "Motor",
 			"role": "propulsion",
 			"mode": "OUTPUT",
 			"value": 0,
 			"max": 255,
 			"min": 0
 		},
-		"17": {
+		"14": {
 			"name": "logic0",
 			"role": "logic",
 			"owner": "18",
 			"mode": "OUTPUT",
 			"value": 1
 		},
-		"27": {
+		"22": {
 			"name": "logic1",
 			"role": "logic",
 			"owner": "18",
@@ -29,25 +29,26 @@
 			"name": "srv0",
 			"role": "servo",
 			"mode": "OUTPUT",
-			"value": 1500,
+			"value": 1530,
 			"max": 2100,
 			"min": 800
 		},
-		"5": {
+		"27": {
 			"name": "srv1",
 			"role": "servo",
 			"mode": "OUTPUT",
 			"value": 1500,
-			"max": 1600,
-			"min": 800
+			"max": 2000,
+			"min": 1000
 		},
-		"6": {
-			"name": "srv2",
+		"9": {
+			"name": "skrecanie",
 			"role": "servo",
 			"mode": "OUTPUT",
 			"value": 1500,
-			"max": 1800,
-			"min": 1134
+			"max": 2000,
+			"min": 1000
 		}
+
 	}
 }
