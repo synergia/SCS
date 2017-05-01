@@ -93,7 +93,7 @@ module.exports = {
         return {
             height: 2,
             dSize: 24,
-            interval: 5,
+            interval: 1,
             bgStyle: {
                 "backgroundColor": "rgba(255,255,255,.2)",
             },

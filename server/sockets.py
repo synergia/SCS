@@ -2,11 +2,25 @@ from flask_socketio import emit
 from server import socketio
 from pins import PIN_MANAGER
 from server.log import logger
-
+from mpu9150 import MPU9150
+import time
+from threading import Thread, Lock, Event
+mpu = MPU9150(0x68)
 
 @socketio.on('connection')
 def connection():
-    pass
+    global thread
+    print('Client connected')
+
+    #Start the random number generator thread only if the thread has not been started before.
+    if not thread.isAlive():
+        print "Starting Thread"
+        thread = AccelerometerThread()
+        thread.start()
+
+# @socketio.on('accelorometr')
+# def accelorometr():
+#     emit('accelorometr', mpu.get_accel_data())
 
 @socketio.on('config')
 def config():
@@ -52,3 +66,21 @@ def dutycycles_write(datas):
             logger.info('UPD DC - OK')
             # response = PIN_MANAGER.read_one(data['num'])
             # emit('pin:dutycycles', response)
+
+#random number Generator Thread
+thread = Thread()
+thread_stop_event = Event()
+
+class AccelerometerThread(Thread):
+    def __init__(self):
+        self.delay = 0.5
+        super(AccelerometerThread, self).__init__()
+        logger.info("Thread")
+
+    def sendAccData(self):
+        while not thread_stop_event.isSet():
+            socketio.emit('accelorometr', mpu.get_accel_data())
+            time.sleep(self.delay)
+
+    def run(self):
+        self.sendAccData()

@@ -9,10 +9,22 @@ exports = module.exports = {
             socket.emit('connection');
             console.info("Connected");
             socket.emit('config');
+            socket.on('accelorometr', function(acc_data) {
+                console.info("[Sockets]: Acc data recieved:", acc_data);
+            });
         });
         socket.on('config', function(config) {
             configParser.setConfig(config);
         });
+    },
+    accelorometr: function() {
+        console.log("acc");
+        socket.on('accelorometr', function(acc_data) {
+            console.info("[Sockets]: Acc data recieved:", acc_data);
+        });
+    },
+    accelorometrEmit: function() {
+        socket.emit('accelorometr');
     },
     writePins: function(socket, pins) {
         pins.map(function(pin) {

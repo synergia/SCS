@@ -39,6 +39,7 @@ let SCS = new Vue({
         // }
         steerage = new Steerage_11();
         keysControl(steerage);
+
     },
 });
 // router.start(App, '#app');
