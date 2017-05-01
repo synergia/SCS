@@ -7,7 +7,7 @@
         </div>
 
         <div class="mainView_right">
-            <router-view></router-view>
+            <router-view :chdata="this.$root.$data.vehicle.accel.x"></router-view>
             <router-view name="joystick"></router-view>
         </div>
     </div>

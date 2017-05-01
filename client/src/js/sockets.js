@@ -1,6 +1,10 @@
 const io = require('socket.io-client');
 // let socket = io.connect('http://' + document.domain + ':' + location.port);
-let socket = io.connect(null, {port: location.port, rememberTransport: false, transports: ['websocket']});
+let socket = io.connect(null, {
+    port: location.port,
+    rememberTransport: false,
+    transports: ['websocket']
+});
 const configParser = require('./configParser');
 
 exports = module.exports = {
@@ -11,6 +15,10 @@ exports = module.exports = {
             socket.emit('config');
             socket.on('accelorometr', function(acc_data) {
                 console.info("[Sockets]: Acc data recieved:", acc_data);
+                store.vehicle.accel.x.push(acc_data.x.toFixed(2));
+                if (store.vehicle.accel.x.length > 10) {
+                    store.vehicle.accel.x.shift();
+                }
             });
         });
         socket.on('config', function(config) {
@@ -40,7 +48,7 @@ exports = module.exports = {
     },
     writeDutycycles: function(dutycycles) {
         // dutycycles.map(function(dutycycle) {
-            socket.emit('pin:dutycycles', dutycycles);
+        socket.emit('pin:dutycycles', dutycycles);
         // });
         console.log("pin:dutycycles");
     },
