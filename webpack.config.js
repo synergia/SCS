@@ -28,7 +28,7 @@ module.exports = {
         "nipplejs",
         "hammerjs",
         "vue-slider-component",
-        "vue-chart-js"
+        "vue-chartjs"
     ]
     },
     output: {

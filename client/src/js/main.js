@@ -16,7 +16,6 @@ const router = new VueRouter({
     routes // short for routes: routes
 });
 Vue.use(VueRouter);
-
 let SCS = new Vue({
     el: '#app',
     router,

@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="chart" >
-        <line-chart :chartData="chartData"></line-chart>
+        <line-chart></line-chart>
     </div>
 
 </div>
@@ -76,18 +76,18 @@ module.exports = {
             processStyle: {
                 "backgroundColor": "#e67e22"
             },
-            chartData: {
-                labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                datasets: [{
-                    label: 'Data One',
-                    borderColor: '#e67e22',
-                    pointBackgroundColor: '#e67e22',
-                    borderWidth: 1,
-                    pointBorderColor: '#e67e22',
-                    backgroundColor: 'transparent',
-                    data: this.chdata
-                }]
-            },
+            // chartData: {
+            //     labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            //     datasets: [{
+            //         label: 'Data One',
+            //         borderColor: '#e67e22',
+            //         pointBackgroundColor: '#e67e22',
+            //         borderWidth: 1,
+            //         pointBorderColor: '#e67e22',
+            //         backgroundColor: 'transparent',
+            //         data: this.$root.$data.vehicle.accel.x
+            //     }]
+            // },
         }
     },
 
@@ -96,5 +96,6 @@ module.exports = {
 <style>
 .chart {
     margin: 0 auto;
+    height: 300px;
 }
 </style>

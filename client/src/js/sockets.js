@@ -16,8 +16,12 @@ exports = module.exports = {
             socket.on('accelorometr', function(acc_data) {
                 console.info("[Sockets]: Acc data recieved:", acc_data);
                 store.vehicle.accel.x.push(acc_data.x.toFixed(2));
-                if (store.vehicle.accel.x.length > 10) {
+                store.vehicle.accel.y.push(acc_data.y.toFixed(2));
+                store.vehicle.accel.z.push(acc_data.z.toFixed(2));
+                if (store.vehicle.accel.x.length > 20) {
                     store.vehicle.accel.x.shift();
+                    store.vehicle.accel.y.shift();
+                    store.vehicle.accel.z.shift();
                 }
             });
         });
