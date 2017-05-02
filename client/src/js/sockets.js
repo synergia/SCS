@@ -13,7 +13,7 @@ exports = module.exports = {
             socket.emit('connection');
             console.info("Connected");
             socket.emit('config');
-            socket.on('accelorometr', function(acc_data) {
+            socket.on('accelerometer', function(acc_data) {
                 console.info("[Sockets]: Acc data recieved:", acc_data);
                 store.vehicle.accel.x.push(acc_data.x.toFixed(2));
                 store.vehicle.accel.y.push(acc_data.y.toFixed(2));

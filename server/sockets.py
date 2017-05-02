@@ -73,13 +73,13 @@ thread_stop_event = Event()
 
 class AccelerometerThread(Thread):
     def __init__(self):
-        self.delay = 0.5
+        self.delay = 0.2
         super(AccelerometerThread, self).__init__()
         logger.info("Thread")
 
     def sendAccData(self):
         while not thread_stop_event.isSet():
-            socketio.emit('accelorometr', mpu.get_accel_data())
+            socketio.emit('accelerometer', mpu.get_accel_data())
             time.sleep(self.delay)
 
     def run(self):

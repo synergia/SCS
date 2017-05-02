@@ -13,27 +13,27 @@ export default Line.extend({
                 datasets: [{
                         label: 'Oś X',
                         borderColor: '#e67e22',
-                        pointBackgroundColor: '#e67e22',
+                        pointBackgroundColor: 'transparent',
                         borderWidth: 1,
-                        pointBorderColor: '#e67e22',
+                        pointBorderColor: 'transparent',
                         backgroundColor: 'transparent',
                         data: this.$root.$data.vehicle.accel.x
                     },
                     {
                         label: 'Oś Y',
                         borderColor: 'green',
-                        pointBackgroundColor: 'green',
+                        pointBackgroundColor: 'transparent',
                         borderWidth: 1,
-                        pointBorderColor: 'green',
+                        pointBorderColor: 'transparent',
                         backgroundColor: 'transparent',
                         data: this.$root.$data.vehicle.accel.y
                     },
                     {
                         label: 'Oś Z',
                         borderColor: 'purple',
-                        pointBackgroundColor: 'purple',
+                        pointBackgroundColor: 'transparent',
                         borderWidth: 1,
-                        pointBorderColor: 'purple',
+                        pointBorderColor: 'transparent',
                         backgroundColor: 'transparent',
                         data: this.$root.$data.vehicle.accel.z
                     }
@@ -66,7 +66,7 @@ export default Line.extend({
         var self = this;
         self.set = setInterval(function() {
             self._chart.update()
-        }, 500);
+        }, 200);
     },
     // watch: {
     //     chartData: function() {
