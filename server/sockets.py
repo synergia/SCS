@@ -81,6 +81,7 @@ class AccelerometerThread(Thread):
 
     def __init__(self):
         self.delay = 0.1
+        self.step = 10
         super(AccelerometerThread, self).__init__()
         logger.info("Thread")
 
@@ -109,19 +110,19 @@ class AccelerometerThread(Thread):
     def stabilizeX(self, anglex):
         if abs(anglex) > 5:
             if anglex > 0:
-                PIN_MANAGER.update(5, PIN_MANAGER.pins["5"]["value"]-6, "servo")
+                PIN_MANAGER.update(5, PIN_MANAGER.pins["5"]["value"]-self.step, "servo")
                 # print "update > 0"
             elif anglex < 0:
-                PIN_MANAGER.update(5, PIN_MANAGER.pins["5"]["value"]+6, "servo")
+                PIN_MANAGER.update(5, PIN_MANAGER.pins["5"]["value"]+self.step, "servo")
                 # print "update < 0"
 
     def stabilizeY(self, angley):
         if abs(angley) > 5:
             if angley > 0:
-                PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]-6, "servo")
+                PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]-self.step, "servo")
                 # print "update > 0"
             elif angley < 0:
-                PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]+6, "servo")
+                PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]+self.step, "servo")
                 # print "update < 0"
 
 
