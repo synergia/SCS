@@ -85,11 +85,19 @@ class AccelerometerThread(Thread):
         logger.info("Thread")
 
     def stabilization(self, xdata=[], ydata=[]):
+        anglex = ""
+        angley = ""
         while not thread_stop_event.isSet():
             acc_data = mpu.get_accel_data()
-            anglex = math.asin(acc_data["x"] / 9.8) * 180 / 3.14
-            angley = math.asin(acc_data["y"] / 9.8) * 180 / 3.14
-            # print anglex, angley
+            # mean =  self.mean(acc_data)
+            # print acc_data
+
+            if acc_data["y"] < 9:
+                anglex = math.asin(acc_data["x"] / 9.8115) * 180 / 3.14
+                angley = -math.asin(acc_data["y"] / 9.8115) * 180 / 3.14
+                print "X",anglex, "Y",angley
+            else:
+                print "OVERLOAD"
             self.stabilizeX(anglex)
             self.stabilizeY(angley)
             self.sendAccData(acc_data)
@@ -106,10 +114,10 @@ class AccelerometerThread(Thread):
 
     def stabilizeY(self, angley):
         if abs(angley) > 5:
-            if -angley > 0:
+            if angley > 0:
                 PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]-6, "servo")
                 print "update > 0"
-            elif -angley < 0:
+            elif angley < 0:
                 PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]+6, "servo")
                 print "update < 0"
 
@@ -117,7 +125,7 @@ class AccelerometerThread(Thread):
     def run(self):
         self.stabilization()
 
-    def mean(self, xdata, ydata):
+    def mean(self, acc_data):
         xdata = []
         ydata = []
         if len(xdata) is not 3:
@@ -135,6 +143,7 @@ class AccelerometerThread(Thread):
             print "X:", xdata, "X mean:", (xdata[0] + xdata[1] + xdata[2]) / len(xdata)
             print "Y:", ydata, "Y mean:", (ydata[0] + ydata[1] + ydata[2]) / len(ydata)
             return [xmean, ymean]
+        # print xdata, ydata
 
     def sendAccData(self, data):
         socketio.emit('accelerometer', data)
