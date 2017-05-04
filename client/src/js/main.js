@@ -8,6 +8,7 @@ const sockets = require('./sockets');
 const keysControl = require('./keysControl');
 const Steerage = require('./steerage.js');
 import Steerage_11 from './steerage11';
+import Positioning from './positioning';
 const ui = require('./ui/ui.js');
 
 // const router = require('./ui/router');

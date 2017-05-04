@@ -48,7 +48,7 @@
 			"value": 0
 		},
 		"25": {
-			"name": "srv0",
+			"name": "Obrót Y",
 			"role": "servo",
 			"mode": "OUTPUT",
 			"value": 1236,
@@ -56,7 +56,7 @@
 			"min": 800
 		},
 		"5": {
-			"name": "srv1",
+			"name": "Obrót X",
 			"role": "servo",
 			"mode": "OUTPUT",
 			"value": 1261,
