@@ -80,7 +80,7 @@ thread_stop_event = Event()
 class AccelerometerThread(Thread):
 
     def __init__(self):
-        self.delay = 0.07
+        self.delay = 0.1
         super(AccelerometerThread, self).__init__()
         logger.info("Thread")
 
@@ -92,12 +92,15 @@ class AccelerometerThread(Thread):
             # mean =  self.mean(acc_data)
             # print acc_data
 
-            if acc_data["y"] < 9:
-                anglex = math.asin(acc_data["x"] / 9.8115) * 180 / 3.14
+            if (abs(acc_data["y"]) < 9.8115):
                 angley = -math.asin(acc_data["y"] / 9.8115) * 180 / 3.14
-                print "X",anglex, "Y",angley
             else:
-                print "OVERLOAD"
+                logger.warn("OVERLOAD %s", acc_data)
+            if (abs(acc_data["x"]) < 9.8115):
+                anglex = math.asin(acc_data["x"] / 9.8115) * 180 / 3.14
+                # print "X",anglex, "Y",angley
+            else:
+                print "OVERLOAD", acc_data
             self.stabilizeX(anglex)
             self.stabilizeY(angley)
             self.sendAccData(acc_data)
@@ -116,10 +119,10 @@ class AccelerometerThread(Thread):
         if abs(angley) > 5:
             if angley > 0:
                 PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]-6, "servo")
-                print "update > 0"
+                # print "update > 0"
             elif angley < 0:
                 PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]+6, "servo")
-                print "update < 0"
+                # print "update < 0"
 
 
     def run(self):
