@@ -36,11 +36,11 @@ exports = module.exports = function(steerage) {
                 if (data.angle.radian >= RAD180 && data.angle.radian <= RAD235) {
                     steerage.touchLeft(Math.abs(RAD235 - data.angle.radian));
                 }
-                if (data.angle.radian <= RAD180 && data.angle.radian >= 0) {
+                if (data.angle.radian <= RAD135 && data.angle.radian >= RAD45) {
                     console.log(data.distance);
                     steerage.touchForward(data.distance, options.size);
                 }
-                if (data.angle.radian > RAD180 && data.angle.radian < RAD360) {
+                if (data.angle.radian > RAD235 && data.angle.radian < RAD315) {
                     console.log(data.distance);
                     steerage.touchBackward(data.distance, options.size);
                 }

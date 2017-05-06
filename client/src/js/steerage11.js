@@ -46,9 +46,8 @@ class Steerage{
     }
     left(i, interval = null) {
         let propulsions = store.pins.propulsions;
-        // Is map so necessary since there is only one turning servo?
         propulsions.map(function(propulsion) {
-            if (propulsion.name === "left") {
+            if (propulsion.name === "right") {
                 propulsion.value = 125;
                 sockets.writeDutycycles(propulsion);
             } else {
@@ -59,9 +58,8 @@ class Steerage{
 
     right(t, interval = null) {
         let propulsions = store.pins.propulsions;
-        // Is map so necessary since there is only one turning servo?
         propulsions.map(function(propulsion) {
-            if (propulsion.name === "right") {
+            if (propulsion.name === "left") {
                 propulsion.value = 125;
                 sockets.writeDutycycles(propulsion);
             } else {
@@ -229,23 +227,29 @@ class Steerage{
         store.vehicle.is.backward = false;
     }
     touchLeft(angle) {
-        let servos = store.pins.servos;
+        let propulsions = store.pins.propulsions;
         // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (angle <= 0.79 && servo.value <= SERVO_MAX) {
-                servo.value = Math.round(SERVO_DEFAULT + angle * 600);
-                sockets.writeDutycycles(servo);
+        propulsions.map(function(propulsion) {
+            if (angle <= 0.79 && propulsion.value <= RANGE && propulsion.name === "right") {
+                propulsion.value = Math.round(angle * 600);
+                sockets.writeDutycycles(propulsion);
+            } else {
+                propulsion.value = 0;
+                sockets.writeDutycycles(propulsion);
             }
         });
     }
 
     touchRight(angle) {
-        let servos = store.pins.servos;
+        let propulsions = store.pins.propulsions;
         // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (angle <= 0.79 && servo.value >= SERVO_MIN) {
-                servo.value = Math.round(SERVO_DEFAULT - angle * 700);
-                sockets.writeDutycycles(servo);
+        propulsions.map(function(propulsion) {
+            if (angle <= 0.79 && propulsion.value <= RANGE && propulsion.name === "left") {
+                propulsion.value = Math.round(RANGE * 0.5);
+                sockets.writeDutycycles(propulsion);
+            } else {
+                propulsion.value = 0;
+                sockets.writeDutycycles(propulsion);
             }
         });
     }
@@ -256,13 +260,20 @@ class Steerage{
                 console.log('Changing logics to go forward');
                 let logics = store.pins.logics;
                 let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
-                    ownedLogics[0].value = 0;
-                    ownedLogics[1].value = 1;
-                } else {
-                    ownedLogics[0].value = 1;
-                    ownedLogics[1].value = 0;
+                logics.map(function (pin) {
+                if(pin.owner === "24" && pin.num === "22") {
+                    pin.value = 1;
                 }
+                if(pin.owner === "24" && pin.num === "23") {
+                    pin.value = 0;
+                }
+                if(pin.owner === "18" && pin.num === "17") {
+                    pin.value = 1;
+                }
+                if(pin.owner === "18" && pin.num === "27") {
+                    pin.value = 0;
+                }
+                });
                 sockets.writeDutycycles(logics);
                 store.vehicle.is.forward = true;
                 store.vehicle.is.backward = false;
@@ -272,7 +283,7 @@ class Steerage{
                 console.log("RUN with", propulsion.value);
             }
             console.log("SOCKETS sending", inverse(propulsion).value);
-            sockets.writeDutycycles(propulsion);
+            sockets.writeDutycycles(inverse(propulsion));
 
         }, this);
         propulsions = null;
@@ -285,13 +296,20 @@ class Steerage{
                 console.log('Changing logics to go backward');
                 let logics = store.pins.logics;
                 let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
-                    ownedLogics[0].value = 1;
-                    ownedLogics[1].value = 0;
-                }else {
-                    ownedLogics[0].value = 0;
-                    ownedLogics[1].value = 1;
+                logics.map(function (pin) {
+                if(pin.owner === "24" && pin.num === "22") {
+                    pin.value = 0;
                 }
+                if(pin.owner === "24" && pin.num === "23") {
+                    pin.value = 1;
+                }
+                if(pin.owner === "18" && pin.num === "17") {
+                    pin.value = 0;
+                }
+                if(pin.owner === "18" && pin.num === "27") {
+                    pin.value = 1;
+                }
+                });
                 sockets.writeDutycycles(logics);
                 store.vehicle.is.forward = false;
                 store.vehicle.is.backward = true;
@@ -301,7 +319,7 @@ class Steerage{
                 console.log("RUN with", propulsion.value);
             }
             console.log("SOCKETS sending", inverse(propulsion).value);
-            sockets.writeDutycycles(propulsion);
+            sockets.writeDutycycles(inverse(propulsion));
 
         }, this);
         propulsions = null;

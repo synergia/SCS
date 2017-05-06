@@ -7,7 +7,7 @@ module.exports = {
     mounted: function () {
         // Very high latency if save steerage to store
         const touchControl = require('../../touchControl.js');
-        const Steerage = require('../../steerage.js');
+        const Steerage = require('../../steerage11.js');
         let steerage = new Steerage();
         touchControl(steerage);
     }
