@@ -14,7 +14,7 @@ EX = 'sports'
 QUALITY = '10'
 RASPICAM = 'input_raspicam.so'
 UVC = 'input_uvc.so'
-DEVICE = '/dev/video0'
+DEVICE = '/dev/video1'
 # the resolution of the video device, can be one of the following strings:
 # QSIF QCIF CGA QVGA CIF VGA SVGA XGA SXGA or a custom value like the following example: 640x480
 RESOLUTION = "VGA"

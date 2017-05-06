@@ -80,51 +80,85 @@ thread_stop_event = Event()
 class AccelerometerThread(Thread):
 
     def __init__(self):
-        self.delay = 0.1
+        self.kpx = 8
+        self.kdx = 2
+        self.prev_errorx = 0
+
+        self.kpy = 8
+        self.kdy = 2
+        self.prev_errory = 0
+
+        self.delay = 0.05
         self.step = 10
         super(AccelerometerThread, self).__init__()
         logger.info("Thread")
 
     def stabilization(self, xdata=[], ydata=[]):
-        anglex = ""
-        angley = ""
+        xmean = 0
+        ymean = 0
         while not thread_stop_event.isSet():
             acc_data = mpu.get_accel_data()
-            # mean =  self.mean(acc_data)
-            # print acc_data
-
-            if (abs(acc_data["y"]) < 9.8115):
-                angley = -math.asin(acc_data["y"] / 9.8115) * 180 / 3.14
+            if len(xdata) is not 5:
+                xdata.append(acc_data["x"])
+                ydata.append(acc_data["y"])
+                # print "X:", math.asin(acc_data["x"]/9.8)*180/3.14
+                # print "Y:", math.asin(acc_data["y"]/9.8)*180/3.14
             else:
-                logger.warn("OVERLOAD %s", acc_data)
-            if (abs(acc_data["x"]) < 9.8115):
-                anglex = math.asin(acc_data["x"] / 9.8115) * 180 / 3.14
-                # print "X",anglex, "Y",angley
-            else:
-                print "OVERLOAD", acc_data
-            self.stabilizeX(anglex)
-            self.stabilizeY(angley)
+                xdata.pop(0)
+                ydata.pop(0)
+                xdata.append(acc_data["x"])
+                ydata.append(acc_data["y"])
+                xmean = (xdata[0] + xdata[1] + xdata[2] +
+                         xdata[3] + xdata[4]) / len(xdata)
+                ymean = (ydata[0] + ydata[1] + ydata[2] +
+                         ydata[3] + ydata[4]) / len(ydata)
+                print "X mean:", xmean
+                print "Y mean:", ymean
+            # print acc_data["x"]
+            self.stabilizeX(xmean)
+            self.stabilizeY(ymean)
             self.sendAccData(acc_data)
             time.sleep(self.delay)
 
-    def stabilizeX(self, anglex):
-        if abs(anglex) > 5:
-            if anglex > 0:
-                PIN_MANAGER.update(5, PIN_MANAGER.pins["5"]["value"]-self.step, "servo")
-                # print "update > 0"
-            elif anglex < 0:
-                PIN_MANAGER.update(5, PIN_MANAGER.pins["5"]["value"]+self.step, "servo")
-                # print "update < 0"
+    def stabilizeX(self, accx):
+        error = 0.5 - accx
+        proportional = error * self.kpx
+        deriv = self.kdx * (error - self.prev_errorx)
+        self.prev_errorx = error
+        control = int(round(proportional + deriv))
+        if (abs(error) < 0.3) and (abs(self.prev_errorx) < 0.3):
+            control = 0
+        print error, control
 
-    def stabilizeY(self, angley):
-        if abs(angley) > 5:
-            if angley > 0:
-                PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]-self.step, "servo")
-                # print "update > 0"
-            elif angley < 0:
-                PIN_MANAGER.update(25, PIN_MANAGER.pins["25"]["value"]+self.step, "servo")
-                # print "update < 0"
+        if (PIN_MANAGER.pins["5"]["value"] + control) > PIN_MANAGER.pins["5"]["max"]:
+            control = PIN_MANAGER.pins["5"][
+                "max"] - PIN_MANAGER.pins["5"]["value"]
+        elif (PIN_MANAGER.pins["5"]["value"] + control) < PIN_MANAGER.pins["5"]["min"]:
+            control = PIN_MANAGER.pins["5"][
+                "min"] - PIN_MANAGER.pins["5"]["value"]
 
+        PIN_MANAGER.update(5, PIN_MANAGER.pins["5"][
+                           "value"] + control, "servo")
+
+    def stabilizeY(self, accy):
+        error = -0.5 + accy
+        proportional = error * self.kpy
+        deriv = self.kdy * (error - self.prev_errory)
+        self.prev_errory = error
+        control = int(round(proportional + deriv))
+        if (abs(error) < 0.3) and (abs(self.prev_errory) < 0.3):
+            control = 0
+        print error, control
+
+        if (PIN_MANAGER.pins["25"]["value"] + control) > PIN_MANAGER.pins["25"]["max"]:
+            control = PIN_MANAGER.pins["25"][
+                "max"] - PIN_MANAGER.pins["25"]["value"]
+        elif (PIN_MANAGER.pins["25"]["value"] + control) < PIN_MANAGER.pins["25"]["min"]:
+            control = PIN_MANAGER.pins["25"][
+                "min"] - PIN_MANAGER.pins["25"]["value"]
+
+        PIN_MANAGER.update(25, PIN_MANAGER.pins["25"][
+                           "value"] + control, "servo")
 
     def run(self):
         self.stabilization()
@@ -132,20 +166,22 @@ class AccelerometerThread(Thread):
     def mean(self, acc_data):
         xdata = []
         ydata = []
-        if len(xdata) is not 3:
-            xdata.append(math.asin(acc_data["x"] / 9.8) * 180 / 3.14)
-            ydata.append(math.asin(acc_data["y"] / 9.8) * 180 / 3.14)
+        if len(xdata) is not 5:
+            xdata.append(acc_data["x"])
+            ydata.append(acc_data["y"])
             # print "X:", math.asin(acc_data["x"]/9.8)*180/3.14
             # print "Y:", math.asin(acc_data["y"]/9.8)*180/3.14
         else:
             xdata.pop(0)
             ydata.pop(0)
-            xdata.append(math.asin(acc_data["x"] / 9.8) * 180 / 3.14)
-            ydata.append(math.asin(acc_data["y"] / 9.8) * 180 / 3.14)
-            xmean = (xdata[0] + xdata[1] + xdata[2]) / len(xdata)
-            ymean = (ydata[0] + ydata[1] + ydata[2]) / len(ydata)
-            print "X:", xdata, "X mean:", (xdata[0] + xdata[1] + xdata[2]) / len(xdata)
-            print "Y:", ydata, "Y mean:", (ydata[0] + ydata[1] + ydata[2]) / len(ydata)
+            xdata.append(acc_data["x"])
+            ydata.append(acc_data["y"])
+            xmean = (xdata[0] + xdata[1] + xdata[2] +
+                     xdata[3] + xdata[4]) / len(xdata)
+            ymean = (ydata[0] + ydata[1] + ydata[2] +
+                     ydata[3] + ydata[4]) / len(ydata)
+            print "X:", xdata, "X mean:", xmean
+            print "Y:", ydata, "Y mean:", ymean
             return [xmean, ymean]
         # print xdata, ydata
 

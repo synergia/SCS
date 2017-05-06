@@ -8,6 +8,7 @@ export default Line.extend({
     props: ["options"],
     data() {
         return {
+            updateInterval: null,
             chartData: {
                 labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', ],
                 datasets: [{
@@ -64,10 +65,14 @@ export default Line.extend({
 
         // }
         var self = this;
-        self.set = setInterval(function() {
+        this.updateInterval = setInterval(function() {
             self._chart.update()
         }, 200);
     },
+    destroyed:function(){
+        clearInterval(this.updateInterval);
+        this._chart.destroy()
+    }
     // watch: {
     //     chartData: function() {
     //         this._chart.destroy()
