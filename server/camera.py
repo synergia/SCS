@@ -5,36 +5,40 @@ import sys
 import psutil
 from server.log import logger
 
-PLUGIN_PATH = '/home/pi/mjpg-streamer/mjpg-streamer-experimental/'
-
-HEIGHT = '480'
-WIDTH = '640'
-FPS = '15'
-EX = 'sports'
-QUALITY = '10'
-RASPICAM = 'input_raspicam.so'
-UVC = 'input_uvc.so'
-DEVICE = '/dev/video1'
-# the resolution of the video device, can be one of the following strings:
-# QSIF QCIF CGA QVGA CIF VGA SVGA XGA SXGA or a custom value like the following example: 640x480
-RESOLUTION = "VGA"
-
-PORT = '4000'
-HTTP = 'output_http.so'
-
-OUTPUT = HTTP + ' -p ' + PORT
-INPUT_RASP = RASPICAM + ' -x ' + WIDTH + ' -y ' + HEIGHT + ' -fps ' + FPS + ' -ex ' + EX + '-quality ' + QUALITY
-INPUT_UVC = UVC + ' -d '+ DEVICE +' -fps ' + FPS
-
-env = dict(os.environ)   # Make a copy of the current environment
-env["LD_LIBRARY_PATH"] = '/home/pi/mjpg-streamer/mjpg-streamer-experimental/'
-
 class MjpgStreamer(object):
     def __init__(self):
-        if not self.verification():
-            if not self.startRaspCam():
-                logger.warn("Camera: trying to start UVC camera")
-                self.startUVCCam()
+        self.plugin_path = '/home/pi/mjpg-streamer/mjpg-streamer-experimental/'
+
+        self.height = '480'
+        self.width = '640'
+        self.fps = '15'
+        self.ex = 'sports'
+        self.quality = '10'
+        self.raspicam = 'input_raspicam.so'
+        self.uvc = 'input_uvc.so'
+        # the resolution of the video device, can be one of the following strings:
+        # QSIF QCIF CGA QVGA CIF VGA SVGA XGA SXGA or a custom value like the following example: 640x480
+        self.resolution = "VGA"
+        self.device = "/dev/" + self.findVideoDev()
+        self.port = '4000'
+        self.http = 'output_http.so'
+
+        self.output = self.http + ' -p ' + self.port
+        self.input_rasp = self.raspicam + ' -x ' + self.width + ' -y ' + self.height + ' -fps ' + self.fps + ' -ex ' + self.ex + '-quality ' + self.quality
+        self.input_uvc = self.uvc + ' -d '+ self.device +' -fps ' + self.fps
+
+        self.env = dict(os.environ)   # Make a copy of the current environment
+        self.env["LD_LIBRARY_PATH"] = self.plugin_path
+
+        try:
+            if not self.verification():
+                if not self.startRaspCam():
+                    logger.warn("Camera: trying to start UVC camera")
+                    self.startUVCCam()
+        except Exception as e:
+            logger.error("Camera: %s", e)
+
+
 
 
     def verification(self):
@@ -45,7 +49,7 @@ class MjpgStreamer(object):
                 return True
 
     def startRaspCam(self):
-        process = subprocess.Popen(["mjpg_streamer", "-i", INPUT_RASP, "-o", OUTPUT, "&"], env=env, stdout=subprocess.PIPE, universal_newlines=True,stderr=subprocess.PIPE)
+        process = subprocess.Popen(["mjpg_streamer", "-i", self.input_rasp, "-o", self.output, "&"], env=self.env, stdout=subprocess.PIPE, universal_newlines=True,stderr=subprocess.PIPE)
         for line in iter(process.stderr.readline, ''):
             output = str(line).rstrip()
         if "error create camera" in output:
@@ -54,13 +58,22 @@ class MjpgStreamer(object):
         return True
 
     def startUVCCam(self):
-        subprocess.Popen(["mjpg_streamer", "-i", INPUT_UVC, "-o", OUTPUT, "&"], env=env, stdout=subprocess.PIPE, universal_newlines=True,stderr=subprocess.PIPE)
+        subprocess.Popen(["mjpg_streamer", "-i", self.input_uvc, "-o", self.output, "&"], env=self.env, stdout=subprocess.PIPE, universal_newlines=True,stderr=subprocess.PIPE)
         # for line in iter(process.stderr.readline, ''):
         #     output = str(line).rstrip()
         # if "error create camera" in output:
         #     logger.error("Camera: failed to start stream from UVC Camera")
         #     return False
         # return True
+
+    def findVideoDev(self):
+        all_devices = os.listdir("/dev")
+        video_device = filter(lambda video:'video' in video, all_devices)[0]
+        if video_device is not None:
+             logger.info("Camera: found device: %s", video_device)
+             return video_device
+        else:
+            logger.error("Camera: no device found")
 
 
 

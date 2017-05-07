@@ -11,11 +11,10 @@ mpu = MPU9150(0x68)
 
 @socketio.on('connection')
 def connection():
+    # pass
     global thread
     print('Client connected')
 
-    # Start the random number generator thread only if the thread has not been
-    # started before.
     if not thread.isAlive():
         print "Starting Thread"
         thread = AccelerometerThread()
