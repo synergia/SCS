@@ -1,6 +1,6 @@
 from flask_socketio import emit
 from server import socketio
-from pins import PIN_MANAGER
+from hardware import PIN_MANAGER
 from server.log import logger
 
 

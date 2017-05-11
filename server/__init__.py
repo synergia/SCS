@@ -3,10 +3,9 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask import render_template
 from flask import Response
-import pins
+import hardware
 from gevent import monkey
 import log
-import camera
 monkey.patch_all()
 
 client_path = os.path.abspath('client')
