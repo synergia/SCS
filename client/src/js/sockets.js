@@ -9,7 +9,6 @@ exports = module.exports = {
             socket.emit('connection');
             console.info("Connected");
             socket.emit('config');
-            socket.emit('passiveMode', true);
 
         });
         socket.on('config', function(config) {
@@ -36,6 +35,7 @@ exports = module.exports = {
     },
     passiveMode: function (modeState) {
         socket.emit('passiveMode', modeState);
+        console.info("[Sockets]: Emitting Passive Mode:", modeState);
     }
 
 };

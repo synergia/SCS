@@ -12,6 +12,7 @@ exports = module.exports = {
         is: {
             forward : false,
             backward: false,
+            passiveMode: false
         }
     },
     core: {

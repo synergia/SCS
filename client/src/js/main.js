@@ -8,6 +8,7 @@ const sockets = require('./sockets');
 const keysControl = require('./keysControl');
 const Steerage = require('./steerage.js');
 const ui = require('./ui/ui.js');
+import ToggleButton from 'vue-js-toggle-button';
 
 // const router = require('./ui/router');
 const routes = require('./ui/routes');
@@ -15,6 +16,8 @@ const router = new VueRouter({
     routes // short for routes: routes
 });
 Vue.use(VueRouter);
+Vue.use(ToggleButton);
+
 
 let SCS = new Vue({
     el: '#app',

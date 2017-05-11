@@ -3,8 +3,8 @@ import pigpio
 
 class Update():
 
-    def update(self, num, value, role, mode):
-        mode = pigpio.__getattribute__(mode)
+    def update(self, num, value, role, mode = None):
+
         roles = {
             'servo': self.gpio.set_servo_pulsewidth,
             'heartbeat': self.gpio.set_servo_pulsewidth,
@@ -14,7 +14,9 @@ class Update():
             logger.info('Update: Trying to set %s at %s', value, num)
             num = int(num)
             # Setting mode
-            self.gpio.set_mode(num, mode)
+            if mode:
+                mode = pigpio.__getattribute__(mode)
+                self.gpio.set_mode(num, mode)
             # If current pin role is the same role that is in `roles` object
             # than do things
             for r in roles:
