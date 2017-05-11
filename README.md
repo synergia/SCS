@@ -13,6 +13,10 @@ Backup
 ---
 ssh pi@xx.xx.x.xxx sudo dd if=/dev/mmcblk0 bs=1M | pv | gzip -c > img.gz
 
+Restore
+---
+gzip -dc /home/stsdc/SCS-0.11.0-alfa.gz | sudo dd of=/dev/mmcblk0 bs=1M conv=noerror,sync|pv
+
 TODO
 ---
 
