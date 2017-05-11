@@ -52,3 +52,8 @@ def dutycycles_write(datas):
             logger.info('UPD DC - OK')
             # response = PIN_MANAGER.read_one(data['num'])
             # emit('pin:dutycycles', response)
+
+@socketio.on('passiveMode')
+def passiveMode(data):
+    response = PIN_MANAGER.setPassiveMode(data)
+    emit('passiveMode', response)

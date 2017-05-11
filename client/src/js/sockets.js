@@ -9,6 +9,8 @@ exports = module.exports = {
             socket.emit('connection');
             console.info("Connected");
             socket.emit('config');
+            socket.emit('passiveMode', true);
+
         });
         socket.on('config', function(config) {
             configParser.setConfig(config);
@@ -32,5 +34,8 @@ exports = module.exports = {
         // });
         console.log("pin:dutycycles");
     },
+    passiveMode: function (modeState) {
+        socket.emit('passiveMode', modeState);
+    }
 
 };

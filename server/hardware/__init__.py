@@ -3,10 +3,11 @@ import pigpio
 from read import Read
 from update import Update
 from initialize import Initialize
+from passive import Passive
 from camera import MjpgStreamer
 from server.log import logger
 
-class HardwareManager(object, Initialize, Read, Update,):
+class HardwareManager(object, Initialize, Read, Update, Passive):
 
     def __init__(self):
         super(HardwareManager, self).__init__()
