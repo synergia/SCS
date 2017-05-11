@@ -34,15 +34,15 @@
 			"min": 800
 		},
 		"27": {
-			"name": "srv1",
-			"role": "servo",
+			"name": "heartbeat",
+			"role": "heartbeat",
 			"mode": "OUTPUT",
 			"value": 1500,
 			"max": 2000,
 			"min": 1000
 		},
 		"9": {
-			"name": "skrecanie",
+			"name": "turn",
 			"role": "servo",
 			"mode": "OUTPUT",
 			"value": 1500,

@@ -8,20 +8,7 @@
             <div class="propulsion_value">{{pin.value}}</div>
         </div>
         <div class="propulsion_control">
-            <slider ref="slider1"
-                v-model="pin.value"
-                :max="pin.max"
-                :min="pin.min"
-                :interval="interval"
-                :tooltip="false"
-                :dot-size="dSize"
-                @callback="updatePin(pin)"
-                :bg-style="bgStyle"
-                :process-style="processStyle"
-                :height="height"
-                :slider-style="sliderStyle"
-                event-type="touch"
-            ></slider>
+            <slider ref="slider1" v-model="pin.value" :max="pin.max" :min="pin.min" :interval="interval" :tooltip="false" :dot-size="dSize" @callback="updatePin(pin)" :bg-style="bgStyle" :process-style="processStyle" :height="height" :slider-style="sliderStyle" event-type="touch"></slider>
 
         </div>
     </div>
@@ -34,38 +21,29 @@
             <div class="servo_value">{{pin.value}}</div>
         </div>
         <div class="servo_control">
-            <slider ref="slider1"
-                v-model="pin.value"
-                :max="pin.max"
-                :min="pin.min"
-                :interval="interval"
-                :tooltip="false"
-                :dot-size="dSize"
-                @callback="updatePin(pin)"
-                :bg-style="bgStyle"
-                :process-style="processStyle"
-                :height="height"
-                :slider-style="sliderStyle"
-                event-type="touch"
-            ></slider>
+            <slider ref="slider1" v-model="pin.value" :max="pin.max" :min="pin.min" :interval="interval" :tooltip="false" :dot-size="dSize" @callback="updatePin(pin)" :bg-style="bgStyle" :process-style="processStyle" :height="height" :slider-style="sliderStyle" event-type="touch"></slider>
         </div>
     </div>
     <div class="logic" v-for="pin in this.$root.$data.pins.logics">
-            <div class="logic_info">
-                <div class="logic_num">{{pin.num}}</div>
-                <div class="logic_name">{{pin.name}}</div>
-                <div class="logic_role">{{pin.role}}</div>
-                <div class="logic_owner">{{pin.owner}}</div>
-                <div class="logic_value">{{pin.value}}</div>
-            </div>
-            <div class="logic_control">
-                <input type="checkbox"
-                    v-model="pin.value"
-                    @click="updatePin(pin)"
-                    v-bind:true-value="1"
-                    v-bind:false-value="0"/>
-            </div>
+        <div class="logic_info">
+            <div class="logic_num">{{pin.num}}</div>
+            <div class="logic_name">{{pin.name}}</div>
+            <div class="logic_role">{{pin.role}}</div>
+            <div class="logic_owner">{{pin.owner}}</div>
+            <div class="logic_value">{{pin.value}}</div>
         </div>
+        <div class="logic_control">
+            <input type="checkbox" v-model="pin.value" @click="updatePin(pin)" v-bind:true-value="1" v-bind:false-value="0" />
+        </div>
+    </div>
+    <div class="heartbeat" v-for="pin in this.$root.$data.pins.heartbeats">
+        <div class="logic_info">
+            <div class="logic_num">{{pin.num}}</div>
+            <div class="logic_name">{{pin.name}}</div>
+            <div class="logic_role">{{pin.role}}</div>
+            <div class="logic_value">{{pin.value}}</div>
+        </div>
+    </div>
 
 </div>
 </template>

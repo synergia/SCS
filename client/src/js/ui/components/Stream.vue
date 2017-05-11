@@ -1,7 +1,7 @@
 <template>
 <div class="stream">
     <img id="stream" class="stream_img" src="http://10.42.0.251:4000/?action=stream"></img>
-    <div class="stream_noSignal">No signal</div>
+    <div class="stream_noStream">No stream</div>
 </div>
 </template>
 <script>

@@ -2,7 +2,8 @@ exports = module.exports = {
     pins: {
         propulsions: [],
         logics: [],
-        servos: []
+        servos: [],
+        heartbeats: []
     },
     vehicle: {
         name: '',

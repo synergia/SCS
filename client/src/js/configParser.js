@@ -7,7 +7,7 @@ exports = module.exports =  {
         return (config.filter((item) => 'pins' in item))[0].pins;
     },
     // Definitely needs to be redone
-    // for in / for of  <- you need to look for this,
+    // `for in / for of`  <- you need to look for this,
     // or just push all config as is to store
     parseArch: function (config) {
         store.vehicle.arch = config.filter((item) => 'architecture' in item)[0].architecture;
@@ -30,11 +30,16 @@ exports = module.exports =  {
         let servos = pins.filter((pin) => pin.role === 'servo');
         store.pins.servos = servos;
     },
+    setHeartbeats: function (pins) {
+        let heartbeats = pins.filter((pin) => pin.role === 'heartbeat');
+        store.pins.heartbeats = heartbeats;
+    },
     setConfig: function (config) {
         let pins = this.parsePins(config);
         this.setPropulsions(pins);
         this.setLogics(pins);
         this.setServos(pins);
+        this.setHeartbeats(pins);
 
         // Should create function parse config, it will parse all vehicle meta data
         // like it does now with parsePins()

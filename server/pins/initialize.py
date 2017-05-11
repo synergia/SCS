@@ -25,6 +25,7 @@ class Initialize():
         mode = pigpio.__getattribute__(mode)
         roles = {
             'servo': self.gpio.set_servo_pulsewidth,
+            'heartbeat': self.gpio.set_servo_pulsewidth,
             'propulsion': self.gpio.set_PWM_dutycycle
         }
         self.gpio.set_mode(num, mode)

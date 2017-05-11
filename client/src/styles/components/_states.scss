@@ -85,3 +85,21 @@
         @extend .propulsion_info;
     }
 }
+.heartbeat {
+    @extend .propulsion;
+    &_value {
+        @extend .propulsion_value;
+    }
+    &_name {
+        @extend .propulsion_name;
+    }
+    &_num {
+        @extend .propulsion_num;
+    }
+    &_control {
+        @extend .propulsion_control;
+    }
+    &_info {
+        @extend .propulsion_info;
+    }
+}
