@@ -3,7 +3,7 @@ const store = require('./store/store');
 exports = module.exports =  {
     parsePins: function (config) {
         // Da f**k is this??
-        console.log('as',(config.filter((item) => 'pins' in item))[0].pins);
+        console.info('[Config]:',config);
         return (config.filter((item) => 'pins' in item))[0].pins;
     },
     // Definitely needs to be redone

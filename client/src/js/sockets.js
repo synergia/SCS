@@ -14,6 +14,14 @@ exports = module.exports = {
         socket.on('config', function(config) {
             configParser.setConfig(config);
         });
+        socket.on('passiveMode', function (response) {
+            if(response) {
+                configParser.setConfig(response);
+                store.vehicle.is.passiveMode = !store.vehicle.is.passiveMode;
+            }else {
+                console.warn("[Sockets]: Passive Mode: No response from server");
+            }
+        });
     },
     writePins: function(socket, pins) {
         pins.map(function(pin) {

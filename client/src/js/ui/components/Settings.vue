@@ -13,7 +13,6 @@ module.exports = {
     methods: {
         onChangeEventHandler: function(event) {
             sockets.passiveMode(event.value);
-            this.$root.$data.vehicle.is.passiveMode = event.value;
         },
     },
     components: {

@@ -20,7 +20,7 @@ class Passive():
                         value = pin_config.get('value', 'LOW')
                         self.update(pin_num, value, role, mode)
             logger.info('Initiating Passive Mode: done')
-            return True
+            return self.read_config()
         except ValueError as e:
             logger.error('Initiating Passive Mode: error: %s', e)
             return False
