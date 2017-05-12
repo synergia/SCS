@@ -187,7 +187,7 @@ class Steerage {
                 store.vehicle.is.forward = true;
                 store.vehicle.is.backward = false;
             }
-            if (propulsion.value <= propulsion.max && propulsion.value >= 0) {
+            if (propulsion.value <= propulsion.max && propulsion.value >= propulsion.min) {
                 propulsion.value = Math.floor((propulsion.max / size) * distance*2);
                 console.log("[Steerage]: touchForward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
             }
@@ -215,12 +215,13 @@ class Steerage {
                 store.vehicle.is.forward = false;
                 store.vehicle.is.backward = true;
             }
-            if (propulsion.value <= RANGE && propulsion.value >= 0) {
-                propulsion.value = Math.floor((RANGE / size) * distance);
-                console.log("RUN with", propulsion.value);
+            if (propulsion.value <= propulsion.max && propulsion.value >= propulsion.min) {
+                propulsion.value = Math.floor((propulsion.max / size) * distance*2);
+                console.log("[Steerage]: touchBackward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
+
             }
             console.log("SOCKETS sending", inverse(propulsion).value);
-            sockets.writeDutycycles(propulsion);
+            sockets.writeDutycycles(inverse(propulsion));
 
         }, this);
         propulsions = null;
