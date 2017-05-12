@@ -1,13 +1,13 @@
 {
 	"architecture": 33,
 	"vehiclename": "S1",
-	"inversion": 0,
+	"inversion": 1,
 	"pins": {
 		"18": {
 			"name": "Motor",
 			"role": "propulsion",
 			"mode": "OUTPUT",
-			"value": 0,
+			"value": 255,
 			"max": 255,
 			"min": 0
 		},

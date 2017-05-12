@@ -35,6 +35,7 @@ class Steerage {
     constructor() {
         //in constructor you should probably filter and map
         // and maybe it speed up steerage
+        // Also if inversion
         console.log('Initiating Steerage');
     }
     default (interval = null) {
@@ -74,14 +75,15 @@ class Steerage {
 
     run(propulsion, interval = null) {
         // It could return true to use clearInterval in keysControl, not here
-        if (propulsion.value <= propulsion.max - 5 && propulsion.value + 5 >= 0) {
-            propulsion.value = propulsion.value + 5;
+        let inverted_propulsion = inverse(propulsion);
+        if (inverted_propulsion.value <= inverted_propulsion.max - 5 && inverted_propulsion.value + 5 >= 0) {
+            inverted_propulsion.value = inverted_propulsion.value + 5;
             console.log("RUN", propulsion.value);
         } else {
             clearInterval(interval);
         }
         console.log("SOCKETS", inverse(propulsion).value);
-        sockets.writeDutycycles(inverse(propulsion));
+        sockets.writeDutycycles(inverted_propulsion);
     }
     // if current state is not forward, then find logics that is owned by
     // by propulsion. logic0 pin number should be always less than logic1
@@ -190,11 +192,12 @@ class Steerage {
                 store.vehicle.is.forward = true;
                 store.vehicle.is.backward = false;
             }
-            if (propulsion.value <= propulsion.max && propulsion.value >= propulsion.min) {
-                propulsion.value = Math.floor((propulsion.max / size) * distance * 2);
+            let inv_propulsion = inverse(propulsion);
+            if (inv_propulsion.value <= inv_propulsion.max && inv_propulsion.value >= inv_propulsion.min) {
+                inv_propulsion.value = Math.floor((inv_propulsion.max / size) * distance * 2);
                 console.log("[Steerage]: touchForward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
             }
-            sockets.writeDutycycles(inverse(propulsion));
+            sockets.writeDutycycles(inv_propulsion);
         }, this);
         propulsions = null;
     }
@@ -217,12 +220,13 @@ class Steerage {
                 store.vehicle.is.forward = false;
                 store.vehicle.is.backward = true;
             }
-            if (propulsion.value <= propulsion.max && propulsion.value >= propulsion.min) {
-                propulsion.value = Math.floor((propulsion.max / size) * distance * 2);
+            let inv_propulsion = inverse(propulsion);
+            if (inv_propulsion.value <= inv_propulsion.max && inv_propulsion.value >= inv_propulsion.min) {
+                inv_propulsion.value = Math.floor((inv_propulsion.max / size) * distance * 2);
                 console.log("[Steerage]: touchBackward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
 
             }
-            sockets.writeDutycycles(inverse(propulsion));
+            sockets.writeDutycycles(inv_propulsion);
         }, this);
         propulsions = null;
     }
