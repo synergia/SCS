@@ -5,9 +5,12 @@ import os
 import sys
 import psutil
 from server.log import logger
+from fcntl import fcntl, F_GETFL, F_SETFL
+from os import O_NONBLOCK, read
 
 # thread = Thread()
 # thread_stop_event = Event()
+
 
 class MjpgStreamer(object):
 
@@ -36,18 +39,14 @@ class MjpgStreamer(object):
         self.env = dict(os.environ)   # Make a copy of the current environment
         self.env["LD_LIBRARY_PATH"] = self.plugin_path
 
-        video_path = self.videoDev()
-        if video_path:
-            self.input_uvc = self.uvc + ' -d ' + self.videoDev() + ' -fps ' + self.fps
-            try:
-                if not self.verification():
-                    logger.info("verification")
-                    if not self.startRaspCam():
-                        logger.warn("Camera: trying to start UVC camera")
-                        self.startUVCCam()
-                pass
-            except Exception as e:
-                logger.error("Camera: %s", e)
+        try:
+            if not self.verification():
+                if not self.startRaspCam():
+                    logger.warn("Camera: trying to start UVC camera")
+                    self.startUVCCam()
+            pass
+        except Exception as e:
+            logger.error("Camera: %s", e)
 
     def verification(self):
         for pid in psutil.pids():
@@ -57,17 +56,20 @@ class MjpgStreamer(object):
                 return True
 
     def startRaspCam(self):
-        process = subprocess.Popen(["mjpg_streamer", "-i", self.input_rasp, "-o", self.output, "&"],
-                                   env=self.env, stdout=subprocess.PIPE, universal_newlines=True, stderr=subprocess.PIPE)
+        process = subprocess.Popen(["mjpg_streamer", "-i", self.input_rasp, "-o", self.output, "&"], env=self.env, universal_newlines=True, stderr=subprocess.PIPE)
         for line in iter(process.stderr.readline, ''):
             output = str(line).rstrip()
-        if "error create camera" in output:
-            logger.error(
-                "Camera: failed to start stream from Raspberry Camera")
-            return False
-        return True
+            if "error create camera" in output:
+                logger.error("Camera: failed to start stream from Raspberry Camera")
+                return False
+            else:
+                logger.info("Camera: started Raspberry Camera")
+                return True
 
     def startUVCCam(self):
+        video_path = self.videoDev()
+        if video_path:
+            self.input_uvc = self.uvc + ' -d ' + self.videoDev() + ' -fps ' + self.fps
         subprocess.Popen(["mjpg_streamer", "-i", self.input_uvc, "-o", self.output, "&"],
                          env=self.env, stdout=subprocess.PIPE, universal_newlines=True, stderr=subprocess.PIPE)
         for line in iter(process.stderr.readline, ''):
@@ -80,7 +82,8 @@ class MjpgStreamer(object):
     def videoDev(self):
         all_devices = os.listdir("/dev")
         try:
-            video_device = filter(lambda video: 'video' in video, all_devices)[0]
+            video_device = filter(
+                lambda video: 'video' in video, all_devices)[0]
             logger.info("Camera: found device: %s", video_device)
             return "/dev/" + video_device
         except Exception as e:
