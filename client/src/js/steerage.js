@@ -152,24 +152,25 @@ class Steerage {
     }
     touchLeft(angle) {
         let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (angle <= 0.79 && servo.value <= SERVO_MAX) {
-                servo.value = Math.round(SERVO_DEFAULT + angle * 600);
-                sockets.writeDutycycles(servo);
-            }
-        });
+        let turn_servo = servos.filter(function(servo) {
+            return servo.name === "turn";
+        })[0];
+        if (angle <= 0.79 && turn_servo.value <= turn_servo.max) {
+            turn_servo.value = Math.round(SERVO_DEFAULT + angle * 600);
+            sockets.writeDutycycles(turn_servo);
+        }
     }
 
     touchRight(angle) {
         let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (angle <= 0.79 && servo.value >= SERVO_MIN) {
-                servo.value = Math.round(SERVO_DEFAULT - angle * 700);
-                sockets.writeDutycycles(servo);
-            }
-        });
+        let turn_servo = servos.filter(function(servo) {
+            return servo.name === "turn";
+        })[0];
+
+        if (angle <= 0.79 && turn_servo.value >= turn_servo.min) {
+            turn_servo.value = Math.round(SERVO_DEFAULT - angle * 700);
+            sockets.writeDutycycles(turn_servo);
+        }
     }
     touchForward(distance, size) {
         let propulsions = store.pins.propulsions;
@@ -190,7 +191,7 @@ class Steerage {
                 store.vehicle.is.backward = false;
             }
             if (propulsion.value <= propulsion.max && propulsion.value >= propulsion.min) {
-                propulsion.value = Math.floor((propulsion.max / size) * distance*2);
+                propulsion.value = Math.floor((propulsion.max / size) * distance * 2);
                 console.log("[Steerage]: touchForward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
             }
             sockets.writeDutycycles(inverse(propulsion));
@@ -217,7 +218,7 @@ class Steerage {
                 store.vehicle.is.backward = true;
             }
             if (propulsion.value <= propulsion.max && propulsion.value >= propulsion.min) {
-                propulsion.value = Math.floor((propulsion.max / size) * distance*2);
+                propulsion.value = Math.floor((propulsion.max / size) * distance * 2);
                 console.log("[Steerage]: touchBackward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
 
             }
