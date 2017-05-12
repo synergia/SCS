@@ -45,10 +45,10 @@ class Steerage {
     }
     left(t, interval = null) {
         let servos = store.pins.servos;
+        // filter return array, so [0]
         let turn_servo = servos.filter(function(servo) {
             return servo.name === "turn";
         })[0];
-        console.log(turn_servo);
         if (turn_servo.value <= turn_servo.max) {
             turn_servo.value = turn_servo.value + 10 * t;
             sockets.writeDutycycles(turn_servo);
@@ -62,7 +62,6 @@ class Steerage {
         let turn_servo = servos.filter(function(servo) {
             return servo.name === "turn";
         })[0];
-        console.log(turn_servo);
         if (turn_servo.value >= turn_servo.min) {
             turn_servo.value = turn_servo.value - 10 * t;
             sockets.writeDutycycles(turn_servo);
@@ -135,9 +134,9 @@ class Steerage {
         //SOFT STOP -- ALL PWM's ARE 0
         let propulsions = store.pins.propulsions;
         propulsions.map((propulsion) => {
-            propulsion.value = 255;
-            console.log("SOFT STOP", propulsion.value);
-            sockets.writeDutycycles(propulsion);
+            propulsion.value = 0;
+            console.info("[Steerage]: Soft Stop");
+            sockets.writeDutycycles(inverse(propulsion));
         });
     }
     hardStop() {
@@ -145,7 +144,7 @@ class Steerage {
         let logics = store.pins.logics;
         logics.map((logic) => logic.value = 0);
         sockets.writeDutycycles(logics);
-        console.log("HARD STOP");
+        console.info("[Steerage]: Hard Stop");
         store.vehicle.is.forward = false;
         store.vehicle.is.backward = false;
     }
@@ -188,12 +187,11 @@ class Steerage {
                 store.vehicle.is.forward = true;
                 store.vehicle.is.backward = false;
             }
-            if (propulsion.value <= RANGE && propulsion.value >= 0) {
-                propulsion.value = Math.floor((RANGE / size) * distance);
-                console.log("RUN with", propulsion.value);
+            if (propulsion.value <= propulsion.max && propulsion.value >= 0) {
+                propulsion.value = Math.floor((propulsion.max / size) * distance*2);
+                console.log("[Steerage]: touchForward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
             }
-            console.log("SOCKETS sending", inverse(propulsion).value);
-            sockets.writeDutycycles(propulsion);
+            sockets.writeDutycycles(inverse(propulsion));
 
         }, this);
         propulsions = null;
