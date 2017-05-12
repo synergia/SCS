@@ -13,26 +13,25 @@ const store = require('./store/store');
 // move all consts to store?
 
 const SERVO_DEFAULT = 1500;
-const SERVO_MAX = 2000;
-const SERVO_MIN = 800;
+
 const RANGE = 255;
 
 // TODO: Offset/compensation for wheels
 
-    // accelerate: function(range = RANGE) {
-    //     store.pins.propulsions.map(function(propulsion) {
-    //         if (propulsion.value >= 0 && propulsion.value < range)
-    //             ++propulsion.value;
-    //     });
-    // },
-    // decelerate: function(range = 255) {
-    //     store.pins.propulsions.map(function(propulsion) {
-    //         if (propulsion.value > 0 && propulsion.value <= range)
-    //             --propulsion.value;
-    //     });
-    // },
+// accelerate: function(range = RANGE) {
+//     store.pins.propulsions.map(function(propulsion) {
+//         if (propulsion.value >= 0 && propulsion.value < range)
+//             ++propulsion.value;
+//     });
+// },
+// decelerate: function(range = 255) {
+//     store.pins.propulsions.map(function(propulsion) {
+//         if (propulsion.value > 0 && propulsion.value <= range)
+//             --propulsion.value;
+//     });
+// },
 
-class Steerage{
+class Steerage {
     constructor() {
         console.log('Initiating Steerage');
     }
@@ -44,30 +43,32 @@ class Steerage{
             sockets.writeDutycycles(servo);
         });
     }
-    left(i, interval = null) {
+    left(t, interval = null) {
         let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (servo.value <= SERVO_MAX) {
-                servo.value = servo.value + 10 * i;
-                sockets.writeDutycycles(servo);
-            } else {
-                clearInterval(interval);
-            }
-        });
+        let turn_servo = servos.filter(function(servo) {
+            return servo.name === "turn";
+        })[0];
+        console.log(turn_servo);
+        if (turn_servo.value <= turn_servo.max) {
+            turn_servo.value = turn_servo.value + 10 * t;
+            sockets.writeDutycycles(turn_servo);
+        } else {
+            clearInterval(interval);
+        }
     }
 
     right(t, interval = null) {
         let servos = store.pins.servos;
-        // Is map so necessary since there is only one turning servo?
-        servos.map(function(servo) {
-            if (servo.value >= SERVO_MIN) {
-                servo.value = servo.value - 10 * t;
-                sockets.writeDutycycles(servo);
-            } else {
-                clearInterval(interval);
-            }
-        });
+        let turn_servo = servos.filter(function(servo) {
+            return servo.name === "turn";
+        })[0];
+        console.log(turn_servo);
+        if (turn_servo.value >= turn_servo.min) {
+            turn_servo.value = turn_servo.value - 10 * t;
+            sockets.writeDutycycles(turn_servo);
+        } else {
+            clearInterval(interval);
+        }
     }
 
     run(propulsion, interval = null) {
@@ -89,8 +90,8 @@ class Steerage{
             if (!store.vehicle.is.forward) {
                 console.log('Changing logics to go forward');
                 let logics = store.pins.logics;
-                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
+                let ownedLogics = logics.filter((logic) => logic.owner === propulsion.num);
+                if (ownedLogics[0].num > ownedLogics[1].num) {
                     ownedLogics[0].value = 0;
                     ownedLogics[1].value = 1;
                 } else {
@@ -112,12 +113,12 @@ class Steerage{
             if (!store.vehicle.is.backward) {
                 console.log('Changing logics to go backward');
                 let logics = store.pins.logics;
-                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
+                let ownedLogics = logics.filter((logic) => logic.owner === propulsion.num);
+                if (ownedLogics[0].num > ownedLogics[1].num) {
                     ownedLogics[0].value = 1;
                     ownedLogics[1].value = 0;
 
-                }else {
+                } else {
                     ownedLogics[0].value = 0;
                     ownedLogics[1].value = 1;
                 }
@@ -175,8 +176,8 @@ class Steerage{
             if (!store.vehicle.is.forward) {
                 console.log('Changing logics to go forward');
                 let logics = store.pins.logics;
-                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
+                let ownedLogics = logics.filter((logic) => logic.owner === propulsion.num);
+                if (ownedLogics[0].num > ownedLogics[1].num) {
                     ownedLogics[0].value = 0;
                     ownedLogics[1].value = 1;
                 } else {
@@ -188,7 +189,7 @@ class Steerage{
                 store.vehicle.is.backward = false;
             }
             if (propulsion.value <= RANGE && propulsion.value >= 0) {
-                propulsion.value = Math.floor((RANGE/size)*distance);
+                propulsion.value = Math.floor((RANGE / size) * distance);
                 console.log("RUN with", propulsion.value);
             }
             console.log("SOCKETS sending", inverse(propulsion).value);
@@ -204,11 +205,11 @@ class Steerage{
             if (!store.vehicle.is.backward) {
                 console.log('Changing logics to go backward');
                 let logics = store.pins.logics;
-                let ownedLogics = logics.filter((logic)=> logic.owner === propulsion.num);
-                if(ownedLogics[0].num>ownedLogics[1].num) {
+                let ownedLogics = logics.filter((logic) => logic.owner === propulsion.num);
+                if (ownedLogics[0].num > ownedLogics[1].num) {
                     ownedLogics[0].value = 1;
                     ownedLogics[1].value = 0;
-                }else {
+                } else {
                     ownedLogics[0].value = 0;
                     ownedLogics[1].value = 1;
                 }
@@ -217,7 +218,7 @@ class Steerage{
                 store.vehicle.is.backward = true;
             }
             if (propulsion.value <= RANGE && propulsion.value >= 0) {
-                propulsion.value = Math.floor((RANGE/size)*distance);
+                propulsion.value = Math.floor((RANGE / size) * distance);
                 console.log("RUN with", propulsion.value);
             }
             console.log("SOCKETS sending", inverse(propulsion).value);
