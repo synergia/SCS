@@ -33,6 +33,8 @@ const RANGE = 255;
 
 class Steerage {
     constructor() {
+        //in constructor you should probably filter and map
+        // and maybe it speed up steerage
         console.log('Initiating Steerage');
     }
     default (interval = null) {
@@ -72,8 +74,8 @@ class Steerage {
 
     run(propulsion, interval = null) {
         // It could return true to use clearInterval in keysControl, not here
-        if (propulsion.value <= RANGE && propulsion.value - 5 >= 0) {
-            propulsion.value = propulsion.value - 5;
+        if (propulsion.value <= propulsion.max - 5 && propulsion.value + 5 >= 0) {
+            propulsion.value = propulsion.value + 5;
             console.log("RUN", propulsion.value);
         } else {
             clearInterval(interval);
@@ -192,7 +194,6 @@ class Steerage {
                 console.log("[Steerage]: touchForward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
             }
             sockets.writeDutycycles(inverse(propulsion));
-
         }, this);
         propulsions = null;
     }
@@ -220,9 +221,7 @@ class Steerage {
                 console.log("[Steerage]: touchBackward: " + propulsion.value + " Inverted: " + inverse(propulsion).value);
 
             }
-            console.log("SOCKETS sending", inverse(propulsion).value);
             sockets.writeDutycycles(inverse(propulsion));
-
         }, this);
         propulsions = null;
     }
